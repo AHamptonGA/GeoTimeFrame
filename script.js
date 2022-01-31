@@ -1,4 +1,4 @@
-async function get_current_tz_conv(timeZoneId) {
+function get_current_tz_conv(timeZoneId) {
 	const datetime = new Date();
 	const localTZ = datetime.toLocaleDateString('en-US', 
 							{timeZone: timeZoneId,});
