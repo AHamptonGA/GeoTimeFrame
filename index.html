@@ -37,7 +37,7 @@
 
         // Use the Arcade Date() function to format time field into a human-readable format
 
-        const template = {
+/*        const template = {
           title: "Time Zone Info",
           content: "Time Zone Name {tzid} ",
           fieldInfos: [    
@@ -53,13 +53,30 @@
                         "fieldName": "local_time",
                         "label": "Local Time",
                         "isEditable": false,
-                        "tooltip": get_current_tz_conv("{tzid}"),
+                        "tooltip": "Local Tine,
                         "visible": false,
                         /* "stringFieldOption": "textbox" */
                       },                      
           ]
-        };
+        }; */
 
+        const template = {
+                "title": "Time Zone Info",
+                "content": [{
+                  "type": "fields",
+                  "fieldInfos": [
+                    {
+                      "fieldName": "tz_inna_id",
+                      "label": "Time Zone INNA ID",
+                      "isEditable": true,
+                      "tooltip": "{tzid}",
+                      "visible": true,
+                      "format": null,
+                      "stringFieldOption": "text-box"
+                    }
+                  ]
+                }]
+              }
 
         const renderer = {
                           type: "simple",  // autocasts as new SimpleRenderer()
@@ -87,8 +104,8 @@
 
         const view = new MapView({
           container: "viewDiv",
-          center: [-168, 46],
-          zoom: 2,
+          center: [0, 0],
+          zoom: 1,
           map: map
         });
       });
