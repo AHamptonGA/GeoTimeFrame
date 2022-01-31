@@ -40,10 +40,7 @@
       
         const template = {
                 title: "Time Zone Info",
-                content: `
-						  <b>INNA ID: </b> {tzid}<br> 
-						  <b>LOCAL: </b> {get_current_tz_conv(tzid)}<br>
-						  `
+                content: get_current_tz_conv
                 }
 
         const renderer = {
