@@ -9,7 +9,7 @@ function get_current_tz_conv(timeZoneId) {
 function get_current_tz_conv(feature) {
   
 	const timeZoneId = feature.graphic.attributes.tzid;
-	const local_tm = await get_current_tz_conv(timeZoneId);
+	const local_tm = get_current_tz_conv(timeZoneId);
 	
 	div.innerHTML =
 					`
