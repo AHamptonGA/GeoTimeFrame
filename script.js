@@ -13,8 +13,8 @@ function get_popup_div(feature) {
 	const div = document.createElement("div");
 	div.innerHTML =
 					`
-					<b>INNA ID: </b> {timeZoneId}<br> 
-					<b>LOCAL: </b> {local_tm}<br>
+					<b>INNA ID: </b> ${timeZoneId}<br> 
+					<b>LOCAL: </b> ${local_tm}<br>
 					`;
   return div;
 };
