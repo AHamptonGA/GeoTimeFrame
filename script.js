@@ -13,7 +13,7 @@ function get_current_tz_conv(feature) {
 	
 	div.innerHTML =
 					`
-					<b>INNA ID: </b> {tzid}<br> 
+					<b>INNA ID: </b> {timeZoneId}<br> 
 					<b>LOCAL: </b> {local_tm}<br>
 					`;
   return div;
