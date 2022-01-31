@@ -40,7 +40,7 @@
 
         // Use the Arcade Date() function to format time field into a human-readable format
 
-        const template = {
+        const popupTemplate = {
                 title: "Time Zone Info",
                 content: get_popup_div
                 }
@@ -57,12 +57,13 @@
         const geojsonLayer = new GeoJSONLayer({
           url: url,
           copyright: "World Time Zone Database",
-          popupTemplate: template,
           renderer: renderer,
           orderBy: {
             field: "tzid"
           }
         });
+        
+        geojsonLayer.popupTemplate = popupTemplate;
 
         const map = new Map({
           basemap: "gray-vector",
