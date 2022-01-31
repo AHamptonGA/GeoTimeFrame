@@ -13,8 +13,6 @@ function get_current_tz_conv(timeZoneId) {
 }
 
 
-let time = datetime.toLocaleString('en-UK', { timeZone: tz, hour: '2-digit', minute:'2-digit' });
-
 function get_popup_div(feature) {
   
 	const timeZoneId = feature.graphic.attributes.tzid;
