@@ -37,26 +37,13 @@
 
         // Use the Arcade Date() function to format time field into a human-readable format
 
-/*        const template = {
-          title: "Time Zone Info",
-          content: "Time Zone Name {tzid} ",
-          fieldInfos: [    
-                      {
-                        "fieldName": "tz_inna_id",
-                        "label": "Time Zone INNA ID",
-                        "isEditable": false,
-                        "tooltip": "{tzid}",
-                        "visible": false,
-                        /* "stringFieldOption": "textbox" 
-                      },
-                      
-          ]
-        }; */
-
       
         const template = {
                 title: "Time Zone Info",
-                content: "<b>INNA ID: </b> {tzid}<br>"
+                content: `
+						  <b>INNA ID: </b> {tzid}<br> 
+						  <b>INNA ID2: </b> {tzid}<br>
+						  `
                 }
 
         const renderer = {
