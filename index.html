@@ -57,6 +57,7 @@
         const geojsonLayer = new GeoJSONLayer({
           url: url,
           copyright: "World Time Zone Database",
+          popupTemplate: popupTemplate,
           renderer: renderer,
           orderBy: {
             field: "tzid"
