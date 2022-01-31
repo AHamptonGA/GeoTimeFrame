@@ -42,13 +42,21 @@
           content: "Time Zone Name {tzid} ",
           fieldInfos: [    
                       {
-                        "fieldName": "tzid",
-                        "label": "Time Zone Name",
+                        "fieldName": "tz_inna_id",
+                        "label": "Time Zone INNA ID",
                         "isEditable": false,
                         "tooltip": "{tzid}",
-                        "visible": true,
+                        "visible": false,
                         /* "stringFieldOption": "textbox" */
                       },
+                      {
+                        "fieldName": "local_time",
+                        "label": "Local Time",
+                        "isEditable": false,
+                        "tooltip": get_current_tz_conv("{tzid}"),
+                        "visible": false,
+                        /* "stringFieldOption": "textbox" */
+                      },                      
           ]
         };
 
