@@ -24,7 +24,10 @@
     />
     <script src="https://js.arcgis.com/4.22/"></script>
 
+    <script src="script.js"></script>
+    
     <script>
+      let get_popup_div;
       require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView"], (
         Map,
         GeoJSONLayer,
@@ -37,10 +40,9 @@
 
         // Use the Arcade Date() function to format time field into a human-readable format
 
-      
         const template = {
                 title: "Time Zone Info",
-                content: get_current_tz_conv
+                content: get_popup_div
                 }
 
         const renderer = {
@@ -75,7 +77,7 @@
         });
       });
     </script>
-    <script src="script.js"></script>
+    
   </head>
 
   <body>

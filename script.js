@@ -6,7 +6,7 @@ function get_current_tz_conv(timeZoneId) {
 }
 
 
-function get_current_tz_conv(feature) {
+function get_popup_div(feature) {
   
 	const timeZoneId = feature.graphic.attributes.tzid;
 	const local_tm = get_current_tz_conv(timeZoneId);
