@@ -35,24 +35,18 @@
         const url =
           "data/timeZones.geojson";
 
-        // Paste the url into a browser's address bar to download and view the attributes
-        // in the GeoJSON file. These attributes include:
-        // * mag - magnitude
-        // * type - earthquake or other event such as nuclear test
-        // * place - location of the event
-        // * time - the time of the event
         // Use the Arcade Date() function to format time field into a human-readable format
 
         const template = {
-          title: "Time Zone Name",
-          content: "ID: {FID} - Time Zone Name {tzid} ",
+          title: "Time Zone Info",
+          content: "Time Zone Name {tzid} ",
           fieldInfos: [    
                       {
                         "fieldName": "tzid",
                         "label": "Time Zone Name",
                         "isEditable": false,
                         "tooltip": "{tzid}",
-                        "visible": false,
+                        "visible": true,
                         /* "stringFieldOption": "textbox" */
                       },
           ]
@@ -91,6 +85,7 @@
         });
       });
     </script>
+    <script src="script.js"></script>
   </head>
 
   <body>
