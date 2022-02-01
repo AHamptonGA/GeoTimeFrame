@@ -67,6 +67,24 @@ function create_point_graphic(lon, lat) {
 				  longitude: lon,
 				  latitude: lat
 				};
+	
+	// Create a symbol for drawing the point
+	const markerSymbol = {
+	  type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+	  color: [226, 119, 40],
+	  outline: {
+		// autocasts as new SimpleLineSymbol()
+		color: [255, 255, 255],
+		width: 2
+	  }
+	};
+
+	// Create a graphic and add the geometry and symbol to it
+	const pointGraphic = new Graphic({
+	  geometry: point,
+	  symbol: markerSymbol
+	});
+		
 	return point
 	}
 		
