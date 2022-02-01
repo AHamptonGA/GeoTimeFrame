@@ -55,13 +55,13 @@ function get_popup_div(feature, refTimeZones) {
 	const div = document.createElement("div");
 	div.innerHTML =
 					`
-					<h5><b>LOCAL TIME ZONE</b></h5><br>
+					<b>LOCAL TIME ZONE:</b><br>
 					<b>NAME: </b> ${localTZName}<br>
 					<b>INNA ID: </b> ${timeZoneId}<br> 
 					<b>DATE: </b> ${localDt}<br>
 					<b>TIME: </b> ${localTm}<br>
 					<br>
-					<h5><b>${utcTzName}</b></h5><br>
+					<b>${utcTzName}:</b><br>
 					<b>DATE: </b> ${utcDt}<br>
 					<b>TIME: </b> ${utcTm}Z<br>
 					`;
