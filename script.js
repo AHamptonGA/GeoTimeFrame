@@ -1,3 +1,5 @@
+const refTimeZones = ['America/Chicago', 'UTC', 'America/New_York', 'America/Indiana/Indianapolis', 'America/Denver'];
+
 function get_current_date_conv(timeZoneId) {
 	const datetime = new Date();
 	const localDt = datetime.toLocaleDateString('en-US', {
@@ -25,9 +27,6 @@ function get_tz_name(timeZoneId) {
 	return tz_full_name
 }
 
-
-let refTimeZones = ['UTC', 'America/New_York', 'America/Chicago', 'America/Indiana/Indianapolis', 'America/Denver'];
-
 function reduce_time_zones(timeZones) {
 	let tz_dict = {};
 	for (const timeZoneId of timeZones) {
@@ -38,19 +37,19 @@ function reduce_time_zones(timeZones) {
 }
 
 function build_popup_html(timeZones) {
-	let outHtml = '<b>LOCAL TIME ZONE:</b><br>';
-	outHtml += `<b>INNA ID:</b> ${timeZones[0]}<br>`;
+	let outHtml = '<span class="puHeader">LOCAL TIME ZONE:</span><br>';
+	outHtml += `<span class="puInna"><em>INNA ID:</em> ${timeZones[0]}</span><br>`;
 
 	for (const timeZoneId of timeZones) {
 		let tzName = get_tz_name(timeZoneId);
 		let tzDate = get_current_date_conv(timeZoneId);
 		let tzTime = get_current_tz_conv(timeZoneId);
 
-		outHtml += `<b>${tzName}:</b><br>
-					<b>DATE:</b> ${tzDate}<br>
-					<b>TIME:</b> ${tzTime}<br>`;
+		outHtml += `<span class="puTzName"><em>${tzName}:</em></span><br>
+					<span class="puDate"><em>DATE:</em> ${tzDate}</span>
+					| <span class="puTime"><em>TIME:</em> ${tzTime}</span><br>
+					<br>`;
 	}
-
 	return outHtml
 }
 
