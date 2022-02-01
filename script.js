@@ -61,11 +61,22 @@ function build_popup_html(timeZones) {
 	return outHtml
 }
 
+function create_point_graphic(lon, lat) {
+	const point = {
+				  type: "point", 
+				  longitude: lon,
+				  latitude: lat
+				};
+	return point
+	}
+		
 function get_popup_div(feature) {
 
 	const timeZoneId = feature.graphic.attributes.tzid;
-	console.log(feature.graphic.geometry.centroid.latitude);
-	console.log(feature.graphic.geometry.centroid.longitude);
+	let lat = feature.graphic.geometry.centroid.latitude;
+	let lon = feature.graphic.geometry.centroid.longitude;
+	let pnt = create_point_graphic(lon, lat);
+	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(refTimeZones).filter(x => !tzArray.includes(x));
 	tzArray = tzArray.concat(reducedTz);
