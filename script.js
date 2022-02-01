@@ -27,14 +27,29 @@ function reduce_time_zones(timeZones) {
 	let tz_dict = {};    
 	for (const timeZoneId of timeZones) {
 		let tz_name = get_tz_name(timeZoneId);
-		
 		tz_dict[tz_name] = timeZoneId
 	}
 	return Object.values(tz_dict) ;
 }
 			
-		
-function get_popup_div(feature, refTimeZones) {
+function build_popup_html(timeZones) {
+	let outHtml = '<b>LOCAL TIME ZONE:</b><br>';
+	outHtml += `<b>INNA ID:</b> ${timeZones[0]}<br>`;
+	
+	for (const timeZoneId of timeZones) {
+		let tzName = get_tz_name(timeZoneId);
+		let tzDate = get_current_date_conv(timeZoneId);
+		let tzTime = get_current_tz_conv(timeZoneId);
+		consol.log(tzName, tzDate, tzTime);
+		outHtml += `<b>${tzName}:</b><br>
+					<b>DATE:</b> ${tzDate}<br>
+					<b>TIME:</b> ${tzTime}<br>`;
+	}
+	consol.log(outHtml);
+	return outHtml;
+}		
+
+function get_popup_div(feature) {
  
 	const timeZoneId = feature.graphic.attributes.tzid;
 	const localDt = get_current_date_conv(timeZoneId);
@@ -42,28 +57,10 @@ function get_popup_div(feature, refTimeZones) {
 	const localTZName = get_tz_name(timeZoneId);
 
 	let tzArray = [timeZoneId, 'UTC']; 
-	let reducedTz = reduce_time_zones(refTimeZones).filter(
-							x => !tzArray.includes(x));
-	tzArray.concat(reducedTz);
-	console.log(tzArray)
-
-	
-	const utcDt = get_current_date_conv('UTC');
-	const utcTm = get_current_tz_conv('UTC');
-	const utcTzName = get_tz_name('UTC');
-	
+	let reducedTz = reduce_time_zones(refTimeZones).filter(x => !tzArray.includes(x));
+	tzArray = tzArray.concat(reducedTz);
+	consol.log(tzArray);	
 	const div = document.createElement("div");
-	div.innerHTML =
-					`
-					<b>LOCAL TIME ZONE:</b><br>
-					<b>NAME: </b> ${localTZName}<br>
-					<b>INNA ID: </b> ${timeZoneId}<br> 
-					<b>DATE: </b> ${localDt}<br>
-					<b>TIME: </b> ${localTm}<br>
-					<br>
-					<b>${utcTzName}:</b><br>
-					<b>DATE: </b> ${utcDt}<br>
-					<b>TIME: </b> ${utcTm}Z<br>
-					`;
+	div.innerHTML = build_popup_html(tzArray);
   return div;
 };
