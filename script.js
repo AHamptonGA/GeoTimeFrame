@@ -21,12 +21,32 @@ function get_tz_name(timeZoneId) {
 }
 
 
-function get_popup_div(feature) {
-  
+refTimeZones = ['UTC','America/New_York', 'America/Chicago', 'America/Indiana/Indianapolis', 'America/Denver'];
+
+function reduce_time_zones(timeZones) {
+	let tz_dict = {};    
+	for (const timeZoneId of timeZones) {
+		let tz_name = get_tz_name(timeZoneId);
+		
+		tz_dict[tz_name] = timeZoneId
+	}
+	return Object.values(tz_dict) ;
+}
+			
+		
+function get_popup_div(feature, refTimeZones) {
+ 
 	const timeZoneId = feature.graphic.attributes.tzid;
 	const localDt = get_current_date_conv(timeZoneId);
 	const localTm = get_current_tz_conv(timeZoneId);
 	const localTZName = get_tz_name(timeZoneId);
+
+	let tzArray = [timeZoneId, 'UTC']; 
+	let reducedTz = reduce_time_zones(refTimeZones).filter(
+							x => !tzArray.includes(x));
+	tzArray.concat(reducedTz);
+	console.log(tzArray)
+
 	
 	const utcDt = get_current_date_conv('UTC');
 	const utcTm = get_current_tz_conv('UTC');
