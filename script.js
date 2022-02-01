@@ -21,27 +21,27 @@ function get_tz_name(timeZoneId) {
 }
 
 
-		
-		
 function get_popup_div(feature) {
   
 	const timeZoneId = feature.graphic.attributes.tzid;
 	const localDt = get_current_date_conv(timeZoneId);
 	const localTm = get_current_tz_conv(timeZoneId);
+	const localTZName = get_tz_name(timeZoneId);
 	
 	const utcDt = get_current_date_conv('UTC');
 	const utcTm = get_current_tz_conv('UTC');
+	const utcTzName = get_tz_name('UTC');
 	
 	const div = document.createElement("div");
 	div.innerHTML =
 					`
 					<h3><b>LOCAL TIME ZONE</b></h3><br>
-					<b>NAME: </b> ${get_tz_name}<br>
+					<b>NAME: </b> ${localTZName}<br>
 					<b>INNA ID: </b> ${timeZoneId}<br> 
 					<b>DATE: </b> ${localDt}<br>
 					<b>TIME: </b> ${localTm}<br>
 					<br>
-					<h3><b>UTC:</b><h3><br>
+					<h3><b>${utcTzName}</b><h3><br>
 					<b>DATE: </b> ${utcDt}<br>
 					<b>TIME: </b> ${utcTm}Z<br>
 					`;
