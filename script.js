@@ -12,7 +12,17 @@ function get_current_tz_conv(timeZoneId) {
 	return localTm
 }
 
+function get_tz_name(timeZoneId) {
+	const datetime = new Date();
+	const tz_full_name = (datetime.toLocaleString('en-UK', 
+		{timeZone: timeZoneId, timeZoneName: 'long' })
+		).match(/[0-9]{2}\s{1}(\D+)/)[1];
+	return tz_full_name
+}
 
+
+		
+		
 function get_popup_div(feature) {
   
 	const timeZoneId = feature.graphic.attributes.tzid;
@@ -25,13 +35,15 @@ function get_popup_div(feature) {
 	const div = document.createElement("div");
 	div.innerHTML =
 					`
+					<h3><b>LOCAL TIME ZONE</b></h3><br>
+					<b>NAME: </b> ${get_tz_name}<br>
 					<b>INNA ID: </b> ${timeZoneId}<br> 
-					<b>LOCAL DATE: </b> ${localDt}<br>
-					<b>LOCAL TIME: </b> ${localTm}<br>
+					<b>DATE: </b> ${localDt}<br>
+					<b>TIME: </b> ${localTm}<br>
 					<br>
-					<b>UTC:</b><br>
+					<h3><b>UTC:</b><h3><br>
 					<b>DATE: </b> ${utcDt}<br>
-					<b>TIME: </b> ${utcTm}<br>
+					<b>TIME: </b> ${utcTm}Z<br>
 					`;
   return div;
 };
