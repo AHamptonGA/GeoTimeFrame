@@ -1,4 +1,4 @@
-let refTimeZones = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles'];
+
 
 function get_current_date_conv(timeZoneId) {
 	const datetime = new Date();
