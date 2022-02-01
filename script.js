@@ -1,4 +1,4 @@
-const refTimeZones = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles'];
+let refTimeZones = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles'];
 
 function get_current_date_conv(timeZoneId) {
 	const datetime = new Date();
@@ -74,3 +74,14 @@ function get_popup_div(feature) {
 	div.innerHTML = build_popup_html(tzArray);
 	return div
 }
+
+// // The latitude/longitude string to be converted
+// let latlon = "55 56 39.123N 003 09 43.034W"
+
+// // Load dependencies of "coordinateFormatter" module
+// coordinateFormatter.load().then(function() {
+  // // Once the promise returned by load() is resolved,
+  // // use the fromLatitudeLongitude() method to convert
+  // // latitude/longitude string to a point geometry.
+  // let point = coordinateFormatter.fromLatitudeLongitude(latlon);
+// });
