@@ -1,4 +1,4 @@
-const refTimeZones = ['America/Chicago', 'UTC', 'America/New_York', 'America/Indiana/Indianapolis', 'America/Denver'];
+const refTimeZones = ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles'];
 
 function get_current_date_conv(timeZoneId) {
 	const datetime = new Date();
@@ -38,17 +38,25 @@ function reduce_time_zones(timeZones) {
 
 function build_popup_html(timeZones) {
 	let outHtml = '<span class="puHeader">LOCAL TIME ZONE:</span><br>';
-	outHtml += `<span class="puInna"><em>INNA ID:</em> ${timeZones[0]}</span><br>`;
+	outHtml += `<span class="puInna"><em>&ensp;INNA ID:</em> ${timeZones[0]}</span><br>`;
 
 	for (const timeZoneId of timeZones) {
 		let tzName = get_tz_name(timeZoneId);
 		let tzDate = get_current_date_conv(timeZoneId);
 		let tzTime = get_current_tz_conv(timeZoneId);
-
-		outHtml += `<span class="puTzName"><em>${tzName}:</em></span><br>
-					<span class="puDate"><em>DATE:</em> ${tzDate}</span>
-					| <span class="puTime"><em>TIME:</em> ${tzTime}</span><br>
-					<br>`;
+		
+		if (timeZones.indexOf(timeZoneId) === 1){
+          refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
+		} else {
+			refTzStr = '';
+		}
+		
+		outHtml += `${refTzStr}
+					<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
+					<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
+					<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
+					<br>
+					`;
 	}
 	return outHtml
 }
@@ -56,7 +64,8 @@ function build_popup_html(timeZones) {
 function get_popup_div(feature) {
 
 	const timeZoneId = feature.graphic.attributes.tzid;
-
+	console.log(feature.graphic.geometry.centroid.latitude);
+	console.log(feature.graphic.geometry.centroid.longitude);
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(refTimeZones).filter(x => !tzArray.includes(x));
 	tzArray = tzArray.concat(reducedTz);
