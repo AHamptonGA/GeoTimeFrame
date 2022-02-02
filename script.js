@@ -72,9 +72,7 @@ function get_popup_div(feature) {
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
 	let srWkid = feature.graphic.geometry.spatialReference.wkid;
-	
-	clickPoint.longitude = lon;
-	clickPoint.latitude = lat;
+
 
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));

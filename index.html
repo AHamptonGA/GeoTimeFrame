@@ -84,12 +84,10 @@
                   }
          };
 
-        const clickPointGraphic = new Graphic({
+        const clickPointTemplate = new Graphic({
           geometry: clickPoint,
           symbol: simpleMarkerSymbol
         });
-        
-        graphicsLayer.add(clickPointGraphic);
         
         const view = new MapView({
           container: "viewDiv",
@@ -97,6 +95,16 @@
           zoom: 2,
           map: map
         });
+
+        view.on("click", (event) => {
+            view.graphics.removeAll();
+            const gCopy = clickPointTemplate.clone();
+            const clkPnt = view.toMap(event);
+            gCopy.geometry = clkPnt;
+            view.graphics.add(gCopy);
+
+        });        
+        
       });
     </script>
   </head>
