@@ -66,13 +66,12 @@ function build_popup_html(timeZones) {
 	return outHtml;
 }
 
-function createPointGraphic(lat,lon, wkid){
+function createPoint(lat,lon, wkid){
 	let pt = new Point({
 	  x: lon,
 	  y: lat,
 	  spatialReference: wkid
 	});
-	view.center = pt;
 }
 
 function get_popup_div(feature) {
@@ -81,7 +80,7 @@ function get_popup_div(feature) {
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
 	let wkid = feature.graphic.geometry.spatialReference.wkid;
-	createPointGraphic(lat, lon, wkid);
+	createPoint(lat, lon, wkid);
 	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
@@ -92,13 +91,3 @@ function get_popup_div(feature) {
 	return div;
 }
 
-// // The latitude/longitude string to be converted
-// let latlon = "55 56 39.123N 003 09 43.034W"
-
-// // Load dependencies of "coordinateFormatter" module
-// coordinateFormatter.load().then(function() {
-// // Once the promise returned by load() is resolved,
-// // use the fromLatitudeLongitude() method to convert
-// // latitude/longitude string to a point geometry.
-// let point = coordinateFormatter.fromLatitudeLongitude(latlon);
-// });
