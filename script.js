@@ -66,19 +66,38 @@ function build_popup_html(timeZones) {
 	return outHtml;
 }
 
+function createPointGraphic(lat,lon){
+  view.graphics.removeAll();
+  let point = {
+    type: "point", // autocasts as /Point
+    x: lon,
+    y: lat,
+    spatialReference: view.spatialReference
+  };
+
+  let graphic = new Graphic({
+    geometry: point,
+    symbol: {
+      type: "simple-marker", // autocasts as SimpleMarkerSymbol
+      style: "square",
+      color: "red",
+      size: "16px",
+      outline: { // autocasts as SimpleLineSymbol
+        color: [255, 255, 0],
+        width: 3
+      }
+    }
+  });
+  view.graphics.add(graphic);
+}
 
 function get_popup_div(feature) {
 
 	const timeZoneId = feature.graphic.attributes.tzid;
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
-	create_point_graphic(lon, lat);
-	let point = new Point([lon,lat],
-		new SpatialReference(
-			{wkid:(feature.graphic.geometry.centroid.spatialReference.wkid)
-			})
-		);
-
+	createPointGraphic(lat, lon);
+	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
 	tzArray = tzArray.concat(reducedTz);

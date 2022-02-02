@@ -5,16 +5,16 @@
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <title>GeoJSONLayer | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>GeoJSONLayer | Sample | ArcGIS API for JavaScript 4.9</title>
 
     <script src="script.js"></script>
 
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/4.22/esri/themes/dark/main.css"
+      href="https://js.arcgis.com/4.9/esri/themes/dark/main.css"
     />
     <link rel="stylesheet" href="style.css">
-    <script src="https://js.arcgis.com/4.22/"></script>
+    <script src="https://js.arcgis.com/4.9/"></script>
 
     <script src="script.js"></script>
     
@@ -22,13 +22,12 @@
     
       require(["esri/Map","esri/layers/GeoJSONLayer", 
       "esri/views/MapView", "esri/geometry/coordinateFormatter", 
-      "esri/geometry/Point", "esri/SpatialReference"], (
+      "esri/geometry/Point"], (
         Map,
         GeoJSONLayer,
         MapView,
         coordinateFormatter,
-        Point,
-        SpatialReference
+        Point
       ) => {
         // If GeoJSON files are not on the same domain as your website, a CORS enabled server
         // or a proxy is required.
