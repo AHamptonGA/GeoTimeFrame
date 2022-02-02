@@ -61,7 +61,7 @@ function build_popup_html(timeZones) {
 	return outHtml
 }
 
-function create_point_graphic(lon, lat) {
+/* function create_point_graphic(lon, lat) {
 	const point = {
 				  type: "point", 
 				  longitude: lon,
@@ -86,14 +86,14 @@ function create_point_graphic(lon, lat) {
 	});
 		
 	return point
-	}
+	} */
 		
 function get_popup_div(feature) {
 
 	const timeZoneId = feature.graphic.attributes.tzid;
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
-	let pnt = create_point_graphic(lon, lat);
+	//let pnt = create_point_graphic(lon, lat);
 	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(refTimeZones).filter(x => !tzArray.includes(x));
@@ -102,7 +102,7 @@ function get_popup_div(feature) {
 	const div = document.createElement("div");
 	div.innerHTML = build_popup_html(tzArray);
 	return div
-}
+};
 
 // // The latitude/longitude string to be converted
 // let latlon = "55 56 39.123N 003 09 43.034W"
