@@ -20,50 +20,75 @@
     <script>     
     
       require(["esri/Map","esri/layers/GeoJSONLayer", 
-      "esri/views/MapView", "esri/geometry/Point"], (
+      "esri/views/MapView", "esri/Graphic"
+      ,"esri/layers/GraphicsLayer"], (
         Map,
         GeoJSONLayer,
         MapView,
-        Point
+        Graphic,
+        GraphicsLayer
       ) => {
         // If GeoJSON files are not on the same domain as your website, a CORS enabled server
         // or a proxy is required.
         const url =
           "data/timeZones.geojson";
 
-        // Use the Arcade Date() function to format time field into a human-readable format
-
         const popupTemplate = {
-                title: "Time Zone Info",
-                content: get_popup_div
-                }
+          title: "Time Zone Info",
+          content: get_popup_div
+        }
 
-        const renderer = {
-                          type: "simple",  // autocasts as new SimpleRenderer()
-                          symbol: { type: "simple-fill" },  // autocasts as new SimpleFillSymbol()
-                          visualVariables: [{
+        const tzRenderer = {
+          type: "simple",  // autocasts as new SimpleRenderer()
+          symbol: { type: "simple-fill" },  // autocasts as new SimpleFillSymbol()
+          visualVariables: [{
                             type: "color",
                             field: "tzid",
                           }]
-                        };
+        };
 
-        const geojsonLayer = new GeoJSONLayer({
+        const tzGeojsonLayer = new GeoJSONLayer({
           url: url,
           copyright: "World Time Zone Database",
           popupTemplate: popupTemplate,
-          renderer: renderer,
+          renderer: tzRenderer,
           orderBy: {
             field: "tzid"
           }
         });
         
-        geojsonLayer.popupTemplate = popupTemplate;
+        tzGeojsonLayer.popupTemplate = popupTemplate;
 
         const map = new Map({
           basemap: "gray-vector",
-          layers: [geojsonLayer]
+          layers: [tzGeojsonLayer]
         });
+        
+        // point drop
+        const graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
 
+        const point = { //Create a point
+          type: "point",
+          longitude: -118.80657463861,
+          latitude: 34.0005930608889
+        };
+        
+        const simpleMarkerSymbol = {
+          type: "simple-marker",
+          color: [226, 119, 40],  // Orange
+          outline: {
+          color: [255, 255, 255], // White
+          width: 1
+         };
+
+        const pointGraphic = new Graphic({
+          geometry: point,
+          symbol: simpleMarkerSymbol
+        });
+        
+        graphicsLayer.add(pointGraphic);
+        
         const view = new MapView({
           container: "viewDiv",
           center: [0, 0],

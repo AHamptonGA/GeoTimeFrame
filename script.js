@@ -66,16 +66,16 @@ function build_popup_html(timeZones) {
 	return outHtml;
 }
 
-function createPoint(lat,lon, srWkid){
+/* function createPoint(lat,lon, srWkid){
 	//console.log(lat,lon, srWkid);
-    const pnt = new Point{ //Create a point
-        'longitude': lon,
-        'latitude': lat,
-        'spatialReference': {wkid: srWkid}
-     };
-     console.log(typeof(pnt));
-	 return pnt;
-} 
+	var point = new Point({
+        x: 4407610.834,
+        y: 5338804.822,
+        spatialReference: { wkid: 31468 }
+      });
+     console.log(typeof(point));
+	 return point;
+}  */
 
 function get_popup_div(feature) {
 
@@ -83,8 +83,8 @@ function get_popup_div(feature) {
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
 	let srWkid = feature.graphic.geometry.spatialReference.wkid;
-	pnt = createPoint(lat, lon, srWkid);
-	console.log(typeof(pnt.type));
+/* 	pnt = createPoint(lat, lon, srWkid);
+	console.log(pnt); */
 	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
