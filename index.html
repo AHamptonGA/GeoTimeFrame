@@ -68,14 +68,12 @@
         const graphicsLayer = new GraphicsLayer();
         map.add(graphicsLayer);
 
-        const clickPoint = { //Create a point
+        clickPoint = { //Create a point
           type: "point",
           // initial clickPoint Prime(Greenwich) GMT
           longitude: -0.001545,
           latitude: 51.477928,
         };
-        
-        clickPoint.longitude = 45;
         
         const simpleMarkerSymbol = {
           type: "simple-marker",

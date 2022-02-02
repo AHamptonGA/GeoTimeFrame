@@ -76,7 +76,6 @@ function get_popup_div(feature) {
 	clickPoint.longitude = lon;
 	clickPoint.latitude = lat;
 
-	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
 	tzArray = tzArray.concat(reducedTz);
