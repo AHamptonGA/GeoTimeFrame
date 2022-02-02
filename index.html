@@ -20,10 +20,11 @@
     <script>     
     
       require(["esri/Map","esri/layers/GeoJSONLayer", 
-      "esri/views/MapView"], (
+      "esri/views/MapView", "esri/geometry/Point"], (
         Map,
         GeoJSONLayer,
-        MapView
+        MapView,
+        Point
       ) => {
         // If GeoJSON files are not on the same domain as your website, a CORS enabled server
         // or a proxy is required.

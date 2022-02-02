@@ -51,9 +51,9 @@ function build_popup_html(timeZones) {
 		let tzTime = get_current_tz_conv(timeZoneId);
 
 		if (timeZones.indexOf(timeZoneId) === 1) {
-			let refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
+			refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
 		} else {
-			let refTzStr = '';
+			refTzStr = '';
 		}
 
 		outHtml += `${refTzStr}
@@ -66,13 +66,13 @@ function build_popup_html(timeZones) {
 	return outHtml;
 }
 
-/* function createPoint(lat,lon, wkid){
+function createPoint(lat,lon, wkid){
 	let pt = new Point({
 	  x: lon,
 	  y: lat,
 	  spatialReference: wkid
 	});
-} */
+} 
 
 function get_popup_div(feature) {
 
@@ -80,7 +80,7 @@ function get_popup_div(feature) {
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
 	let wkid = feature.graphic.geometry.spatialReference.wkid;
-	//createPoint(lat, lon, wkid);
+	createPoint(lat, lon, wkid);
 	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
