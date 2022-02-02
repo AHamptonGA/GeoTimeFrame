@@ -21,15 +21,20 @@
     
       require(["esri/Map","esri/layers/GeoJSONLayer", 
       "esri/views/MapView", "esri/Graphic"
-      ,"esri/layers/GraphicsLayer"], (
+      ,"esri/layers/GraphicsLayer", "esri/geometry/coordinateFormatter",
+      "esri/geometry/Point", "esri/geometry/support/webMercatorUtils"], (
         Map,
         GeoJSONLayer,
         MapView,
         Graphic,
-        GraphicsLayer
+        GraphicsLayer,
+        coordinateFormatter,
+        Point,
+        webMercatorUtils
       ) => {
-        // If GeoJSON files are not on the same domain as your website, a CORS enabled server
-        // or a proxy is required.
+        
+        coordinateFormatter.load();
+        
         const url =
           "data/timeZones.geojson";
 
@@ -68,12 +73,14 @@
         const graphicsLayer = new GraphicsLayer();
         map.add(graphicsLayer);
 
-        clickPoint = { //Create a point
+        clickPoint = new Point(-0, 0);
+        
+/*         clickPoint = { //Create a point
           type: "point",
           // initial clickPoint Prime(Greenwich) GMT
           longitude: -0.001545,
           latitude: 51.477928,
-        };
+        }; */
         
         const simpleMarkerSymbol = {
           type: "simple-marker",
@@ -92,7 +99,7 @@
         const view = new MapView({
           container: "viewDiv",
           center: [clickPoint.longitude, clickPoint.latitude],
-          zoom: 2,
+          zoom: 1,
           map: map
         });
 
@@ -102,7 +109,13 @@
             const clkPnt = view.toMap(event);
             gCopy.geometry = clkPnt;
             view.graphics.add(gCopy);
-
+            clickPoint.latitude = gCopy.geometry.latitude;
+            clickPoint.longitude = gCopy.geometry.longitude;
+            
+            prjClkPoint = webMercatorUtils.webMercatorToGeographic(gCopy.geometry);
+            
+            console.log(coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false));
+            console.log((coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''));
         });        
         
       });
