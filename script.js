@@ -66,25 +66,16 @@ function build_popup_html(timeZones) {
 	return outHtml;
 }
 
-/* function createPoint(lat,lon, srWkid){
-	//console.log(lat,lon, srWkid);
-	var point = new Point({
-        x: 4407610.834,
-        y: 5338804.822,
-        spatialReference: { wkid: 31468 }
-      });
-     console.log(typeof(point));
-	 return point;
-}  */
-
 function get_popup_div(feature) {
 
 	const timeZoneId = feature.graphic.attributes.tzid;
 	let lat = feature.graphic.geometry.centroid.latitude;
 	let lon = feature.graphic.geometry.centroid.longitude;
 	let srWkid = feature.graphic.geometry.spatialReference.wkid;
-/* 	pnt = createPoint(lat, lon, srWkid);
-	console.log(pnt); */
+	
+	clickPoint.longitude = lon;
+	clickPoint.latitude = lat;
+
 	
 	let tzArray = [timeZoneId, 'UTC'];
 	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));

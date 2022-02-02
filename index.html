@@ -68,31 +68,34 @@
         const graphicsLayer = new GraphicsLayer();
         map.add(graphicsLayer);
 
-        const point = { //Create a point
+        const clickPoint = { //Create a point
           type: "point",
+          // initial clickPoint Prime(Greenwich) GMT
           longitude: -0.001545,
           latitude: 51.477928,
         };
         
+        clickPoint.longitude = 45;
+        
         const simpleMarkerSymbol = {
           type: "simple-marker",
-          color: [226, 119, 40],  // Orange
+          color: [255, 194, 10],  // Orange
           outline: {
-                    color: [255, 255, 255], // White
-                    width: 1
+                    color: [255, 255, 255],
+                    width: 0.5
                   }
          };
 
-        const pointGraphic = new Graphic({
-          geometry: point,
+        const clickPointGraphic = new Graphic({
+          geometry: clickPoint,
           symbol: simpleMarkerSymbol
         });
         
-        graphicsLayer.add(pointGraphic);
+        graphicsLayer.add(clickPointGraphic);
         
         const view = new MapView({
           container: "viewDiv",
-          center: [0, 0],
+          center: [clickPoint.longitude, clickPoint.latitude],
           zoom: 2,
           map: map
         });
