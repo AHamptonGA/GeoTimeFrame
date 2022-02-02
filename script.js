@@ -70,8 +70,8 @@ function createPointGraphic(lat,lon){
   view.graphics.removeAll();
   let point = {
     type: "point", // autocasts as /Point
-    x: lon,
-    y: lat,
+    longitude: lon,
+    latitude: lat,
     spatialReference: view.spatialReference
   };
 
