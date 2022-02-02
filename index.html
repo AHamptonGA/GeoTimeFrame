@@ -20,13 +20,15 @@
     
     <script>     
     
-      require(["esri/Map", "esri/Graphic", "esri/layers/GeoJSONLayer", 
-      "esri/views/MapView", "esri/geometry/coordinateFormatter"], (
+      require(["esri/Map","esri/layers/GeoJSONLayer", 
+      "esri/views/MapView", "esri/geometry/coordinateFormatter", 
+      "esri/geometry/Point", "esri/SpatialReference"], (
         Map,
-        Graphic,
         GeoJSONLayer,
         MapView,
-        coordinateFormatter
+        coordinateFormatter,
+        Point,
+        SpatialReference
       ) => {
         // If GeoJSON files are not on the same domain as your website, a CORS enabled server
         // or a proxy is required.
