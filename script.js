@@ -1,5 +1,12 @@
 
 
+
+function get_ref_time_zones() {
+	const refTimeZones = ['America/New_York', 'America/Chicago', 
+						  'America/Denver', 'America/Los_Angeles'];
+	return refTimeZones
+}	  
+
 function get_current_date_conv(timeZoneId) {
 	const datetime = new Date();
 	const localDt = datetime.toLocaleDateString('en-US', {
@@ -96,13 +103,13 @@ function get_popup_div(feature) {
 	//let pnt = create_point_graphic(lon, lat);
 	
 	let tzArray = [timeZoneId, 'UTC'];
-	let reducedTz = reduce_time_zones(refTimeZones).filter(x => !tzArray.includes(x));
+	let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
 	tzArray = tzArray.concat(reducedTz);
 
 	const div = document.createElement("div");
 	div.innerHTML = build_popup_html(tzArray);
 	return div
-};
+}
 
 // // The latitude/longitude string to be converted
 // let latlon = "55 56 39.123N 003 09 43.034W"
