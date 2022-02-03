@@ -10,6 +10,7 @@ body,
 
 .puInna{
 	color: #77808f;
+	font-size: smaller;
 }
 
 .puTzName{
@@ -18,8 +19,10 @@ body,
 
 .puCoordType{
 	color: #FFC20A;
+	font-size: smaller;
 }
 
 .puCoordVal{
 	color: #ffffbf;
+	font-size: smaller;
 }
