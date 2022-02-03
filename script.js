@@ -24,64 +24,6 @@ require([
 	clickPoint = new Point(-0, 0);
 	clickCoords = {};
 
-	
-	function get_coord_strings(point_feature) {
-		let prjClkPoint = webMercatorUtils.webMercatorToGeographic(point_feature.geometry);
-		
-		let coordDict = {
-							"DD" : `Lat:${prjClkPoint.latitude} , Long:${prjClkPoint.longitude}`,  
-							"MGRS" : coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false), 
-							"GEOCOORD" : (coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''), 
-							"Geographic" : coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 3)
-						};	
-		
-		return coordDict;
-	};		
-
-	function build_popup_html(timeZones) {
-		let outHtml = '<span class="puHeader">LOCAL TIME ZONE:</span><br>';
-		outHtml += `<span class="puInna"><em>&ensp;INNA ID:</em> ${timeZones[0]}</span><br>`;
-
-		for (const timeZoneId of timeZones) {
-			let tzName = get_tz_name(timeZoneId);
-			let tzDate = get_current_date_conv(timeZoneId);
-			let tzTime = get_current_tz_conv(timeZoneId);
-
-			if (timeZones.indexOf(timeZoneId) === 1) {
-				refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
-			} else {
-				refTzStr = '';
-			}
-
-			outHtml += `${refTzStr}
-						<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
-						<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
-						<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
-						<br>
-						`;
-		}
-		return outHtml;
-	};
-
-	function get_popup_div(feature) {
-
-		const timeZoneId = feature.graphic.attributes.tzid;
-		let lat = feature.graphic.geometry.centroid.latitude;
-		let lon = feature.graphic.geometry.centroid.longitude;
-		//let sr = feature.graphic.geometry.spatialReference;
-		
-		//let puPoint = new Point(lon, lat, sr);
-		//concole.log(get_coord_strings(puPoint)); 
-
-		let tzArray = [timeZoneId, 'UTC'];
-		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
-		tzArray = tzArray.concat(reducedTz);
-
-		const div = document.createElement("div");
-		div.innerHTML = build_popup_html(tzArray);
-		return div;
-	}
-
 	const url =
 	  "data/timeZones.geojson";
 
@@ -143,15 +85,69 @@ require([
 
 	view.on("click", (event) => {
 		view.graphics.removeAll();
-		const gCopy = clickPointTemplate.clone();
-		const clkPnt = view.toMap(event);
+		let gCopy = clickPointTemplate.clone();
+		let clkPnt = view.toMap(event);
 		gCopy.geometry = clkPnt;
 		view.graphics.add(gCopy);
 		
 		clickCoords = get_coord_strings(gCopy);
-		console.log(clickCoords);
 	});        
 
+	function get_coord_strings(point_feature) {
+		let prjClkPoint = webMercatorUtils.webMercatorToGeographic(point_feature.geometry);
+		
+		let coordDict = {
+							"DD" : `Lat:${prjClkPoint.latitude} , Long:${prjClkPoint.longitude}`,  
+							"MGRS" : coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false), 
+							"GEOCOORD" : (coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''), 
+							"Geographic" : coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 3)
+						};	
+		
+		return coordDict;
+	};		
+
+	function build_popup_html(timeZones) {
+		let outHtml = '<span class="puHeader">LOCAL TIME ZONE:</span><br>';
+		outHtml += `<span class="puInna"><em>&ensp;INNA ID:</em> ${timeZones[0]}</span><br>`;
+
+		for (const timeZoneId of timeZones) {
+			let tzName = get_tz_name(timeZoneId);
+			let tzDate = get_current_date_conv(timeZoneId);
+			let tzTime = get_current_tz_conv(timeZoneId);
+
+			if (timeZones.indexOf(timeZoneId) === 1) {
+				refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
+			} else {
+				refTzStr = '';
+			}
+
+			outHtml += `${refTzStr}
+						<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
+						<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
+						<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
+						<br>
+						`;
+		}
+		
+		console.log(clickCoords);
+		return outHtml;
+	};
+
+	function get_popup_div(feature) {
+
+		const timeZoneId = feature.graphic.attributes.tzid;
+		let lat = feature.graphic.geometry.centroid.latitude;
+		let lon = feature.graphic.geometry.centroid.longitude;
+
+		let tzArray = [timeZoneId, 'UTC'];
+		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
+		tzArray = tzArray.concat(reducedTz);
+
+		const div = document.createElement("div");
+		div.innerHTML = build_popup_html(tzArray);
+		return div;
+	}
+	
 });
 
 
