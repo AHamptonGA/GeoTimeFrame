@@ -44,7 +44,7 @@ require([
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 	displayCoords = ["MGRS", "GEOCOORD"];	
 	for (const [key, value] of Object.entries(clickCoords)) {
-			if (key in displayCoords) {
+			if (displayCoords.includes(key)){
 				outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
 							<span class="puCoordVal">${value}</span><br>`;
 			}
