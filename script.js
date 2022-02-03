@@ -18,7 +18,13 @@ require([
 			webMercatorUtils
 		) => 
 	{
-		
+
+	coordinateFormatter.load();
+	
+	clickPoint = new Point(-0, 0);
+	clickCoords = {};
+
+	
 	function get_coord_strings(point_feature) {
 		let prjClkPoint = webMercatorUtils.webMercatorToGeographic(point_feature.geometry);
 		
@@ -62,10 +68,10 @@ require([
 		const timeZoneId = feature.graphic.attributes.tzid;
 		let lat = feature.graphic.geometry.centroid.latitude;
 		let lon = feature.graphic.geometry.centroid.longitude;
-		let sr = feature.graphic.geometry.spatialReference;
+		//let sr = feature.graphic.geometry.spatialReference;
 		
-		let puPoint = new Point(lon, lat, sr);
-		concole.log(get_coord_strings(puPoint)); 
+		//let puPoint = new Point(lon, lat, sr);
+		//concole.log(get_coord_strings(puPoint)); 
 
 		let tzArray = [timeZoneId, 'UTC'];
 		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
@@ -76,11 +82,6 @@ require([
 		return div;
 	}
 
-
-	coordinateFormatter.load();
-	clickPoint = new Point(-0, 0);
-	clickCoords = {};
-	
 	const url =
 	  "data/timeZones.geojson";
 
@@ -147,7 +148,8 @@ require([
 		gCopy.geometry = clkPnt;
 		view.graphics.add(gCopy);
 		
-		clickCoords = get_coord_strings(gCopy)
+		clickCoords = get_coord_strings(gCopy);
+		console.log(clickCoords);
 	});        
 
 });
