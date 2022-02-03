@@ -31,7 +31,7 @@ require([
 			prjClkPoint = point_feature.geometry;
 		};
 		let coordDict = {
-							"DD" : `Lat:${prjClkPoint.latitude} , Long:${prjClkPoint.longitude}`,  
+							"DD" : `${prjClkPoint.latitude} , ${prjClkPoint.longitude}`,  
 							"MGRS" : coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false), 
 							"GEOCOORD" : (coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''), 
 							"Geographic" : coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 3)
@@ -41,8 +41,14 @@ require([
 	};		
 
 	function build_popup_html(timeZones) {
-		let outHtml = '<span class="puHeader">LOCAL TIME ZONE:</span><br>';
-		outHtml += `<span class="puInna"><em>&ensp;INNA ID:</em> ${timeZones[0]}</span><br>`;
+		let outHtml = '<span class="puHeader">LOCAL TIME ZONE FOR:</span><br>';
+		
+		for (const [key, value] of Object.entries(clickCoords)) {
+			outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
+						<span class="puCoordVal">${value}</span><br>`;
+		};
+		
+		outHtml += `<span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
 
 		for (const timeZoneId of timeZones) {
 			let tzName = get_tz_name(timeZoneId);
@@ -61,7 +67,7 @@ require([
 						<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
 						<br>
 						`;
-		}
+		};
 		console.log(clickCoords);
 		return outHtml;
 	};
