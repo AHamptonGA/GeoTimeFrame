@@ -50,7 +50,7 @@ require([
 			}
 		};
 		
-		outHtml += `<br><br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
+		outHtml += `<br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
 
 		for (const timeZoneId of timeZones) {
 			let tzName = get_tz_name(timeZoneId);
