@@ -41,7 +41,7 @@ require([
 	};		
 
 	function build_popup_html(timeZones) {
-		let outHtml = '<span class="puHeader">LOCAL TIME ZONE FOR:</span><br>';
+		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 	displayCoords = ["MGRS", "GEOCOORD"];	
 	for (const [key, value] of Object.entries(clickCoords)) {
 			if (key in displayCoords) {

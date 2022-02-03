@@ -8,6 +8,10 @@ body,
 	width: 100%;
 }
 
+.puHeader{
+	font-weight: bold;
+}
+
 .puInna{
 	color: #77808f;
 	font-size: smaller;
@@ -18,7 +22,7 @@ body,
 }
 
 .puCoordType{
-	color: #FFC20A;
+	color: #77808f;
 	font-size: smaller;
 }
 
