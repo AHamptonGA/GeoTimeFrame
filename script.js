@@ -62,9 +62,10 @@ require([
 		const timeZoneId = feature.graphic.attributes.tzid;
 		let lat = feature.graphic.geometry.centroid.latitude;
 		let lon = feature.graphic.geometry.centroid.longitude;
-		let srWkid = feature.graphic.geometry.spatialReference.wkid;
-
-		concole.log(clickCoords); 
+		let sr = feature.graphic.geometry.spatialReference;
+		
+		let puPoint = new Point(lon, lat, sr);
+		concole.log(get_coord_strings(puPoint)); 
 
 		let tzArray = [timeZoneId, 'UTC'];
 		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
