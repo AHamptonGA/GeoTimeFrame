@@ -2,14 +2,24 @@
 html,
 body,
 #viewDiv {
-padding: 0;
-margin: 0;
-height: 100%;
-width: 100%;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
 }
+
 .puInna{
-  color: #77808f;
+	color: #77808f;
 }
+
 .puTzName{
-  color: #FFC20A;
+	color: #FFC20A;
+}
+
+.puCoordType{
+	color: #FFC20A;
+}
+
+.puCoordVal{
+	color: #ffffbf;
 }
