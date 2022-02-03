@@ -7,8 +7,6 @@
     />
     <title>GeoTimeFrame</title>
 
-    <script src="script.js"></script>
-
     <link
       rel="stylesheet"
       href="https://js.arcgis.com/4.22/esri/themes/dark/main.css"
@@ -17,109 +15,7 @@
     
     <script src="https://js.arcgis.com/4.22/"></script>
     <script src="script.js"></script>
-    <script>     
-    
-      require(["esri/Map","esri/layers/GeoJSONLayer", 
-      "esri/views/MapView", "esri/Graphic"
-      ,"esri/layers/GraphicsLayer", "esri/geometry/coordinateFormatter",
-      "esri/geometry/Point", "esri/geometry/support/webMercatorUtils"], (
-        Map,
-        GeoJSONLayer,
-        MapView,
-        Graphic,
-        GraphicsLayer,
-        coordinateFormatter,
-        Point,
-        webMercatorUtils
-      ) => {
-        
-        coordinateFormatter.load();
-        
-        const url =
-          "data/timeZones.geojson";
 
-        const popupTemplate = {
-          title: "Time Zone Info",
-          content: get_popup_div
-        }
-
-        const tzRenderer = {
-          type: "simple",  // autocasts as new SimpleRenderer()
-          symbol: { type: "simple-fill" },  // autocasts as new SimpleFillSymbol()
-          visualVariables: [{
-                            type: "color",
-                            field: "tzid",
-                          }]
-        };
-
-        const tzGeojsonLayer = new GeoJSONLayer({
-          url: url,
-          copyright: "World Time Zone Database",
-          popupTemplate: popupTemplate,
-          renderer: tzRenderer,
-          orderBy: {
-            field: "tzid"
-          }
-        });
-        
-        tzGeojsonLayer.popupTemplate = popupTemplate;
-
-        const map = new Map({
-          basemap: "gray-vector",
-          layers: [tzGeojsonLayer]
-        });
-        
-        // point drop
-        const graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
-
-        clickPoint = new Point(-0, 0);
-        
-/*         clickPoint = { //Create a point
-          type: "point",
-          // initial clickPoint Prime(Greenwich) GMT
-          longitude: -0.001545,
-          latitude: 51.477928,
-        }; */
-        
-        const simpleMarkerSymbol = {
-          type: "simple-marker",
-          color: [255, 194, 10],  // Orange
-          outline: {
-                    color: [255, 255, 255],
-                    width: 0.5
-                  }
-         };
-
-        const clickPointTemplate = new Graphic({
-          geometry: clickPoint,
-          symbol: simpleMarkerSymbol
-        });
-        
-        const view = new MapView({
-          container: "viewDiv",
-          center: [clickPoint.longitude, clickPoint.latitude],
-          zoom: 1,
-          map: map
-        });
-
-        view.on("click", (event) => {
-            view.graphics.removeAll();
-            const gCopy = clickPointTemplate.clone();
-            const clkPnt = view.toMap(event);
-            gCopy.geometry = clkPnt;
-            view.graphics.add(gCopy);
-            clickPoint.latitude = gCopy.geometry.latitude;
-            clickPoint.longitude = gCopy.geometry.longitude;
-            
-            prjClkPoint = webMercatorUtils.webMercatorToGeographic(gCopy.geometry);
-            
-            console.log(coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false));
-            console.log((coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''));
-        });        
-        
-      });
-    </script>
   </head>
 
   <body>
