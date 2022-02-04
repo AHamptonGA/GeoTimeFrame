@@ -7,7 +7,8 @@ require([
 		"esri/geometry/coordinateFormatter",
 		"esri/geometry/Point", 
 		"esri/geometry/SpatialReference",
-		"esri/geometry/support/webMercatorUtils"], 
+		"esri/geometry/support/webMercatorUtils",
+		"esri/widgets/Search"], 
 		(
 			Map,
 			GeoJSONLayer,
@@ -17,7 +18,8 @@ require([
 			coordinateFormatter,
 			Point,
 			SpatialReference,
-			webMercatorUtils
+			webMercatorUtils,
+			Search
 		) => 
 	{
 
@@ -70,7 +72,6 @@ require([
 						<br>
 						`;
 		};
-		console.log(clickCoords);
 		return outHtml;
 	};
 
@@ -156,8 +157,17 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 	});        
 
-});
+	const search = new Search({
+          view: view
+        });
 
+    view.ui.add(search, "top-right");
+
+    view.when(() => {
+		search.search("");
+	});
+
+});
 
 function get_ref_time_zones() {
 	const refTimeZones = ['America/New_York', 'America/Chicago',
