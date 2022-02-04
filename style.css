@@ -27,7 +27,7 @@ body {
   width: 75%;
 }
 
-.responsive-iframe {
+.mapViewIframe {
   position: absolute;
   top: 0;
   left: 0;
