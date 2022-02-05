@@ -12,23 +12,31 @@ body {
 	background-color:#616161
 }
 
-.sideBar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 25%;
+.mainDiv {
+    display: flex;
+	height: 90vh;
 }
 
+.sideBar {
+    width: 30%;
+}  
+
 .mapContainer {
-  position: absolute;
-  top: 0;
-  left: 25%;
-  bottom: 0;
-  width: 75%;
+    flex-grow: 1;
+} 
+
+.headerContainer  {
+    height: 5vh;
+	display: flex;
+}
+
+.footerContainer  {
+    height: 5vh;
+	display: flex;
 }
 
 .mapViewIframe {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;
