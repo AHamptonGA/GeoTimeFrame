@@ -53,36 +53,70 @@ require([
 		document.getElementById('inputLatitude').value = prjClkPoint.latitude;
 		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
 	};
+
+	function build_tz_div(timeZones, clickCoords) {
+		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
+		displayCoords = ["MGRS", "GEOCOORD"];	
+		for (const [key, value] of Object.entries(clickCoords)) {
+				if (displayCoords.includes(key)){
+					outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
+								<span class="puCoordVal">${value}</span><br>`;
+				}
+			};
+			
+			outHtml += `<br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
+
+			for (const timeZoneId of timeZones) {
+				let tzName = get_tz_name(timeZoneId);
+				let tzDate = get_current_date_conv(timeZoneId);
+				let tzTime = get_current_tz_conv(timeZoneId);
+
+				if (timeZones.indexOf(timeZoneId) === 1) {
+					refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
+				} else {
+					refTzStr = '';
+				}
+
+				outHtml += `${refTzStr}
+							<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
+							<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
+							<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
+							<br>
+							`;
+			};
+		return outHtml;
+	};
+
 	
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
-	displayCoords = ["MGRS", "GEOCOORD"];	
-	for (const [key, value] of Object.entries(clickCoords)) {
-			if (displayCoords.includes(key)){
-				outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
-							<span class="puCoordVal">${value}</span><br>`;
-			}
-		};
-		
-		outHtml += `<br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
+		displayCoords = ["MGRS", "GEOCOORD"];	
+		for (const [key, value] of Object.entries(clickCoords)) {
+				if (displayCoords.includes(key)){
+					outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
+								<span class="puCoordVal">${value}</span><br>`;
+				}
+			};
+			
+			outHtml += `<br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
 
-		for (const timeZoneId of timeZones) {
-			let tzName = get_tz_name(timeZoneId);
-			let tzDate = get_current_date_conv(timeZoneId);
-			let tzTime = get_current_tz_conv(timeZoneId);
+			for (const timeZoneId of timeZones) {
+				let tzName = get_tz_name(timeZoneId);
+				let tzDate = get_current_date_conv(timeZoneId);
+				let tzTime = get_current_tz_conv(timeZoneId);
 
-			if (timeZones.indexOf(timeZoneId) === 1) {
-				refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
-			} else {
-				refTzStr = '';
-			}
+				if (timeZones.indexOf(timeZoneId) === 1) {
+					refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
+				} else {
+					refTzStr = '';
+				}
 
-			outHtml += `${refTzStr}
-						<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
-						<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
-						<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
-						<br>
-						`;
+				outHtml += `${refTzStr}
+							<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
+							<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
+							<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
+							<br>
+							`;
 		};
 		return outHtml;
 	};
@@ -179,9 +213,13 @@ require([
 
 				// do something with the result graphic
 				console.log(SelGraphic.attributes.tzid);
+				
+				document.getElementById('tzResults').innerHTML = build_tz_div(tzArray, clickCoords);
+				
+				
 			}
   		});
-		//feature.graphic.attributes.tzid;
+
 	});        
 
 	const search = new Search({
