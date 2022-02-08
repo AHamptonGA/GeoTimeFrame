@@ -213,7 +213,11 @@ require([
 
 				// do something with the result graphic
 				console.log(SelGraphic.attributes.tzid);
-				
+
+				let timeZoneId = SelGraphic.attributes.tzid;
+				let tzArray = [timeZoneId, 'UTC'];
+				let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
+				tzArray = tzArray.concat(reducedTz);				
 				document.getElementById('tzResults').innerHTML = build_tz_div(tzArray, clickCoords);
 				
 				
