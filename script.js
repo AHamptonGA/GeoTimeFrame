@@ -54,6 +54,15 @@ require([
 		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
 	};
 
+	function build_coord_div(clickCoords) {
+		let outHtml = ''
+		for (const [key, value] of Object.entries(clickCoords)) {
+				outHtml += `<div><span><em>&ensp;${key}:</em></span>
+							<span>${value}</span></div>`;
+			};
+		return outHtml;
+	};
+	
 	function build_tz_div(timeZones, clickCoords) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 		displayCoords = ["MGRS", "GEOCOORD"];	
@@ -204,25 +213,24 @@ require([
 		// Search for graphics at the clicked location. View events can be used
 		// as screen locations as they expose an x,y coordinate that conforms
 		// to the ScreenPoint definition.
-		view.hitTest(event).then(function (response) {
+		/* view.hitTest(event).then(function (response) {
 			if (response.results.length) {
 				let SelGraphic = response.results.filter(function (result) {
 				// check if the graphic belongs to the layer of interest
 				return result.graphic.layer === tzGeojsonLayer;
 				})[0].graphic;
 
-				// do something with the result graphic
-				console.log(SelGraphic.attributes.tzid);
-
 				let timeZoneId = SelGraphic.attributes.tzid;
 				let tzArray = [timeZoneId, 'UTC'];
 				let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
 				tzArray = tzArray.concat(reducedTz);				
-				document.getElementById('tzResults').innerHTML = build_tz_div(tzArray, clickCoords);
+				//document.getElementById('tzResults').innerHTML = build_tz_div(tzArray, clickCoords);
+				document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 				
 				
 			}
-  		});
+  		}); */
+		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 
 	});        
 

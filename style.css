@@ -9,7 +9,8 @@ body,
 }
 
 body {
-	background-color:#616161
+	background-color:#616161;
+	color: white;
 }
 
 .mainDiv {
@@ -60,13 +61,7 @@ input[type=number] {
   width: 12vw;
 
 } 
-.tzResults{
-  float: left;
-  width: 40%;
-  padding: 0.5vw, 0.5vh;
-  height: 3em;
-  line-height: 3em;  	
-}
+
 
 .mapContainer {
     flex-grow: 1;
