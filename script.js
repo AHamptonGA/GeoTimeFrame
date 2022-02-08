@@ -172,13 +172,13 @@ require([
 		// to the ScreenPoint definition.
 		view.hitTest(event).then(function (response) {
 			if (response.results.length) {
-				let graphic = response.results.filter(function (result) {
-				// check if the graphic belongs to the layer of interest
-				return result.graphic.layer === tzGeojsonLayer;
+				let SelGraphic = response.results.filter(function (result) {
+				// check if the SelGraphic belongs to the layer of interest
+				return result.SelGraphic.layer === tzGeojsonLayer;
 				})[0].graphic;
 
-				// do something with the result graphic
-				console.log(graphic.attributes);
+				// do something with the result SelGraphic
+				console.log(SelGraphic.attributes.tzid);
 			}
   		});
 		//feature.graphic.attributes.tzid;
