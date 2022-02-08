@@ -1,10 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <title>GeoTimeFrame</title>
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/dark/main.css"/>
@@ -22,13 +23,34 @@
   
     <div class="mainDiv">
   
-      <div class="sideBar">
+      <div class="sideBar" id="sideBar">
+      
+        <form calss="sideBarForm" id="sideBarForm">
+        
+          <div class="sideBarInputDiv">
+            <label class="inputLabel" for="inputLatitude">Latitude (DD)</label>
+          </div>
+          
+          <div class="sideBarInputDiv">
+              <input class="inputItem" type="number" size="9" name="inputLatitude" 
+                     id="inputLatitude" min="-90" max="90" value="0.00000">
+          </div>
+          
+          <div class="sideBarInputDiv">
+            <label class="inputLabel" for="inputLongitude">Longitude (DD)</label>
+          </div>
+          
+          <div class="sideBarInputDiv">
+            <input class="inputItem" type="number"  size="10" name="inputLongitude" 
+                   id="inputLongitude" min="-180" max="180" value="0.00000">
+          </div>
+          
+        </form>
         
       </div>
     
       <div class="mapContainer"> 
-        <iframe class="mapViewIframe" src="gtfMap.html">
-        </iframe>
+        <div id="viewDiv"></div>
       </div>
     </div>
     

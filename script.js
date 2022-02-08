@@ -42,6 +42,27 @@ require([
 		return coordDict;
 	};		
 
+	function on_click_set_values(point_feature) {	
+		if (point_feature.geometry.spatialReference.isWGS84 === false) {
+			prjClkPoint = webMercatorUtils.webMercatorToGeographic(point_feature.geometry);
+		} else {
+			prjClkPoint = point_feature.geometry;
+		};
+		document.getElementById('inputLatitude').value = prjClkPoint.latitude;
+		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
+	};
+	
+	function findPolygons(searchPolygon, layer, view){
+  		// get layerView, this contains the client-side graphics
+  		let layerView = view.allLayerViews.find(lv => lv.layer === layer);
+  		// if there's no layerview then there are no intersections
+  		if (!layerView) return [];
+
+  		// get all features in the client in the specified layer
+  		// test each of them using geometryEngine.intersects against the search polygon
+  		return layerView.loadedGraphics.filter(graphic => geometryEngine.intersects(graphic, searchPolygon)).toArray();
+	};
+	
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 	displayCoords = ["MGRS", "GEOCOORD"];	
@@ -76,9 +97,7 @@ require([
 	};
 
 	function get_popup_div(feature) {
-
 		const timeZoneId = feature.graphic.attributes.tzid;
-
 		let tzArray = [timeZoneId, 'UTC'];
 		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
 		tzArray = tzArray.concat(reducedTz);
@@ -155,6 +174,10 @@ require([
 		view.graphics.add(gCopy);
 		
 		clickCoords = get_coord_strings(gCopy);
+		on_click_set_values(gCopy);
+		
+		console.log(findPolygons(tzGeojsonLayer, gCopy, view));
+		//feature.graphic.attributes.tzid;
 	});        
 
 	const search = new Search({
@@ -168,6 +191,7 @@ require([
 	});
 
 });
+
 
 function get_ref_time_zones() {
 	const refTimeZones = ['America/New_York', 'America/Chicago',
@@ -217,4 +241,25 @@ function reduce_time_zones(timeZones) {
 		tz_dict[tz_name] = timeZoneId;
 	}
 	return Object.values(tz_dict);
+};
+
+
+window.onload = function() {
+	
+	if (window.location.href.match('index.html') != null) {
+		let startPos;
+		let geoSuccessHandler = function(position) {
+			startPos = position;
+			document.getElementById('inputLatitude').value = startPos.coords.latitude;
+			document.getElementById('inputLongitude').value = startPos.coords.longitude;
+		};
+		
+		let geoErrorHandler = function (error) { 
+			console.log(error); 
+			document.getElementById('inputLatitude').value = "0.00000";
+			document.getElementById('inputLongitude').value = "0.00000";			
+		};
+		
+		navigator.geolocation.getCurrentPosition(geoSuccessHandler, geoErrorHandler);
+	};
 };

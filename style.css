@@ -18,8 +18,47 @@ body {
 }
 
 .sideBar {
+	box-sizing: border-box;
     width: 30%;
+	font-size: 3vh;
+	resize: none;
 }  
+
+/* hide number up/down in Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* hide number up/down in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.sideBarForm:after {  
+  display: table;
+  clear: both;   
+  width: 90%;
+}
+
+.sideBarInputDiv {
+  float: left;
+  width: 45%;
+  padding: 0.5vw, 0.2vh;
+}
+
+.inputLabel {
+  width: 12vw;
+  color: white;
+  padding: 0.5vw, 0.2vh;
+  font-size: 3vh;
+}
+
+.inputItem { 
+  width: 12vw;
+  font-size: 3vh;
+} 
 
 .mapContainer {
     flex-grow: 1;
