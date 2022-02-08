@@ -52,15 +52,8 @@ require([
 		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
 	};
 	
-	function findPolygons(searchPolygon, layer, view){
-  		// get layerView, this contains the client-side graphics
-  		let layerView = view.allLayerViews.find(lv => lv.layer === layer);
-  		// if there's no layerview then there are no intersections
-  		if (!layerView) return [];
-
-  		// get all features in the client in the specified layer
-  		// test each of them using geometryEngine.intersects against the search polygon
-  		return layerView.loadedGraphics.filter(graphic => geometryEngine.intersects(graphic, searchPolygon)).toArray();
+	function findPolygons(searchPolygon, graphic, view){
+  		return geometryEngine.intersects(graphic, searchPolygon);
 	};
 	
 	function build_popup_html(timeZones) {
