@@ -55,11 +55,12 @@ require([
 	};
 
 	function build_coord_div(clickCoords) {
-		let outHtml = ''
+		let outHtml = '<p>'
 		for (const [key, value] of Object.entries(clickCoords)) {
-				outHtml += `<div><span><em>&ensp;${key}:</em></span>
-							<span>${value}</span></div>`;
+				outHtml += `<span><em>&ensp;${key}:</em></span>
+							<span>${value}</span><br>`;
 			};
+		outHtml += '</p>'
 		return outHtml;
 	};
 	
