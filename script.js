@@ -8,7 +8,8 @@ require([
 		"esri/geometry/Point", 
 		"esri/geometry/SpatialReference",
 		"esri/geometry/support/webMercatorUtils",
-		"esri/widgets/Search"], 
+		"esri/widgets/Search",
+		"esri/geometry/geometryEngine"], 
 		(
 			Map,
 			GeoJSONLayer,
@@ -19,7 +20,8 @@ require([
 			Point,
 			SpatialReference,
 			webMercatorUtils,
-			Search
+			Search,
+			geometryEngine
 		) => 
 	{
 
@@ -52,10 +54,12 @@ require([
 		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
 	};
 	
-	function findPolygons(searchPolygon, graphic, view){
-  		return geometryEngine.intersects(graphic, searchPolygon);
+	function findPolygons(searchPolygon, graphic){
+  		// get all features in the client in the specified layer
+  		// test each of them using geometryEngine.intersects against the search polygon
+  		return layerView.loadedGraphics.filter(graphic => geometryEngine.intersects(graphic, searchPolygon)).toArray();
 	};
-	
+
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 	displayCoords = ["MGRS", "GEOCOORD"];	
@@ -169,7 +173,7 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 		on_click_set_values(gCopy);
 		
-		console.log(findPolygons(tzGeojsonLayer, gCopy, view));
+		console.log(findPolygons(tzGeojsonLayer, gCopy));
 		//feature.graphic.attributes.tzid;
 	});        
 
