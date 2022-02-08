@@ -54,12 +54,6 @@ require([
 		document.getElementById('inputLongitude').value = prjClkPoint.longitude ;
 	};
 	
-	function findPolygons(searchPolygon, graphic){
-  		// get all features in the client in the specified layer
-  		// test each of them using geometryEngine.intersects against the search polygon
-  		return layerView.loadedGraphics.filter(graphic => geometryEngine.intersects(graphic, searchPolygon)).toArray();
-	};
-
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 	displayCoords = ["MGRS", "GEOCOORD"];	
@@ -173,7 +167,20 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 		on_click_set_values(gCopy);
 		
-		console.log(findPolygons(tzGeojsonLayer, gCopy));
+		// Search for graphics at the clicked location. View events can be used
+		// as screen locations as they expose an x,y coordinate that conforms
+		// to the ScreenPoint definition.
+		view.hitTest(event).then(function (response) {
+			if (response.results.length) {
+				let graphic = response.results.filter(function (result) {
+				// check if the graphic belongs to the layer of interest
+				return result.graphic.layer === tzGeojsonLayer;
+				})[0].graphic;
+
+				// do something with the result graphic
+				console.log(graphic.attributes);
+			}
+  		});
 		//feature.graphic.attributes.tzid;
 	});        
 
