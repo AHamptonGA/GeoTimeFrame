@@ -35,7 +35,7 @@ require([
 			prjClkPoint = point_feature.geometry;
 		};
 		let coordDict = {
-							"DD" : `${prjClkPoint.latitude} , ${prjClkPoint.longitude}`,  
+							"DD" : `Lat: ${(prjClkPoint.latitude).toFixedDown(6)} , Long: ${(prjClkPoint.longitude).toFixedDown(6)}`,  
 							"MGRS" : coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false), 
 							"GEOCOORD" : (coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''), 
 							"Geographic" : coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 3)
@@ -63,41 +63,7 @@ require([
 		outHtml += '</p>'
 		return outHtml;
 	};
-	
-	function build_tz_div(timeZones, clickCoords) {
-		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
-		displayCoords = ["MGRS", "GEOCOORD"];	
-		for (const [key, value] of Object.entries(clickCoords)) {
-				if (displayCoords.includes(key)){
-					outHtml += `<span class="puCoordType"><em>&ensp;${key}:</em></span>
-								<span class="puCoordVal">${value}</span><br>`;
-				}
-			};
-			
-			outHtml += `<br><span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZones[0]}</span><br>`;
-
-			for (const timeZoneId of timeZones) {
-				let tzName = get_tz_name(timeZoneId);
-				let tzDate = get_current_date_conv(timeZoneId);
-				let tzTime = get_current_tz_conv(timeZoneId);
-
-				if (timeZones.indexOf(timeZoneId) === 1) {
-					refTzStr = `<span class="puRefTz"><em>Reference Time Zones:</em></span><br>`;
-				} else {
-					refTzStr = '';
-				}
-
-				outHtml += `${refTzStr}
-							<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
-							<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
-							<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
-							<br>
-							`;
-			};
-		return outHtml;
-	};
-
-	
+		
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 		displayCoords = ["MGRS", "GEOCOORD"];	
@@ -232,6 +198,10 @@ require([
 			}
   		}); */
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
+		document.getElementById('footerContainer').innerHTML = build_tz_footer();
+		
+		
+		build_tz_footer
 
 	});        
 
@@ -247,6 +217,11 @@ require([
 
 });
 
+Number.prototype.toFixedDown = function(digits) {
+    var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = this.toString().match(re);
+    return m ? parseFloat(m[1]) : this.valueOf();
+};
 
 function get_ref_time_zones() {
 	const refTimeZones = ['America/New_York', 'America/Chicago',
@@ -298,6 +273,26 @@ function reduce_time_zones(timeZones) {
 	return Object.values(tz_dict);
 };
 
+function build_tz_footer() {
+	let outHtml = '<span class="footerStretch"></span>';
+	let timeZones = get_ref_time_zones();
+	for (const timeZoneId of timeZones) {
+		let tzName = get_tz_name(timeZoneId);
+		let tzDate = get_current_date_conv(timeZoneId);
+		let tzTime = get_current_tz_conv(timeZoneId);
+
+
+		outHtml += `<div class="footerTzDiv">
+					<span class="footerTzName">${tzName}:</span><br>
+					<span class="footerTzDate">${tzDate}</span><br>
+					<span class="footerTzTime">${tzTime}</span>
+					</div>
+					
+					`;
+		outHtml += '<span class="footerStretch"></span>';
+	};
+return outHtml;
+};
 
 window.onload = function() {
 	
@@ -307,12 +302,14 @@ window.onload = function() {
 			startPos = position;
 			document.getElementById('inputLatitude').value = startPos.coords.latitude;
 			document.getElementById('inputLongitude').value = startPos.coords.longitude;
+			document.getElementById('footerContainer').innerHTML = build_tz_footer();
 		};
 		
 		let geoErrorHandler = function (error) { 
 			console.log(error); 
 			document.getElementById('inputLatitude').value = "0.00000";
-			document.getElementById('inputLongitude').value = "0.00000";			
+			document.getElementById('inputLongitude').value = "0.00000";	
+			document.getElementById('footerContainer').innerHTML = build_tz_footer();			
 		};
 		
 		navigator.geolocation.getCurrentPosition(geoSuccessHandler, geoErrorHandler);
