@@ -23,7 +23,7 @@
   
     <div class="mainDiv">
   
-      <div class="sideBarInputs" id="sideBarInputs">
+      <div class="sideBar" id="sideBar">
       
         <form calss="sideBarForm" id="sideBarForm">
         
@@ -43,16 +43,18 @@
           <div class="sideBarInputDiv">
             <input class="inputItem" type="number"  size="10" name="inputLongitude" 
                    id="inputLongitude" min="-180" max="180" value="0.00000">
-          </div>       
+          </div>    
+
+          <div class="sideBarResultsDiv" id="sideBarResultsDiv">
+            <div class="coordDiv" id="coordDiv"></div>  
+          </div>   
+          
         </form>
         
       </div>
-      <div class="sideBarResults" id="sideBarResults">
-        <div class="coordDiv" id="coordDiv"></div>    
-      </div>
         
       <div class="mapContainer" id="mapContainer"> 
-        <div id="viewDiv"></div>
+        <div class="viewDiv" id="viewDiv"></div>
       </div>
     </div>
     

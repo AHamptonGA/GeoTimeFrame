@@ -1,85 +1,28 @@
 
 html,
-body,
-#viewDiv {
-	padding: 0;
-	margin: 0;
-	height: 100%;
-	width: 100%;
-}
-
 body {
 	background-color:#616161;
 	color: white;
+	width: 100%;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 1.8vmin;
 }
 
 .mainDiv {
     display: flex;
-	height: 90vh;
-	font-size: 2vh;
-}
-
-.sideBarInputs {
-	box-sizing: border-box;
-    width: 20vw;
 	resize: none;
-}  
-
-.sideBarResults {
-	box-sizing: border-box;
-    width: 20vw;
-	resize: none;
-} 
-
-/* hide number up/down in Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
-/* hide number up/down in Firefox */
-input[type=number] {
-  font-size:1em;
-  -moz-appearance: textfield;
-}
-
-.sideBarForm:after {  
-  display: table;
-  clear: both;   
-  width: 90%;
-}
-
-.sideBarInputDiv {
-  float: left;
-  width: 40%;
-  height: 3em;
-  line-height: 3em;  
-}
-
-.inputLabel {
-  width: 12vw;
-  color: white;
-}
-
-.inputItem { 
-  width: 12vw;
-} 
-
-
-.mapContainer {
-    flex-grow: 1;
-} 
 
 .headerContainer  {
-    height: 1vh;
+    height: 0.5vh;
+	width: 100vw;
 	display: flex;
 }
 
 .footerContainer {
   display: flex;
-  font-size: 0.7em;
-  height: 5vh;
+  font-size: 0.9em;
   width: 100vw;
 
 }
@@ -87,8 +30,8 @@ input[type=number] {
 .footerTzDiv {
   text-align: center;
   display: inline-block;
-  zoom: 1;
-  height: 5vh; 
+  zoom: 1; 
+  padding: 0.5em 0 0 0.5em;
 }
 
 .footerStretch {
@@ -98,14 +41,15 @@ input[type=number] {
     line-height: 0
 }
 
-.mapContainer {
-  position: relative;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+
+.viewDiv {
+  flex-grow: 1;
+  position: relative;	
+  padding: 0;
+  margin-left: auto; 
+  margin-right: 0;
   width: 70vw;
-  height: 90vh;
+  height: 85vh;
   border: none;
 }
 
@@ -134,3 +78,127 @@ input[type=number] {
 }
 
 
+
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: block;
+}
+
+.width-6 {
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  float: left;
+}
+
+.container-padding {
+  padding: 3em;
+}
+
+.sideBar {
+	float: left;
+	width: 25%;
+}  
+
+.sideBarInputDiv {
+  float: left;
+  width: 95%;
+  /* font-size: 0.8em; */
+  padding: 0.25em;
+  border: none;
+}
+
+
+.sideBarInputDiv fieldset {
+  border: none;
+  width: 100%;
+  padding: 0;
+}
+
+.sideBarInputDiv legend,
+.sideBarInputDiv label {
+  padding: 0;
+  font-weight: normal;
+}
+
+.sideBarInputDiv label.choice {
+  font-size: 0.9em;
+  font-weight: normal;
+}
+
+.sideBarInputDiv label {
+  text-align: left;
+  display: block;
+  width: 95%;
+}
+
+.sideBarInputDiv label_child {
+  text-align: right;
+  display: block;
+}
+
+.sideBarInputDiv input[type="text"],
+.sideBarInputDiv input[type="tel"],
+.sideBarInputDiv input[type="datetime-local"],
+.sideBarInputDiv select,
+.sideBarInputDiv textarea {
+  float: left;
+  border: 1px solid #ccc;
+  padding: 1vw;
+}
+
+.sideBarInputDiv input[type="number"]{
+  float: left;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  width: 70%;
+}
+
+
+/* hide number up/down in Chrome, Safari, Edge, Opera */
+.sideBarInputDiv input::-webkit-outer-spin-button,
+.sideBarInputDiv input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* hide number up/down in Firefox */
+.sideBarInputDiv input::[type=number] {
+  font-size:1em;
+  -moz-appearance: textfield;
+}
+
+
+.sideBarInputDiv input[type="radio"],
+.sideBarInputDiv input[type="checkbox"] {
+  margin-left: 40%;
+}
+
+.sideBarForm button {
+  padding: 1em;
+  border-radius: 0.5em;
+  background: #eee;
+  border: none;
+  font-weight: bold;
+  margin-left: 90%;
+  margin-top: 1.8em;
+}
+
+.sideBarForm button:hover {
+  background: #ccc;
+  cursor: pointer;
+}
+
+.sideBarResultsDiv {
+  float: left;
+  width: 95%;
+  font-size: 1em;
+  line-height: 2em;
+  padding: 0.25em;
+  border: none;
+  white-space: nowrap;
+}
