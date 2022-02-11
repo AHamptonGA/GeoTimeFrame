@@ -99,10 +99,7 @@ require([
 
 	function get_popup_div(feature) {
 		const timeZoneId = feature.graphic.attributes.tzid;
-		let tzArray = [timeZoneId, 'UTC'];
-		let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
-		tzArray = tzArray.concat(reducedTz);
-
+		let tzArray = [timeZoneId];
 		const div = document.createElement("div");
 		div.innerHTML = build_popup_html(tzArray);
 		return div;
@@ -177,26 +174,6 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 		on_click_set_values(gCopy);
 		
-		// Search for graphics at the clicked location. View events can be used
-		// as screen locations as they expose an x,y coordinate that conforms
-		// to the ScreenPoint definition.
-		/* view.hitTest(event).then(function (response) {
-			if (response.results.length) {
-				let SelGraphic = response.results.filter(function (result) {
-				// check if the graphic belongs to the layer of interest
-				return result.graphic.layer === tzGeojsonLayer;
-				})[0].graphic;
-
-				let timeZoneId = SelGraphic.attributes.tzid;
-				let tzArray = [timeZoneId, 'UTC'];
-				let reducedTz = reduce_time_zones(get_ref_time_zones()).filter(x => !tzArray.includes(x));
-				tzArray = tzArray.concat(reducedTz);				
-				//document.getElementById('tzResults').innerHTML = build_tz_div(tzArray, clickCoords);
-				document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-				
-				
-			}
-  		}); */
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 		
