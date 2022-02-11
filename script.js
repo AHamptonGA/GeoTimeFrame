@@ -38,7 +38,7 @@ require([
 							"DD" : `Lat: ${(prjClkPoint.latitude).toFixedDown(6)} , Long: ${(prjClkPoint.longitude).toFixedDown(6)}`,  
 							"MGRS" : coordinateFormatter.toMgrs(prjClkPoint, "new-180-in-zone-01", 5, false), 
 							"GEOCOORD" : (coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 0)).replace(/\s/g, ''), 
-							"Geographic" : coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 3)
+							"Geographic" : format_esri_dms(coordinateFormatter.toLatitudeLongitude(prjClkPoint, 'dms', 2))
 						};	
 		
 		return coordDict;
@@ -57,7 +57,7 @@ require([
 	function build_coord_div(clickCoords) {
 		let outHtml = '<p>'
 		for (const [key, value] of Object.entries(clickCoords)) {
-				outHtml += `<span><em>&ensp;${key}:</em></span>
+				outHtml += `<span><em>${key} : </em></span>
 							<span>${value}</span><br>`;
 			};
 		outHtml += '</p>'
@@ -176,10 +176,6 @@ require([
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
-		
-		
-		build_tz_footer
-
 	});        
 
 	const search = new Search({
@@ -201,15 +197,8 @@ Number.prototype.toFixedDown = function(digits) {
 };
 
 function get_ref_time_zones() {
-	const refTimeZones = ['America/New_York', 'America/Chicago',
-		'America/Denver', 'America/Los_Angeles'
-	];
-	return refTimeZones;
-};
-
-function get_ref_time_zones() {
-	const refTimeZones = ['America/New_York', 'America/Chicago',
-		'America/Denver', 'America/Los_Angeles'
+	const refTimeZones = ['UTC', 'America/New_York', 'America/Chicago',
+		                  'America/Denver', 'America/Los_Angeles'
 	];
 	return refTimeZones;
 };
@@ -271,6 +260,27 @@ function build_tz_footer() {
 return outHtml;
 };
 
+
+function format_esri_dms(inDms) {
+	let hemDms = inDms.split(/([a-zA-Z])/);
+	
+	let dmsArray = [];
+	for (const i of hemDms) {
+			subStrArry = (i.trim()).split(/(\s+)/);
+	
+			if (subStrArry.length === 5) {
+				dmsArray.push(subStrArry[0] + '°' + subStrArry[2] 
+				              + "'" + subStrArry[4] + '"'); 					
+			} else {
+				dmsArray.push(i + ' ')
+			}; 
+		};
+
+	let outDms = dmsArray.join("");
+	return outDms;
+};
+
+
 window.onload = function() {
 	
 	if (window.location.href.match('index.html') != null) {
@@ -288,7 +298,6 @@ window.onload = function() {
 			document.getElementById('inputLongitude').value = "0.00000";	
 			document.getElementById('footerContainer').innerHTML = build_tz_footer();			
 		};
-		
 		navigator.geolocation.getCurrentPosition(geoSuccessHandler, geoErrorHandler);
 	};
 };
