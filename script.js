@@ -227,7 +227,7 @@ require([
 		on_click_set_values(gCopy);
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		console.log(queryFeaturelayer(gCopy));
+		console.log(queryFeaturelayer(clkPnt));
 		//build_tz_info_html
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
@@ -340,8 +340,6 @@ function format_esri_dms(inDms) {
 function formSubmit() {
 	let lat = document.getElementById('inputLatitude').value ;
 	let lon = document.getElementById('inputLongitude').value; 
-	console.log(lat);
-	console.log(lon);
 	onSubmitForm(lon, lat);
 };
 
