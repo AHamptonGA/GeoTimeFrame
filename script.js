@@ -195,7 +195,7 @@ require([
 
 
 	function queryFeaturelayer(geometry) {
-
+		tzGeojsonLayer.popupEnabled = false;
         const qry = {
          spatialRelationship: "intersects", // Relationship operation to apply
          geometry: geometry,  // The sketch feature geometry
@@ -206,11 +206,12 @@ require([
         tzGeojsonLayer.queryFeatures(qry)
         .then((results) => {
 
-          console.log("Feature count: " + results.features.length)
+          console.log(results.features)
 
         }).catch((error) => {
           console.log(error);
         });
+		tzGeojsonLayer.popupEnabled = true;
 	};
 		
 
@@ -231,7 +232,7 @@ require([
 		//build_tz_info_html
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
-	
+
 	const search = new Search({
           view: view
         });
