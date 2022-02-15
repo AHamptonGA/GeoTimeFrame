@@ -194,8 +194,8 @@ require([
 	});        
 
 
-	function queryFeaturelayer(geometry) {
-		tzGeojsonLayer.popupEnabled = false;
+	function queryTzid(geometry) {
+		let tz = 'UTC';
         const qry = {
          spatialRelationship: "intersects", // Relationship operation to apply
          geometry: geometry,  // The sketch feature geometry
@@ -206,12 +206,13 @@ require([
         tzGeojsonLayer.queryFeatures(qry)
         .then((results) => {
 
-          console.log(results.features)
+          tz = results.features[0].attributes['tzid'];
 
         }).catch((error) => {
           console.log(error);
         });
-		tzGeojsonLayer.popupEnabled = true;
+		
+		return tz
 	};
 		
 
@@ -228,7 +229,7 @@ require([
 		on_click_set_values(gCopy);
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		console.log(queryFeaturelayer(clkPnt));
+		console.log(queryTzid(clkPnt));
 		//build_tz_info_html
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
