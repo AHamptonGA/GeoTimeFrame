@@ -196,7 +196,7 @@ require([
 
 
 	function queryTzid(geometry) {
-		let tz = 'UTC';
+		const localtz = 'UTC';
         const qry = {
          spatialRelationship: "intersects", // Relationship operation to apply
          geometry: geometry,  // The sketch feature geometry
@@ -207,13 +207,13 @@ require([
         tzGeojsonLayer.queryFeatures(qry)
         .then((results) => {
 
-          tz = results.features[0].attributes['tzid'];
+          localtz = results.features[0].attributes['tzid'];
 
         }).catch((error) => {
           console.log(error);
         });
 		
-		return tz
+		return localtz
 	};
 		
 
