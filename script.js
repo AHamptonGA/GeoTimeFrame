@@ -191,6 +191,7 @@ require([
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
+		document.getElementById('LocalTzDiv').innerHTML = build_tz_info_html(queryTzid(clkPnt));
 	});        
 
 
@@ -229,7 +230,8 @@ require([
 		on_click_set_values(gCopy);
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		console.log(queryTzid(clkPnt));
+		document.getElementById('LocalTzDiv').innerHTML = build_tz_info_html(queryTzid(clkPnt));
+		console.log(build_tz_info_html(queryTzid(clkPnt)));
 		//build_tz_info_html
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
