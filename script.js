@@ -232,7 +232,6 @@ require([
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('LocalTzDiv').innerHTML = build_tz_info_html(queryTzid(clkPnt));
 		console.log(build_tz_info_html(queryTzid(clkPnt)));
-		//build_tz_info_html
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
 
