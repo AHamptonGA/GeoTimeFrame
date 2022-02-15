@@ -63,7 +63,22 @@ require([
 		outHtml += '</p>'
 		return outHtml;
 	};
-		
+
+	function build_tz_info_html(timeZone) {
+		let tzName = get_tz_name(timeZone);
+		let tzDate = get_current_date_conv(timeZone);
+		let tzTime = get_current_tz_conv(timeZone);
+
+		outHtml += `<span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZone}</span><br>
+					<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
+					<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
+					<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
+					<br>
+					`;
+		return outHtml;
+	};
+
+	
 	function build_popup_html(timeZones) {
 		let outHtml = '<span class="puHeader">LOCAL TIME ZONE INFO:</span><br>';
 		displayCoords = ["MGRS", "GEOCOORD"];	
@@ -178,6 +193,45 @@ require([
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	});        
 
+
+	function queryFeaturelayer(geometry) {
+
+        const qry = {
+         spatialRelationship: "intersects", // Relationship operation to apply
+         geometry: geometry,  // The sketch feature geometry
+         outFields: ["tzid"], // Attributes to return
+         returnGeometry: true
+        };
+
+        tzGeojsonLayer.queryFeatures(qry)
+        .then((results) => {
+
+          console.log("Feature count: " + results.features.length)
+
+        }).catch((error) => {
+          console.log(error);
+        });
+	};
+		
+
+	  
+	function onSubmitForm(lon, lat) {
+		view.graphics.removeAll();
+		const gCopy = clickPointTemplate.clone();
+		const clkPnt = new Point(lon, lat);
+		view.goTo(clkPnt)
+		gCopy.geometry = clkPnt;
+		view.graphics.add(gCopy);
+		
+		clickCoords = get_coord_strings(gCopy);
+		on_click_set_values(gCopy);
+		
+		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
+		console.log(queryFeaturelayer(gCopy));
+		//build_tz_info_html
+		document.getElementById('footerContainer').innerHTML = build_tz_footer();
+	}; 
+	
 	const search = new Search({
           view: view
         });
@@ -187,6 +241,9 @@ require([
     view.when(() => {
 		search.search("");
 	});
+	
+	window.view = view;
+	window.onSubmitForm = onSubmitForm;
 
 });
 
@@ -278,6 +335,14 @@ function format_esri_dms(inDms) {
 
 	let outDms = dmsArray.join("");
 	return outDms;
+};
+
+function formSubmit() {
+	let lat = document.getElementById('inputLatitude').value ;
+	let lon = document.getElementById('inputLongitude').value; 
+	console.log(lat);
+	console.log(lon);
+	onSubmitForm(lon, lat);
 };
 
 

@@ -32,7 +32,7 @@
           </div>
           
           <div class="sideBarInputDiv">
-              <input class="inputItem" type="number" size="9" name="inputLatitude" 
+              <input class="inputItem" type="number" size="9" step="any" name="inputLatitude" 
                      id="inputLatitude" min="-90" max="90" value="0.00000">
           </div>
           
@@ -41,13 +41,23 @@
           </div>
           
           <div class="sideBarInputDiv">
-            <input class="inputItem" type="number"  size="10" name="inputLongitude" 
+            <input class="inputItem" type="number"  size="10" step="any" name="inputLongitude" 
                    id="inputLongitude" min="-180" max="180" value="0.00000">
-          </div>    
+          </div>  
+          
+          <div class="sideBarInputDiv">
+            <input type="button" value="Submit" id="btnSubmit" onclick='formSubmit()'>
+          </div>  
 
           <div class="sideBarResultsDiv" id="sideBarResultsDiv">
+            <h3>Coordinate Conversions:</h3>
             <div class="coordDiv" id="coordDiv"></div>  
           </div>   
+
+          <div class="sideBarResultsDiv" id="sideBarResultsDiv">
+            <h3>Local Time Zone Information:</h3>
+            <div class="LocalTzDiv" id="LocalTzDiv"></div>  
+          </div>  
           
         </form>
         
