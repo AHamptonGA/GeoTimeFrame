@@ -69,7 +69,7 @@ require([
 		let tzDate = get_current_date_conv(timeZone);
 		let tzTime = get_current_tz_conv(timeZone);
 
-		outHtml += `<span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZone}</span><br>
+		let outHtml = `<span class="puInna"><em>&ensp;Time Zone INNA Id:</em> ${timeZone}</span><br>
 					<span class="puTzName"><em>&ensp;${tzName}:</em></span><br>
 					<span class="puDate"><em>&emsp;-DATE:</em> ${tzDate}</span><br>
 					<span class="puTime"><em>&emsp;-TIME:</em> ${tzTime}</span><br>
