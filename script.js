@@ -191,7 +191,7 @@ require([
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
-		document.getElementById('LocalTzDiv').innerHTML = build_tz_info_html(queryTzid(clkPnt));
+		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
 	});        
 
 
@@ -210,7 +210,7 @@ require([
 		
 
 	  
-	function onSubmitForm(lon, lat) {
+	async function onSubmitForm(lon, lat) {
 		view.graphics.removeAll();
 		const gCopy = clickPointTemplate.clone();
 		const clkPnt = new Point(lon, lat);
@@ -222,8 +222,8 @@ require([
 		on_click_set_values(gCopy);
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		document.getElementById('LocalTzDiv').innerHTML = build_tz_info_html(queryTzid(clkPnt));
-		console.log(build_tz_info_html(queryTzid(clkPnt)));
+		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
+
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
 
