@@ -112,6 +112,18 @@ require([
 		return outHtml;
 	};
 
+	async function queryTzid(geometry) {
+        const qry = {
+         spatialRelationship: "intersects", // Relationship operation to apply
+         geometry: geometry,  // The sketch feature geometry
+         outFields: ["tzid"], // Attributes to return
+         returnGeometry: true
+        };
+	
+		const results = await tzGeojsonLayer.queryFeatures(qry);
+		return results.features[0].attributes['tzid']
+	};
+	
 	function get_popup_div(feature) {
 		const timeZoneId = feature.graphic.attributes.tzid;
 		let tzArray = [timeZoneId];
@@ -193,22 +205,6 @@ require([
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
 	});        
-
-
-	async function queryTzid(geometry) {
-        const qry = {
-         spatialRelationship: "intersects", // Relationship operation to apply
-         geometry: geometry,  // The sketch feature geometry
-         outFields: ["tzid"], // Attributes to return
-         returnGeometry: true
-        };
-	
-		const results = await tzGeojsonLayer.queryFeatures(qry);
-		
-		return results.features[0].attributes['tzid']
-	};
-		
-
 	  
 	async function onSubmitForm(lon, lat) {
 		view.graphics.removeAll();
@@ -223,7 +219,6 @@ require([
 		
 		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
 		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
-
 		document.getElementById('footerContainer').innerHTML = build_tz_footer();
 	}; 
 
