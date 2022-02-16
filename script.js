@@ -195,15 +195,17 @@ require([
 	});        
 
 
-	function queryTzid(geometry) {
+	async function queryTzid(geometry) {
         const qry = {
          spatialRelationship: "intersects", // Relationship operation to apply
          geometry: geometry,  // The sketch feature geometry
          outFields: ["tzid"], // Attributes to return
          returnGeometry: true
         };
+	
+		const results = await tzGeojsonLayer.queryFeatures(qry);
 		
-		return tzGeojsonLayer.queryFeatures(qry).results.features[0].attributes['tzid']
+		return results.features[0].attributes['tzid']
 	};
 		
 
