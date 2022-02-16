@@ -191,6 +191,12 @@ require([
 	  map: map
 	});
 
+	async function pageDivUpdates(clickCoords, clkPnt) {
+		document.getElementById('coordDiv').innerHTML = await build_coord_div(clickCoords);
+		document.getElementById('footerContainer').innerHTML = await build_tz_footer();
+		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
+	};
+	
 	view.on("click", (event) => {
 		view.graphics.removeAll();
 		const gCopy = clickPointTemplate.clone();
@@ -201,9 +207,7 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 		on_click_set_values(gCopy);
 		
-		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		document.getElementById('footerContainer').innerHTML = build_tz_footer();
-		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
+		pageDivUpdates(clickCoords, clkPnt);
 	});        
 	  
 	async function onSubmitForm(lon, lat) {
@@ -217,9 +221,7 @@ require([
 		clickCoords = get_coord_strings(gCopy);
 		on_click_set_values(gCopy);
 		
-		document.getElementById('coordDiv').innerHTML = build_coord_div(clickCoords);
-		document.getElementById('LocalTzDiv').innerHTML = await build_tz_info_html(await queryTzid(clkPnt));
-		document.getElementById('footerContainer').innerHTML = build_tz_footer();
+		pageDivUpdates(clickCoords, clkPnt)
 	}; 
 
 	const search = new Search({
