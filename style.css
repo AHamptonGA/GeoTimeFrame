@@ -50,7 +50,7 @@ body {
   margin-right: 0;
   width: 70vw;
   height: 85vh;
-  border: none;
+  border: solid #262626;
 }
 
 /* popup element styles */
@@ -60,7 +60,7 @@ body {
 
 .puInna{
 	color: #c2c2c2;
-	font-size: smaller;
+	/* font-size: smaller; */
 }
 
 .puTzName{
@@ -69,14 +69,13 @@ body {
 
 .puCoordType{
 	color: #c2c2c2;
-	font-size: smaller;
+	/* font-size: smaller; */
 }
 
 .puCoordVal{
 	color: #ffffbf;
-	font-size: smaller;
+	/* font-size: smaller; */
 }
-
 
 
 
@@ -201,4 +200,12 @@ body {
   padding: 0.25em;
   border: none;
   white-space: nowrap;
+}
+
+.load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url("https://www.creditmutuel.fr/cmne/fr/banques/webservices/nswr/images/loading.gif") no-repeat center center rgba(0,0,0,0.25)
 }

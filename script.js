@@ -191,6 +191,18 @@ require([
 	  map: map
 	});
 
+	function showLoading() {
+		esri.show(loading);
+		map.disableMapNavigation();
+		map.hideZoomSlider();
+	}
+
+	function hideLoading(error) {
+		esri.hide(loading);
+		map.enableMapNavigation();
+		map.showZoomSlider();
+	}
+  
 	async function pageDivUpdates(clickCoords, clkPnt) {
 		document.getElementById('coordDiv').innerHTML = await build_coord_div(clickCoords);
 		document.getElementById('footerContainer').innerHTML = await build_tz_footer();
@@ -356,3 +368,16 @@ window.onload = function() {
 		navigator.geolocation.getCurrentPosition(geoSuccessHandler, geoErrorHandler);
 	};
 };
+
+document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+       document.getElementById('viewDiv').style.visibility="hidden";
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('interactive');
+         document.getElementById('loadingIcon').style.visibility="hidden";
+         document.getElementById('viewDiv').style.visibility="visible";
+      },1000);
+  }
+}
