@@ -375,7 +375,6 @@ document.onreadystatechange = function () {
        document.getElementById('viewDiv').style.visibility="hidden";
   } else if (state == 'complete') {
       setTimeout(function(){
-         document.getElementById('interactive');
          document.getElementById('loadingIcon').style.visibility="hidden";
          document.getElementById('viewDiv').style.visibility="visible";
       },1000);
