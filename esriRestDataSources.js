@@ -1,4 +1,4 @@
-const restUrl		= 'https://cartowfs.nationalmap.gov/arcgis/rest'; 
+// const restUrl		= 'https://cartowfs.nationalmap.gov/arcgis/rest'; 
 const wdcName 		= 'esri_rest_data_sources'; 
 const rest_props 	= {}
 
@@ -66,7 +66,7 @@ async function profile_rest(url) {
 								'servicetype': dsType.substring(0, dsType.length - 1),
 								'dataset': dsName,
 								'datasetid': dsId,
-								'dataseturl': dsName
+								'dataseturl': ds_url
 							});
 						}
 					}
@@ -154,6 +154,8 @@ async function profile_rest(url) {
     // Create event listeners for when the user submits the form
     $(document).ready(function() {
         $("#submitButton").click(function() {
+			const restUrl = document.getElementById('restInput');
+			console.log(restUrl);
             tableau.connectionName = wdcName; 
             tableau.submit(); // This sends the connector object to Tableau
         });
