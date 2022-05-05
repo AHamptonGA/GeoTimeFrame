@@ -150,8 +150,8 @@ async function profile_rest(url) {
     tableau.registerConnector(myConnector);
 
     // Create event listeners for when the user submits the form
-    $(document).ready(await function() {
-        $("#submitButton").click(await function() {
+    $(document).ready(function() {
+        $("#submitButton").click(function() {
             tableau.connectionName = wdcName; 
             tableau.submit(); // This sends the connector object to Tableau
         });
