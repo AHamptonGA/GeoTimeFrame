@@ -143,8 +143,10 @@ async function profile_rest(url) {
 
     // Download the data
     myConnector.getData = async function(table, doneCallback) {
-        var tableData = await profile_rest(restUrl);
+        tableData = await profile_rest(restUrl);
+		table.appendRows(tableData);
 		doneCallback();
+		
     };
 
     tableau.registerConnector(myConnector);
