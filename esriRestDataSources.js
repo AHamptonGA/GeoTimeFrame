@@ -92,7 +92,7 @@ async function profile_rest(url) {
 		}
 	}
 	rest_props[url] = JSON.stringify(tableArray);
-
+	return(tableArray)
 }
 
 								
