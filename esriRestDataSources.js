@@ -1,4 +1,3 @@
-// const restUrl		= 'https://cartowfs.nationalmap.gov/arcgis/rest'; 
 const wdcName 		= 'esri_rest_data_sources'; 
 const rest_props 	= {}
 
@@ -21,6 +20,8 @@ async function rest_request(prepedUrl) {
 
 
 async function profile_rest(url) {
+	const url = document.getElementById('restInput');
+	console.log(url);
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
@@ -134,7 +135,7 @@ async function profile_rest(url) {
 
         var tableSchema = {
             id: wdcName,
-            alias: `ESRI Rest Metadata for: ${restUrl}`,
+            alias: `ESRI Rest Metadata for: ${url}`,
             columns: cols
         };
 
@@ -143,7 +144,7 @@ async function profile_rest(url) {
 
     // Download the data
     myConnector.getData = async function(table, doneCallback) {
-        tableData = await profile_rest(restUrl);
+        tableData = await profile_rest();
 		table.appendRows(tableData);
 		doneCallback();
 		
@@ -154,8 +155,6 @@ async function profile_rest(url) {
     // Create event listeners for when the user submits the form
     $(document).ready(function() {
         $("#submitButton").click(function() {
-			const restUrl = document.getElementById('restInput');
-			console.log(restUrl);
             tableau.connectionName = wdcName; 
             tableau.submit(); // This sends the connector object to Tableau
         });
