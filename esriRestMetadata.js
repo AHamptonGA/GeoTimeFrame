@@ -60,13 +60,13 @@ async function profile_rest(url) {
 							let urlPath = apiHyper.pathname;
 
 							tableArray.push({
-								'API_URL': hostUrl,
-								'Directory': folder,
-								'Services': services_name,
-								'Service_Type': dsType.substring(0, dsType.length - 1),
-								'Dataset': dsName,
-								'Dataset_ID': dsId,
-								'Dataset_URL': dsName
+								'url': hostUrl,
+								'directory': folder,
+								'service': services_name,
+								'servicetype': dsType.substring(0, dsType.length - 1),
+								'dataset': dsName,
+								'datasetid': dsId,
+								'dataseturl': dsName
 							});
 						}
 					}
@@ -103,26 +103,32 @@ async function profile_rest(url) {
     // Define the schema
     myConnector.getSchema = function(schemaCallback) {
         var cols = [{
-            id: 'API_URL',
-			// alias: 'ReST API',,
+            id: 'url',
+	    alias: 'ReST API',
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: 'Directory',
+            id: 'directory',
+	    alias: 'Directory',
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: "Services",
+	    id: 'service',
+            alias: "Services",
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: "Service_Type",
+	    id: 'servicetype',		
+            alias: "Service_Type",
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: "Dataset",
+	    id: 'dataset',		
+            alias: "Dataset",
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: "Dataset_ID",
+	    id: 'datasetid',		
+            alias: "Dataset_ID",
             dataType: tableau.dataTypeEnum.string
         }, {
-            id: "Dataset_URL",
+	    id: 'dataseturl',		
+            alias: "Dataset_URL",
             dataType: tableau.dataTypeEnum.string			
         }];
 
