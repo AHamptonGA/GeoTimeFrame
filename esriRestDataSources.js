@@ -1,6 +1,6 @@
 const wdcName 		= 'esri_rest_data_sources'; 
 const rest_props 	= {};
-var url 			= '';
+var restUrl 			= '';
 
 
 async function rest_request(prepedUrl) {
@@ -21,20 +21,20 @@ async function rest_request(prepedUrl) {
 
 
 async function profile_rest() {
-	url = document.getElementById('restInput');
-	console.log(url);
+	restUrl = document.getElementById('restInput');
+	console.log(restUrl);
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
 
-	async function parse_responses(url, folder) {
+	async function parse_responses(restUrl, folder) {
 		if (folder == 'services') {
 			dir = 'services';
 		} else {
 			dir = `services/${folder}`;
 		}
 		// get server defs
-		prepedUrl = `${url}/${dir}?f=json`;
+		prepedUrl = `${restUrl}/${dir}?f=json`;
 		let jsonResp = await rest_request(prepedUrl);
 		var svr_def = await jsonResp['services'];
 
@@ -43,7 +43,7 @@ async function profile_rest() {
 			if (service_types.includes(svr_def[i]['type'])) {
 				let services_name = `${(svr_def[i]['name'])} (${(svr_def[i]['type'])})`;
 
-				let srv_url = `${url}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
+				let srv_url = `${restUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
 				prepedUrl = `${srv_url}?f=json`;
 				let svc_def = await rest_request(prepedUrl);
 
@@ -57,7 +57,7 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							let apiHyper = document.createElement('a');
-							apiHyper.href = url;
+							apiHyper.href = restUrl;
 							let hostUrl = apiHyper.host;
 							let urlPath = apiHyper.pathname;
 
@@ -78,22 +78,22 @@ async function profile_rest() {
 	}
 
 	// get rest properties
-	let prepedUrl = `${url}/services?f=json`;
+	let prepedUrl = `${restUrl}/services?f=json`;
 	let svcs_root = await rest_request(prepedUrl);
 
 
 	if (('services' in svcs_root) && ((svcs_root['services']).length > 0)) {
-		await parse_responses(url, 'services');
+		await parse_responses(restUrl, 'services');
 	}
 
 	if (('folders' in svcs_root) && ((svcs_root['folders']).length > 0)) {
 		for (let i = 0; i < (svcs_root['folders']).length; i++) {
 			// set folder name
 			var fldr = svcs_root['folders'][i];
-			await parse_responses(url, fldr);
+			await parse_responses(restUrl, fldr);
 		}
 	}
-	rest_props[url] = JSON.stringify(tableArray);
+	rest_props[restUrl] = JSON.stringify(tableArray);
 	return(tableArray)
 }
 
