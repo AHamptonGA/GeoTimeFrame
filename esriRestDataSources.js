@@ -1,5 +1,5 @@
 const restUrl		= 'https://cartowfs.nationalmap.gov/arcgis/rest'; 
-const wdcName 		= 'ESRI REST METADATA'; 
+const wdcName 		= 'esri_rest_data_sources'; 
 const rest_props 	= {}
 
 
