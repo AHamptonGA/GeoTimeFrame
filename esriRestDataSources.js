@@ -19,8 +19,8 @@ async function rest_request(prepedUrl) {
 }
 
 
-async function profile_rest(url) {
-	const url = document.getElementById('restInput');
+async function profile_rest() {
+	var url = document.getElementById('restInput');
 	console.log(url);
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
