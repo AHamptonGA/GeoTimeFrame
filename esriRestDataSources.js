@@ -96,7 +96,7 @@ async function profile_rest(url) {
 }
 
 								
-(function() {
+(async function() {
     // Create the connector object
     var myConnector = tableau.makeConnector();
 
@@ -142,16 +142,16 @@ async function profile_rest(url) {
     };
 
     // Download the data
-    myConnector.getData = function(table, doneCallback) {
-        var tableData = profile_rest(restUrl);
+    myConnector.getData = async function(table, doneCallback) {
+        var tableData = await profile_rest(restUrl);
 		doneCallback();
     };
 
     tableau.registerConnector(myConnector);
 
     // Create event listeners for when the user submits the form
-    $(document).ready(function() {
-        $("#submitButton").click(function() {
+    $(document).ready(await function() {
+        $("#submitButton").click(await function() {
             tableau.connectionName = wdcName; 
             tableau.submit(); // This sends the connector object to Tableau
         });
