@@ -1,5 +1,4 @@
 const wdcName 		= 'esri_rest_data_sources'; 
-const rest_props 	= {};
 var url 			= '';
 
 
@@ -55,19 +54,14 @@ async function profile_rest(url) {
 							let dsId = svc_def[dsType][i]['id'];
 							let ds_url = `${srv_url}/${dsId}`;
 
-							let apiHyper = document.createElement('a');
-							apiHyper.href = url;
-							let hostUrl = apiHyper.host;
-							let urlPath = apiHyper.pathname;
-
 							tableArray.push({
-								'url': hostUrl,
-								'directory': folder,
-								'service': services_name,
-								'servicetype': dsType.substring(0, dsType.length - 1),
-								'dataset': dsName,
-								'datasetid': dsId,
-								'dataseturl': ds_url
+								'apiurl': `${url}`,
+								'directory': `${folder}`,
+								'service': `${services_name}`,
+								'servicetype': `${dsType.substring(0, dsType.length - 1)}`,
+								'dataset': `${dsName}`,
+								'datasetid': `${dsId}`,
+								'dataseturl': `${ds_url}`,
 							});
 						}
 					}
@@ -92,7 +86,6 @@ async function profile_rest(url) {
 			await parse_responses(url, fldr);
 		}
 	}
-	rest_props[url] = JSON.stringify(tableArray);
 	return(tableArray)
 }
 
@@ -104,32 +97,39 @@ async function buildConnector(url) {
     // Define the schema
     myConnector.getSchema = function(schemaCallback) {
         var cols = [{
-            id: 'url',
-	    alias: 'ReST API',
+            id: 'apiurl',
+			alias: 'REST API',
+			description: 'ESRI REST API URL',
             dataType: tableau.dataTypeEnum.string
         }, {
             id: 'directory',
-	    alias: 'Directory',
+			alias: 'Directory',
+			description: 'ESRI REST folder name',
             dataType: tableau.dataTypeEnum.string
         }, {
-	    id: 'service',
+			id: 'service',
             alias: "Services",
+			description: 'ESRI REST service name',
             dataType: tableau.dataTypeEnum.string
         }, {
-	    id: 'servicetype',		
+			id: 'servicetype',		
             alias: "Service_Type",
+			description: 'ESRI REST service type',
             dataType: tableau.dataTypeEnum.string
         }, {
-	    id: 'dataset',		
+			id: 'dataset',		
             alias: "Dataset",
+			description: 'Name of an individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string
         }, {
 	    id: 'datasetid',		
             alias: "Dataset_ID",
+			description: 'ID representing a individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string
         }, {
-	    id: 'dataseturl',		
+			id: 'dataseturl',		
             alias: "Dataset_URL",
+			description: 'Full resource URL for an individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string			
         }];
 
@@ -146,7 +146,6 @@ async function buildConnector(url) {
     myConnector.getData = async function(table, doneCallback) {
         tableData = await profile_rest(url);
 		table.appendRows(tableData);
-		tableSchema
 		doneCallback();
     };
 
@@ -156,7 +155,6 @@ async function buildConnector(url) {
 	
 function onSubmitButton(){
 	url = document.getElementById('restInput');
-	console.log(url);
 	buildConnector(url);
 	tableau.connectionName = wdcName; 
 	tableau.submit(); // This sends the connector object to Tableau	
