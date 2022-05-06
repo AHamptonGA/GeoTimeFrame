@@ -98,38 +98,31 @@ async function buildConnector(url) {
     myConnector.getSchema = function(schemaCallback) {
         var cols = [{
             id: 'apiurl',
-			alias: 'REST API',
-			description: 'ESRI REST API URL',
+			alias: 'ReST API',
             dataType: tableau.dataTypeEnum.string
         }, {
             id: 'directory',
 			alias: 'Directory',
-			description: 'ESRI REST folder name',
             dataType: tableau.dataTypeEnum.string
         }, {
 			id: 'service',
             alias: "Services",
-			description: 'ESRI REST service name',
             dataType: tableau.dataTypeEnum.string
         }, {
 			id: 'servicetype',		
             alias: "Service_Type",
-			description: 'ESRI REST service type',
             dataType: tableau.dataTypeEnum.string
         }, {
 			id: 'dataset',		
             alias: "Dataset",
-			description: 'Name of an individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string
         }, {
 	    id: 'datasetid',		
             alias: "Dataset_ID",
-			description: 'ID representing a individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string
         }, {
 			id: 'dataseturl',		
             alias: "Dataset_URL",
-			description: 'Full resource URL for an individual feature or table of an ESRI REST endpoint',
             dataType: tableau.dataTypeEnum.string			
         }];
 
@@ -146,6 +139,7 @@ async function buildConnector(url) {
     myConnector.getData = async function(table, doneCallback) {
         tableData = await profile_rest(url);
 		table.appendRows(tableData);
+		tableSchema
 		doneCallback();
     };
 
