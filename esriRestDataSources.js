@@ -1,6 +1,6 @@
 const wdcName 		= 'esri_rest_data_sources'; 
 const rest_props 	= {};
-var restUrl 			= '';
+var url 			= '';
 
 
 async function rest_request(prepedUrl) {
@@ -20,21 +20,20 @@ async function rest_request(prepedUrl) {
 }
 
 
-async function profile_rest() {
-	restUrl = document.getElementById('restInput');
-	console.log(restUrl);
+async function profile_rest(url) {
+	
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
 
-	async function parse_responses(restUrl, folder) {
+	async function parse_responses(url, folder) {
 		if (folder == 'services') {
 			dir = 'services';
 		} else {
 			dir = `services/${folder}`;
 		}
 		// get server defs
-		prepedUrl = `${restUrl}/${dir}?f=json`;
+		prepedUrl = `${url}/${dir}?f=json`;
 		let jsonResp = await rest_request(prepedUrl);
 		var svr_def = await jsonResp['services'];
 
@@ -43,7 +42,7 @@ async function profile_rest() {
 			if (service_types.includes(svr_def[i]['type'])) {
 				let services_name = `${(svr_def[i]['name'])} (${(svr_def[i]['type'])})`;
 
-				let srv_url = `${restUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
+				let srv_url = `${url}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
 				prepedUrl = `${srv_url}?f=json`;
 				let svc_def = await rest_request(prepedUrl);
 
@@ -57,7 +56,7 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							let apiHyper = document.createElement('a');
-							apiHyper.href = restUrl;
+							apiHyper.href = url;
 							let hostUrl = apiHyper.host;
 							let urlPath = apiHyper.pathname;
 
@@ -78,27 +77,27 @@ async function profile_rest() {
 	}
 
 	// get rest properties
-	let prepedUrl = `${restUrl}/services?f=json`;
+	let prepedUrl = `${url}/services?f=json`;
 	let svcs_root = await rest_request(prepedUrl);
 
 
 	if (('services' in svcs_root) && ((svcs_root['services']).length > 0)) {
-		await parse_responses(restUrl, 'services');
+		await parse_responses(url, 'services');
 	}
 
 	if (('folders' in svcs_root) && ((svcs_root['folders']).length > 0)) {
 		for (let i = 0; i < (svcs_root['folders']).length; i++) {
 			// set folder name
 			var fldr = svcs_root['folders'][i];
-			await parse_responses(restUrl, fldr);
+			await parse_responses(url, fldr);
 		}
 	}
-	rest_props[restUrl] = JSON.stringify(tableArray);
+	rest_props[url] = JSON.stringify(tableArray);
 	return(tableArray)
 }
 
 								
-(async function() {
+async function buildConnector(url) {
     // Create the connector object
     var myConnector = tableau.makeConnector();
 
@@ -136,7 +135,7 @@ async function profile_rest() {
 
         var tableSchema = {
             id: wdcName,
-            alias: "ESRI Rest Data Sources",
+            alias: `ESRI Rest Data Sources for: ${url}`,
             columns: cols
         };
 
@@ -145,20 +144,21 @@ async function profile_rest() {
 
     // Download the data
     myConnector.getData = async function(table, doneCallback) {
-        tableData = await profile_rest();
+        tableData = await profile_rest(url);
 		table.appendRows(tableData);
 		tableSchema
 		doneCallback();
-		
     };
 
     tableau.registerConnector(myConnector);
+}
 
-    // Create event listeners for when the user submits the form
-    $(document).ready(function() {
-        $("#submitButton").click(function() {
-            tableau.connectionName = wdcName; 
-            tableau.submit(); // This sends the connector object to Tableau
-        });
-    });
-})();
+	
+function onSubmitButton(){
+	url = document.getElementById('restInput');
+	console.log(url);
+	buildConnector(url);
+	tableau.connectionName = wdcName; 
+	tableau.submit(); // This sends the connector object to Tableau	
+}
+
