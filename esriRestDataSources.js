@@ -33,7 +33,7 @@ async function profile_rest() {
 			dir = `services/${folder}`;
 		}
 		// get server defs
-		prepedUrl = `${url}/${dir}?f=json`;
+		let prepedUrl = `${url}/${dir}?f=json`;
 		let jsonResp = await rest_request(prepedUrl);
 		var svr_def = await jsonResp['services'];
 
