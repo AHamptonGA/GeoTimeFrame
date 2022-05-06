@@ -1,4 +1,5 @@
 const wdcName 		= 'esri_rest_data_sources'; 
+const rest_props 	= {};
 var url 			= '';
 
 
@@ -19,8 +20,9 @@ async function rest_request(prepedUrl) {
 }
 
 
-async function profile_rest(url) {
-	
+async function profile_rest() {
+	url = document.getElementById('restInput');
+	console.log(url);
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
@@ -54,14 +56,19 @@ async function profile_rest(url) {
 							let dsId = svc_def[dsType][i]['id'];
 							let ds_url = `${srv_url}/${dsId}`;
 
+							let apiHyper = document.createElement('a');
+							apiHyper.href = url;
+							let hostUrl = apiHyper.host;
+							let urlPath = apiHyper.pathname;
+
 							tableArray.push({
-								'apiurl': `${url}`,
-								'directory': `${folder}`,
-								'service': `${services_name}`,
-								'servicetype': `${dsType.substring(0, dsType.length - 1)}`,
-								'dataset': `${dsName}`,
-								'datasetid': `${dsId}`,
-								'dataseturl': `${ds_url}`,
+								'url': hostUrl,
+								'directory': folder,
+								'service': services_name,
+								'servicetype': dsType.substring(0, dsType.length - 1),
+								'dataset': dsName,
+								'datasetid': dsId,
+								'dataseturl': ds_url
 							});
 						}
 					}
@@ -86,34 +93,35 @@ async function profile_rest(url) {
 			await parse_responses(url, fldr);
 		}
 	}
+	rest_props[url] = JSON.stringify(tableArray);
 	return(tableArray)
 }
 
 								
-async function buildConnector(url) {
+(async function() {
     // Create the connector object
     var myConnector = tableau.makeConnector();
 
     // Define the schema
     myConnector.getSchema = function(schemaCallback) {
         var cols = [{
-            id: 'apiurl',
-			alias: 'ReST API',
+            id: 'url',
+	    alias: 'ReST API',
             dataType: tableau.dataTypeEnum.string
         }, {
             id: 'directory',
-			alias: 'Directory',
+	    alias: 'Directory',
             dataType: tableau.dataTypeEnum.string
         }, {
-			id: 'service',
+	    id: 'service',
             alias: "Services",
             dataType: tableau.dataTypeEnum.string
         }, {
-			id: 'servicetype',		
+	    id: 'servicetype',		
             alias: "Service_Type",
             dataType: tableau.dataTypeEnum.string
         }, {
-			id: 'dataset',		
+	    id: 'dataset',		
             alias: "Dataset",
             dataType: tableau.dataTypeEnum.string
         }, {
@@ -121,14 +129,14 @@ async function buildConnector(url) {
             alias: "Dataset_ID",
             dataType: tableau.dataTypeEnum.string
         }, {
-			id: 'dataseturl',		
+	    id: 'dataseturl',		
             alias: "Dataset_URL",
             dataType: tableau.dataTypeEnum.string			
         }];
 
         var tableSchema = {
             id: wdcName,
-            alias: `ESRI Rest Data Sources for: ${url}`,
+            alias: "ESRI Rest Data Sources",
             columns: cols
         };
 
@@ -137,20 +145,20 @@ async function buildConnector(url) {
 
     // Download the data
     myConnector.getData = async function(table, doneCallback) {
-        tableData = await profile_rest(url);
+        tableData = await profile_rest();
 		table.appendRows(tableData);
-		tableSchema
+		//tableSchema;
 		doneCallback();
+		
     };
 
     tableau.registerConnector(myConnector);
-}
 
-	
-function onSubmitButton(){
-	url = document.getElementById('restInput');
-	buildConnector(url);
-	tableau.connectionName = wdcName; 
-	tableau.submit(); // This sends the connector object to Tableau	
-}
-
+    // Create event listeners for when the user submits the form
+    $(document).ready(function() {
+        $("#submitButton").click(function() {
+            tableau.connectionName = wdcName; 
+            tableau.submit(); // This sends the connector object to Tableau
+        });
+    });
+})();
