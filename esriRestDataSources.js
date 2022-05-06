@@ -1,7 +1,5 @@
-const wdcName 		= 'esri_rest_data_sources'; 
-const rest_props 	= {};
-var restUrl 		= '';
-
+var wdcName 		= 'esri_rest_data_sources'; 
+var tableSchema		= {};	
 
 async function rest_request(prepedUrl) {
 	try {
@@ -21,8 +19,8 @@ async function rest_request(prepedUrl) {
 
 
 async function profile_rest() {
-	restUrl = document.getElementById('restInput');
-	console.log(restUrl);
+	var restUrl = document.getElementById('restInput');
+	tableSchema['alias'] = `ESRI Rest Data Sources for: ${restUrl}`;
 	// set types of services to query
 	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
@@ -94,7 +92,7 @@ async function profile_rest() {
 			await parse_responses(restUrl, fldr);
 		}
 	}
-	rest_props[restUrl] = JSON.stringify(tableArray);
+	
 	return(tableArray)
 }
 
@@ -147,7 +145,7 @@ async function profile_rest() {
             dataType: tableau.dataTypeEnum.string			
         }];
 
-        var tableSchema = {
+        tableSchema = {
             id: wdcName,
             alias: "ESRI Rest Data Sources",
             columns: cols
@@ -160,7 +158,6 @@ async function profile_rest() {
     myConnector.getData = async function(table, doneCallback) {
         tableData = await profile_rest();
 		table.appendRows(tableData);
-		//tableSchema
 		doneCallback();
 		
     };
