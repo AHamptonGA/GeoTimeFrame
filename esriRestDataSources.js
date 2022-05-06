@@ -20,7 +20,7 @@ async function rest_request(prepedUrl) {
 
 
 async function profile_rest() {
-	url = document.getElementById('restInput');
+	url = document.getElementById('restInput').value;
 	tableSchema['alias'] = `ESRI Rest Data Sources for: ${url}`;
 	tableSchema['description'] = `ESRI Rest Web Data Connector (WDC) to gather data dources from: ${url}`;
 	// set types of services to query	var service_types = ['MapServer', 'FeatureServer'];
