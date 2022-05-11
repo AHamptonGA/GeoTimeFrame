@@ -185,9 +185,42 @@ async function createTableauConn(restApiUrl, restApiName) {
 	tableau.registerConnector(myConnector);	
 	tableau.submit(); // This sends the connector object to Tableau
 }
+
+
+async function createNullTableauConn() {
+
+	//Create the connector object
+	var myConnector = tableau.makeConnector();
+	
+	// Define the schema
+	myConnector.getSchema = function(schemaCallback) {
+		var cols = [{
+			id: 'column1',
+			dataType: tableau.dataTypeEnum.string
+		}];
+		
+		var tableSchema = {
+			id: 'null',
+			columns: cols
+		};
+	
+		schemaCallback([tableSchema]);
+	};	
+	
+	// Download the data
+	myConnector.getData = async function(table, doneCallback) {
+		table.appendRows([{'null': '0'}]);
+		doneCallback();
+	};
+
+	tableau.connectionName = 'null';
+	tableau.registerConnector(myConnector);	
+	tableau.submit(); // This sends the connector object to Tableau
+}
+
 	
 $(document).ready(function() {
-
+	createNullTableauConn();
 	$('#submitButton').prop("disabled", true);
 
 	$("#inputSel").on('change', function() {
@@ -196,6 +229,7 @@ $(document).ready(function() {
 
 	});
 
+	wait createTableauConn('none','none');
 	$("#submitButton").click(
 		async function() {
 			// Create event listeners for when the user submits the form
