@@ -1,6 +1,6 @@
 var wdcName 	= 'esri_rest_data_sources';
 var tableSchema = {};
-var restApiUrl  = '';
+var restApiUrl  		= '';
 
 async function rest_request(prepedUrl) {
 	try {
@@ -27,24 +27,30 @@ async function profile_rest() {
 	var tableArray = [];
 
 	async function parse_responses(restApiUrl, folder) {
+		var dir = ''; 
 		if (folder == 'services') {
 			dir = 'services';
 		} else {
 			dir = `services/${folder}`;
 		}
 		// get server defs
-		let prepedUrl = `${restApiUrl}/${dir}?f=json`;
-		let jsonResp = await rest_request(prepedUrl);
+		let dirMetaUrl = `${restApiUrl}/${dir}?f=json`;
+		console.log(dirMetaUrl);
+		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
+		
 		// get services
 		for (let i = 0; i < (svr_def).length; i++) {
 			if (service_types.includes(svr_def[i]['type'])) {
 				let services_name = `${(svr_def[i]['name'])} (${(svr_def[i]['type'])})`;
 
 				let srv_url = `${restApiUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
-				prepedUrl = `${srv_url}?f=json`;
-				let svc_def = await rest_request(prepedUrl);
+				console.log(srv_url);
+				let serviceUrl = `${srv_url}?f=json`;
+				console.log(serviceUrl);
+				
+				let svc_def = await rest_request(serviceUrl);
 
 				var dsTypes = ['layers', 'tables'];
 				for (let i = 0; i < dsTypes.length; i++) {
@@ -78,8 +84,9 @@ async function profile_rest() {
 	}
 
 	// get rest properties
-	let prepedUrl = `${restApiUrl}/services?f=json`;
-	let svcs_root = await rest_request(prepedUrl);
+	let restMetaUrl = `${restApiUrl}/services?f=json`;
+	console.log(restMetaUrl);
+	let svcs_root = await rest_request(restMetaUrl);
 
 
 	if (('services' in svcs_root) && ((svcs_root['services']).length > 0)) {
