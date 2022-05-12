@@ -1,6 +1,8 @@
-var restApiUrl 	= "https://cartowfs.nationalmap.gov/arcgis/rest";
-var restApiName = "ESRI Rest Data Sources";
+var restApiUrl 	= "";
+var connName 	= "ESRI Rest Data Sources";
 
+//Create the connector object
+var myConnector = tableau.makeConnector();
 
 async function rest_request(prepedUrl) {
 	try {
@@ -120,8 +122,6 @@ function verifySelect() {
 
 (function() {
 
-	//Create the connector object
-	var myConnector = tableau.makeConnector();
 
 	// Define the schema
 	myConnector.getSchema = function(schemaCallback) {
@@ -168,8 +168,8 @@ function verifySelect() {
 		}];
 
 		var tableSchema = {
-			id: restApiName,
-			alias: restApiName,
+			id: connName,
+			alias: connName,
 			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources',
 			columns: cols
 		};
@@ -183,34 +183,33 @@ function verifySelect() {
 		table.appendRows(tableData);
 		doneCallback();
 	};
-
-})();
-
-
-$(document).ready(function() {
 	
-	//disable the submit button until an API sources is selected
-	$('#submitButton').prop("disabled", true);
+	tableau.registerConnector(myConnector);
 
-	// Create event listeners for when the user changes the API source
-	$("#inputSel").on('change', function() {
-		updateFormEnabled();
+	$(document).ready(function() {
+		
+		//disable the submit button until an API sources is selected
+		$('#submitButton').prop("disabled", true);
 
+		// Create event listeners for when the user changes the API source
+		$("#inputSel").on('change', function() {
+			updateFormEnabled();
+
+		});
+
+		// Create event listeners for when the user submits the form
+		$("#submitButton").click(
+			function() {
+				//reset the variables for the web data connector 
+				var selElm = document.getElementById("inputSel");
+				restApiUrl = selElm.options[selElm.selectedIndex].value;
+				let restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
+				
+				// rename the data source name in Tableau	
+				tableau.connectionName = `${connName}:${restApiName}`; 	
+				// send the connector object to Tableau
+				tableau.submit(); 
+			}
+		);
 	});
-
-	// Create event listeners for when the user submits the form
-	$("#submitButton").click(
-		function() {
-			//reset the variables for the web data connector 
-			var selElm = document.getElementById("inputSel");
-			restApiUrl = selElm.options[selElm.selectedIndex].value;
-			restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
-			
-			tableau.connectionName = `ESRI Rest Data Sources: ${restApiName}`; // This will be the data source name in Tableau
-			tableau.registerConnector(myConnector);
-	
-			// send the connector object to Tableau
-			tableau.submit(); 
-		}
-	);
-});
+})();
