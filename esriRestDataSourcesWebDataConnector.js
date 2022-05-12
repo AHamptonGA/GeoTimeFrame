@@ -206,7 +206,7 @@ function verifySelect() {
 				let restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
 				
 				// rename the data source name in Tableau	
-				tableau.connectionName = `${connName}:${restApiName}`; 	
+				tableau.connectionName = `${connName} for ${restApiName}`; 	
 				// send the connector object to Tableau
 				tableau.submit(); 
 			}
