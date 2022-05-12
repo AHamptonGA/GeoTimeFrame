@@ -24,7 +24,8 @@ async function rest_request(prepedUrl) {
 
 async function profile_rest() {
 
-	// set types of services to query	var service_types = ['MapServer', 'FeatureServer'];
+	// set types of services to query	
+	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
 
 	async function parse_responses(restApiUrl, folder) {
