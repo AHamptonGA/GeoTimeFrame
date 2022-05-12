@@ -1,3 +1,6 @@
+var restApiUrl = '';
+var restApiName = '';
+
 
 async function rest_request(prepedUrl) {
 	try {
@@ -17,12 +20,12 @@ async function rest_request(prepedUrl) {
 
 
 async function profile_rest(restApiUrl) {
-	
+
 	// set types of services to query	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
 
 	async function parse_responses(restApiUrl, folder) {
-		var dir = ''; 
+		var dir = '';
 		if (folder == 'services') {
 			dir = 'services';
 		} else {
@@ -34,7 +37,7 @@ async function profile_rest(restApiUrl) {
 		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
-		
+
 		// get services
 		for (let i = 0; i < (svr_def).length; i++) {
 			if (service_types.includes(svr_def[i]['type'])) {
@@ -44,7 +47,7 @@ async function profile_rest(restApiUrl) {
 				console.log(srv_url);
 				let serviceUrl = `${srv_url}?f=json`;
 				console.log(serviceUrl);
-				
+
 				let svc_def = await rest_request(serviceUrl);
 
 				var dsTypes = ['layers', 'tables'];
@@ -115,11 +118,11 @@ function verifySelect() {
 	}
 }
 
-async function createTableauConn(restApiUrl, restApiName) {
+(function() {
 
 	//Create the connector object
 	var myConnector = tableau.makeConnector();
-	
+
 	// Define the schema
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [{
@@ -163,17 +166,17 @@ async function createTableauConn(restApiUrl, restApiName) {
 			description: 'Full URL to a dataset endpoint on the REST server',
 			dataType: tableau.dataTypeEnum.string
 		}];
-		
+
 		var tableSchema = {
 			id: restApiName,
 			alias: `ESRI Rest Data Sources: ${restApiName}`,
 			description: `ESRI Rest Web Data Connector (WDC) to gather data sources from: ${restApiUrl}`,
 			columns: cols
 		};
-	
+
 		schemaCallback([tableSchema]);
-	};	
-	
+	};
+
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
 		tableData = await profile_rest(restApiUrl);
@@ -182,62 +185,29 @@ async function createTableauConn(restApiUrl, restApiName) {
 	};
 
 	tableau.connectionName = `ESRI Rest Data Sources: ${restApiName}`; // This will be the data source name in Tableau
-	tableau.registerConnector(myConnector);	
-	tableau.submit(); // This sends the connector object to Tableau
-}
+	tableau.registerConnector(myConnector);
+})();
 
 
-async function createNullTableauConn() {
-
-	//Create the connector object
-	var myConnector = tableau.makeConnector();
-	
-	// Define the schema
-	myConnector.getSchema = function(schemaCallback) {
-		var cols = [{
-			id: 'column1',
-			dataType: tableau.dataTypeEnum.string
-		}];
-		
-		var tableSchema = {
-			id: 'null',
-			columns: cols
-		};
-	
-		schemaCallback([tableSchema]);
-	};	
-	
-	// Download the data
-	myConnector.getData = async function(table, doneCallback) {
-		table.appendRows([{'null': '0'}]);
-		doneCallback();
-	};
-
-	tableau.connectionName = 'null';
-	tableau.registerConnector(myConnector);	
-	tableau.submit(); // This sends the connector object to Tableau
-}
-
-	
 $(document).ready(function() {
 	createNullTableauConn();
 	$('#submitButton').prop("disabled", true);
 
 	$("#inputSel").on('change', function() {
-		//alert($("#inputSel :selected").val());
 		updateFormEnabled();
 
 	});
 
-	wait createTableauConn('none','none');
+	await createTableauConn();
+
 	$("#submitButton").click(
 		async function() {
 			// Create event listeners for when the user submits the form
 			var selElm = document.getElementById("inputSel");
-			var restApiUrl = selElm.options[selElm.selectedIndex].value;
-			var restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
-			
-			await createTableauConn(restApiUrl,restApiName);
+			restApiUrl = selElm.options[selElm.selectedIndex].value;
+			restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
+
+			tableau.submit(); // This sends the connector object to Tableau
 		}
 	);
 });
