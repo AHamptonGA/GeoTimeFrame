@@ -100,14 +100,14 @@ async function profile_rest() {
 	// get dataset schemas
 	for (let t = 0; t < (tableArray).length; t++) {
 		ds = tableArray[t];
-		let schemaRow = {};
-		
+				
 		// get server defs
 		let tableMetaUrl = `${ds['dataseturl']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
 		var fields = await jsonResp['fields'];
 		if (Array.isArray(fields)){
 			for (let f = 0; f < (fields).length; f++) {
+				let schemaRow = {};
 				field = fields[f];
 				Object.keys(ds)
 					.forEach(key => schemaRow[key] = ds[key]);
