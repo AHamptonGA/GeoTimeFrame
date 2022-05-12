@@ -38,7 +38,6 @@ async function profile_rest() {
 		}
 		// get server defs
 		let dirMetaUrl = `${restApiUrl}/${dir}?f=json`;
-		console.log(dirMetaUrl);
 		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
@@ -50,10 +49,7 @@ async function profile_rest() {
 				let service_type = svr_def[i]['type']; 
 
 				let srv_url = `${restApiUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
-				console.log(srv_url);
 				let serviceUrl = `${srv_url}?f=json`;
-
-
 				let svc_def = await rest_request(serviceUrl);
 
 				var dsTypes = ['layers', 'tables'];
@@ -84,7 +80,7 @@ async function profile_rest() {
 
 	// get rest properties
 	let restMetaUrl = `${restApiUrl}/services?f=json`;
-	console.log(restMetaUrl);
+
 	let svcs_root = await rest_request(restMetaUrl);
 
 
