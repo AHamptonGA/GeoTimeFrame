@@ -185,31 +185,31 @@ function verifySelect() {
 	};
 	
 	tableau.registerConnector(myConnector);
-
-	$(document).ready(function() {
-		
-		//disable the submit button until an API sources is selected
-		$('#submitButton').prop("disabled", true);
-
-		// Create event listeners for when the user changes the API source
-		$("#inputSel").on('change', function() {
-			updateFormEnabled();
-
-		});
-
-		// Create event listeners for when the user submits the form
-		$("#submitButton").click(
-			function() {
-				//reset the variables for the web data connector 
-				var selElm = document.getElementById("inputSel");
-				restApiUrl = selElm.options[selElm.selectedIndex].value;
-				let restApiName = selElm.options[selElm.selectedIndex].text;
-				tableData = await profile_rest(restApiUrl);
-				// rename the data source name in Tableau	
-				tableau.connectionName = (`${connName} for ${restApiName}`).replace(/[^a-zA-Z]/g, ""); 	
-				// send the connector object to Tableau
-				tableau.submit(); 
-			}
-		);
-	});
 })();
+
+$(document).ready(function() {
+	
+	//disable the submit button until an API sources is selected
+	$('#submitButton').prop("disabled", true);
+
+	// Create event listeners for when the user changes the API source
+	$("#inputSel").on('change', function() {
+		updateFormEnabled();
+
+	});
+
+	// Create event listeners for when the user submits the form
+	$("#submitButton").click(
+		function() {
+			//reset the variables for the web data connector 
+			var selElm = document.getElementById("inputSel");
+			restApiUrl = selElm.options[selElm.selectedIndex].value;
+			let restApiName = selElm.options[selElm.selectedIndex].text;
+			tableData = await profile_rest(restApiUrl);
+			// rename the data source name in Tableau	
+			tableau.connectionName = (`${connName} for ${restApiName}`).replace(/[^a-zA-Z]/g, ""); 	
+			// send the connector object to Tableau
+			tableau.submit(); 
+		}
+	);
+});
