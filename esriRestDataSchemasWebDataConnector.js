@@ -2,6 +2,10 @@ var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
 var connName 		= "ESRI Rest Data Schemas";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
+//default values for null data schema properties
+var def_schema_props = {'alias':'N/A', 'defaultValue':'N/A', 'domain':{}, 
+						'editable':'N/A', 'length':'N/A', 'name':'N/A',
+						'nullable':'N/A', 'type':'N/A'}
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -115,16 +119,20 @@ async function profile_rest() {
 				Object.keys(field)
 					.forEach(key => schemaRow[key] = field[key]);	
 			
-				if(!(schemaRow.hasOwnProperty('length'))){
-					schemaRow['length'] = 'N/A'; 
-				}
+				
 				if(schemaRow.hasOwnProperty('domain')){
 					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
 						schemaRow['domain'] = JSON.stringify(schemaRow['domain']);
 					}else{
 						schemaRow['domain'] = JSON.stringify({});
 					}
-				}				
+				}	
+				
+				for (let [key, value] of Object.entries(def_schema_props)) {
+					if(!(schemaRow.hasOwnProperty(key))){
+						schemaRow[key] = value; 
+					}
+				}
 
 				schema_array.push(schemaRow);	
 			}
@@ -185,27 +193,45 @@ async function profile_rest() {
 			id: 'name',
 			alias: "Column_Name",
 			description: 'ESRI field/column name',
+			dataType: tableau.dataTypeEnum.string	
+		}, {
+			id: 'alias',
+			alias: "Column_Alias",
+			description: 'ESRI field/column alias',
 			dataType: tableau.dataTypeEnum.string			
 		}, {
 			id: 'type',
 			alias: "Column_Type",
 			description: 'ESRI field/column type',
-			dataType: tableau.dataTypeEnum.string			
-		}, {
-			id: 'alias',
-			alias: "Column_Alias",
-			description: 'ESRI field/column alias',
 			dataType: tableau.dataTypeEnum.string
 		}, {
 			id: 'length',
 			alias: "Column_Length",
-			description: 'ESRI field/column length (String types Only)',
+			description: 'Field/column length (string types only)',
+			dataType: tableau.dataTypeEnum.string			
+		}, {
+			id: 'nullable',
+			alias: "Nullable",
+			description: 'Indicates whether a field/column can be null',
+			dataType: tableau.dataTypeEnum.string			
+		}, {
+			id: 'defaultValue',
+			alias: "Default_Value",
+			description: 'Field/column default value set for the field.',
 			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'editable',
+			alias: "Editable",
+			description: 'Indicates whether the field/column is editable',
+			dataType: tableau.dataTypeEnum.string			
 		}, {
 			id: 'domain',
 			alias: "Domain",
 			description: 'ESRI domain (dropdown values) allowed values for a field/column',
-			dataType: tableau.dataTypeEnum.string			
+			dataType: tableau.dataTypeEnum.string		
+
+
+					
 		}];
 
 		var tableSchema = {
