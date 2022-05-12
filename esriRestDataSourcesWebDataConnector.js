@@ -190,24 +190,26 @@ function verifySelect() {
 
 
 $(document).ready(function() {
-	createNullTableauConn();
+	
+	//disable the submit button until an API sources is selected
 	$('#submitButton').prop("disabled", true);
 
+	// Create event listeners for when the user changes the API source
 	$("#inputSel").on('change', function() {
 		updateFormEnabled();
 
 	});
 
-	await createTableauConn();
-
+	// Create event listeners for when the user submits the form
 	$("#submitButton").click(
-		async function() {
-			// Create event listeners for when the user submits the form
+		function() {
+			//reset the variables for the web data connector 
 			var selElm = document.getElementById("inputSel");
 			restApiUrl = selElm.options[selElm.selectedIndex].value;
 			restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
-
-			tableau.submit(); // This sends the connector object to Tableau
+			
+			// send the connector object to Tableau
+			tableau.submit(); 
 		}
 	);
 });
