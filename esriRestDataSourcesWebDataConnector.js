@@ -168,7 +168,7 @@ function verifySelect() {
 		}];
 
 		var tableSchema = {
-			id: connName,
+			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
 			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources',
 			columns: cols
@@ -203,7 +203,7 @@ function verifySelect() {
 				//reset the variables for the web data connector 
 				var selElm = document.getElementById("inputSel");
 				restApiUrl = selElm.options[selElm.selectedIndex].value;
-				let restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
+				let restApiName = selElm.options[selElm.selectedIndex].text;
 				
 				// rename the data source name in Tableau	
 				tableau.connectionName = `${connName} for ${restApiName}`; 	
