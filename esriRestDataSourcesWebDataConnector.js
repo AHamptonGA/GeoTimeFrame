@@ -1,6 +1,6 @@
-var restApiUrl 	= "";
+var restApiUrl 	= "https://cartowfs.nationalmap.gov/arcgis/rest";
 var connName 	= "ESRI Rest Data Sources";
-var tableData 	= [];
+
 
 //Create the connector object
 var myConnector = tableau.makeConnector();
@@ -22,7 +22,7 @@ async function rest_request(prepedUrl) {
 }
 
 
-async function profile_rest(restApiUrl) {
+async function profile_rest() {
 
 	// set types of services to query	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
@@ -105,21 +105,6 @@ async function profile_rest(restApiUrl) {
 	return (tableArray)
 }
 
-function updateFormEnabled() {
-	if (verifySelect()) {
-		$('#submitButton').prop("disabled", false);
-	} else {
-		$('#submitButton').prop("disabled", true);
-	}
-}
-
-function verifySelect() {
-	if ($("#inputSel :selected").val() !== '') {
-		return true;
-	} else {
-		return false;
-	}
-}
 
 (function() {
 
@@ -180,34 +165,23 @@ function verifySelect() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		table.appendRows(tableData);
+		//tableData =  profile_rest(restApiUrl);
+		table.appendRows(profile_rest(restApiUrl));
 		doneCallback();
 	};
 	
 	tableau.registerConnector(myConnector);
+ 	
 })();
 
 $(document).ready(function() {
-	
-	//disable the submit button until an API sources is selected
-	$('#submitButton').prop("disabled", true);
-
-	// Create event listeners for when the user changes the API source
-	$("#inputSel").on('change', function() {
-		updateFormEnabled();
-
-	});
 
 	// Create event listeners for when the user submits the form
 	$("#submitButton").click(
 		function() {
-			//reset the variables for the web data connector 
-			var selElm = document.getElementById("inputSel");
-			restApiUrl = selElm.options[selElm.selectedIndex].value;
-			let restApiName = selElm.options[selElm.selectedIndex].text;
-			tableData =  profile_rest(restApiUrl);
-			// rename the data source name in Tableau	
-			tableau.connectionName = (`${connName} for ${restApiName}`).replace(/[^a-zA-Z]/g, ""); 	
+			
+			// name the data source name in Tableau	
+			tableau.connectionName = connName; 	
 			// send the connector object to Tableau
 			tableau.submit(); 
 		}
