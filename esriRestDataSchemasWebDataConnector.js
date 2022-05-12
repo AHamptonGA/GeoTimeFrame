@@ -119,7 +119,7 @@ async function profile_rest() {
 					schemaRow['length'] = 'N/A'; 
 				}
 				if(schemaRow.hasOwnProperty('domain')){
-					if ((schemaRow['domain'] != null && typeof (schemaRow['domain'] == 'object')){
+					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
 						schemaRow['domain'] = JSON.stringify(schemaRow['domain']);
 					}else{
 						schemaRow['domain'] = JSON.stringify({});
