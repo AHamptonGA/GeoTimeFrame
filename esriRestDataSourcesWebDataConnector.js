@@ -73,7 +73,7 @@ async function profile_rest() {
 								'directory': folder,
 								'service': services_name,
 								'servicetype': dsType.substring(0, dsType.length - 1),
-								'datasettype': dsName,
+								'datasettype': dsType,
 								'dataset': dsName,
 								'datasetid': dsId,
 								'dataseturl': ds_url
