@@ -205,7 +205,7 @@ $(document).ready(function() {
 			var selElm = document.getElementById("inputSel");
 			restApiUrl = selElm.options[selElm.selectedIndex].value;
 			let restApiName = selElm.options[selElm.selectedIndex].text;
-			tableData = await profile_rest(restApiUrl);
+			tableData =  profile_rest(restApiUrl);
 			// rename the data source name in Tableau	
 			tableau.connectionName = (`${connName} for ${restApiName}`).replace(/[^a-zA-Z]/g, ""); 	
 			// send the connector object to Tableau
