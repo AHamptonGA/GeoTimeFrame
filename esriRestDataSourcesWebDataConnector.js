@@ -106,7 +106,7 @@ async function profile_rest() {
 }
 
 
-(function() {
+(async function() {
 
 
 	// Define the schema
@@ -165,7 +165,7 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		//tableData =  profile_rest(restApiUrl);
+		tableData =  await profile_rest(restApiUrl);
 		table.appendRows(profile_rest(restApiUrl));
 		doneCallback();
 	};
