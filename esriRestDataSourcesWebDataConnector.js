@@ -166,7 +166,7 @@ async function profile_rest() {
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
 		tableData =  await profile_rest(restApiUrl);
-		table.appendRows(profile_rest(restApiUrl));
+		table.appendRows(tableData);
 		doneCallback();
 	};
 	
