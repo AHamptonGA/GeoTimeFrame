@@ -1,6 +1,8 @@
-var restApiUrl 	= "https://cartowfs.nationalmap.gov/arcgis/rest";
-var connName 	= "ESRI Rest Data Sources";
+var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
+var connName 		= "ESRI Rest Data Sources";
+var service_types 	= ['MapServer', 'FeatureServer'];
 
+/* -------------------------------------------------------------------*/
 
 //Create the connector object
 var myConnector = tableau.makeConnector();
@@ -25,7 +27,6 @@ async function rest_request(prepedUrl) {
 async function profile_rest() {
 
 	// set types of services to query	
-	var service_types = ['MapServer', 'FeatureServer'];
 	var tableArray = [];
 
 	async function parse_responses(restApiUrl, folder) {
@@ -46,11 +47,12 @@ async function profile_rest() {
 		for (let i = 0; i < (svr_def).length; i++) {
 			if (service_types.includes(svr_def[i]['type'])) {
 				let services_name = `${(svr_def[i]['name'])} (${(svr_def[i]['type'])})`;
+				let service_type = svr_def[i]['type']; 
 
 				let srv_url = `${restApiUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
 				console.log(srv_url);
 				let serviceUrl = `${srv_url}?f=json`;
-				console.log(serviceUrl);
+
 
 				let svc_def = await rest_request(serviceUrl);
 
@@ -63,16 +65,11 @@ async function profile_rest() {
 							let dsId = svc_def[dsType][i]['id'];
 							let ds_url = `${srv_url}/${dsId}`;
 
-							let apiHyper = document.createElement('a');
-							apiHyper.href = restApiUrl;
-							let hostUrl = apiHyper.host;
-							let urlPath = apiHyper.pathname;
-
 							tableArray.push({
-								'restapi': hostUrl,
+								'restapi': restApiUrl,
 								'directory': folder,
 								'service': services_name,
-								'servicetype': svr_def[i]['type'],
+								'servicetype': service_type,
 								'datasettype': dsType.substring(0, dsType.length - 1),
 								'dataset': dsName,
 								'datasetid': dsId,
