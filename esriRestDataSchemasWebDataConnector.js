@@ -118,6 +118,14 @@ async function profile_rest() {
 				if(!(schemaRow.hasOwnProperty('length'))){
 					schemaRow['length'] = 'N/A'; 
 				}
+				if(schemaRow.hasOwnProperty('domain')){
+					if ((schemaRow['domain'] != null && typeof (schemaRow['domain'] == 'object')){
+						schemaRow['domain'] = JSON.stringify(schemaRow['domain']);
+					}else{
+						schemaRow['domain'] = JSON.stringify({});
+					}
+				}				
+
 				schema_array.push(schemaRow);	
 			}
 		}
