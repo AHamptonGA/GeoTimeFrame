@@ -1,5 +1,5 @@
-var restApiUrl = '';
-var restApiName = '';
+var restApiUrl = 'temp';
+var restApiName = 'temp';
 
 
 async function rest_request(prepedUrl) {
@@ -118,7 +118,7 @@ function verifySelect() {
 	}
 }
 
-(function() {
+function createWdc() {
 
 	//Create the connector object
 	var myConnector = tableau.makeConnector();
@@ -186,7 +186,10 @@ function verifySelect() {
 
 	tableau.connectionName = `ESRI Rest Data Sources: ${restApiName}`; // This will be the data source name in Tableau
 	tableau.registerConnector(myConnector);
-})();
+	
+	// send the connector object to Tableau
+	tableau.submit(); 
+};
 
 
 $(document).ready(function() {
@@ -200,6 +203,7 @@ $(document).ready(function() {
 
 	});
 
+	createWdc(); 
 	// Create event listeners for when the user submits the form
 	$("#submitButton").click(
 		function() {
@@ -207,9 +211,7 @@ $(document).ready(function() {
 			var selElm = document.getElementById("inputSel");
 			restApiUrl = selElm.options[selElm.selectedIndex].value;
 			restApiName = (selElm.options[selElm.selectedIndex].text).replace(/[^a-zA-Z]/g, " ");
-			
-			// send the connector object to Tableau
-			tableau.submit(); 
+			createWdc(); 
 		}
 	);
 });
