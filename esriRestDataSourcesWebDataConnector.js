@@ -72,8 +72,8 @@ async function profile_rest() {
 								'restapi': hostUrl,
 								'directory': folder,
 								'service': services_name,
-								'servicetype': dsType.substring(0, dsType.length - 1),
-								'datasettype': dsType,
+								'servicetype': svr_def[i]['type'],
+								'datasettype': dsType.substring(0, dsType.length - 1),
 								'dataset': dsName,
 								'datasetid': dsId,
 								'dataseturl': ds_url
