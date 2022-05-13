@@ -5,7 +5,9 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 //default values for null data schema properties
 var def_schema_props = {'alias':'N/A', 'defaultValue':'N/A', 'domain':{}, 
 						'editable':'N/A', 'length':'N/A', 'name':'N/A',
-						'nullable':'N/A', 'type':'N/A'}
+						'nullable':'N/A', 'type':'N/A', 'domain_type':'N/A', 
+						'domain_name':'N/A', 'domain_description':'N/A',
+						'domain_codedValues':'N/A', 'domain_codedValues':'N/A'}
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -66,14 +68,14 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							tableArray.push({
-								'restapi': restApiUrl,
+								'rest_api': restApiUrl,
 								'directory': folder,
 								'service': services_name,
-								'servicetype': service_type,
-								'datasettype': dsType.substring(0, dsType.length - 1),
+								'service_type': service_type,
+								'dataset_type': dsType.substring(0, dsType.length - 1),
 								'dataset': dsName,
-								'datasetid': dsId,
-								'dataseturl': ds_url
+								'dataset_id': dsId,
+								'dataset_url': ds_url
 							});
 						}
 					}
@@ -122,9 +124,17 @@ async function profile_rest() {
 				
 				if(schemaRow.hasOwnProperty('domain')){
 					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
-						schemaRow['domain'] = JSON.stringify(schemaRow['domain']);
-					}else{
-						schemaRow['domain'] = JSON.stringify({});
+						
+						Object.keys(schemaRow['domain'])
+						.forEach(key => 
+							if (typeof(schemaRow['domain'][key]) == 'object'){
+								schemaRow[`domain_${key}`] = JSON.stringify(schemaRow['domain'][key]);
+							
+							}else{
+								schemaRow[`domain_${key}`] = schemaRow['domain'][key]
+							}
+						
+						);	
 					}
 				}	
 				
@@ -149,42 +159,42 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
-				// id: 'restapi',
-				// alias: 'REST API',
-				// description: 'ESRI REST API URL',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'directory',
-				// alias: 'Directory',
-				// description: 'Directory or folder within an ESRI REST API',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'service',
-				// alias: "Service",
-				// description: 'Service within an ESRI REST API',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'servicetype',
-				// alias: "Service_Type",
-				// description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'datasettype',
-				// alias: "Dataset_Type",
-				// description: 'Dataset type (Ex. table or geospatial layer)',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'dataset',
-				// alias: "Dataset_Name",
-				// description: 'Dataset name',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				// id: 'datasetid',
-				// alias: "Dataset_ID",
-				// description: 'ESRI REST Dataset ID which is unique within a service',
-				// dataType: tableau.dataTypeEnum.string
-			// }, {
-				id: 'dataseturl',
+				id: 'rest_api',
+				alias: 'REST API',
+				description: 'ESRI REST API URL',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'directory',
+				alias: 'Directory',
+				description: 'Directory or folder within an ESRI REST API',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'service',
+				alias: "Service",
+				description: 'Service within an ESRI REST API',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'service_type',
+				alias: "Service_Type",
+				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'dataset_type',
+				alias: "Dataset_Type",
+				description: 'Dataset type (Ex. table or geospatial layer)',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'data_set',
+				alias: "Dataset_Name",
+				description: 'Dataset name',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'dataset_id',
+				alias: "Dataset_ID",
+				description: 'ESRI REST Dataset ID which is unique within a service',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'dataset_url',
 				alias: "Dataset_URL",
 				description: 'Full URL to a dataset endpoint on the REST server',
 				dataType: tableau.dataTypeEnum.string
@@ -225,12 +235,33 @@ async function profile_rest() {
 				alias: "Editable",
 				description: 'Indicates whether the field/column is editable',
 				dataType: tableau.dataTypeEnum.string			
+			/* domains ------------------------------------------------------------- */
+			}, { 
+				id: 'domain_type',
+				alias: "Domain Type",
+				description: 'Type of ESRI domain (coded or range)',
+				dataType: tableau.dataTypeEnum.string	
 			}, {
-				id: 'domain',
-				alias: "Domain",
-				description: 'ESRI domain (dropdown values) allowed values for a field/column',
+				id: 'domain_name',
+				alias: "Domain Name",
+				description: 'Name of ESRI domain inside of SDE database',
+				dataType: tableau.dataTypeEnum.string	
+			}, {
+				id: 'domain_description',
+				alias: "Domain Description",
+				description: 'Description text for an ESRI domain',
+				dataType: tableau.dataTypeEnum.string	
+			}, {
+				id: 'domain_codedValues',
+				alias: "Domain Coded Values",
+				description: 'Dropdown/Lookup values for coded field values (coded value domains only)',
 				dataType: tableau.dataTypeEnum.string					
-			}
+			}, {
+				id: 'domain_codedValues',
+				alias: "Domain Range Values",
+				description: 'Allowed range values (min/max) for a numeric field (range domains only)',
+				dataType: tableau.dataTypeEnum.string					
+			}		
 		];
 
 		var tableSchema = {
