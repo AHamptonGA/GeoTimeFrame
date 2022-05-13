@@ -113,7 +113,7 @@ async function profile_rest() {
 		// get server defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
-		if (!((Object.keys(ds)).includes('fields'))) continue;
+		//if (!((Object.keys(ds)).includes('fields'))) continue;
 	
 		var fields = await jsonResp['fields'];
 		if (Array.isArray(fields)){
@@ -155,8 +155,8 @@ async function profile_rest() {
 	let columns  = [];
 	for (let i = 0; i < (outputArray).length; i++) {
 		let row = tableArray[i];
-		
-		for (let [key, value] of Object.entries(row)) {
+		console.log(row);
+		for (let key of Object.keys(row)) {
 			if (!(columns.includes(key))){
 				columns.push(key);
 			}
