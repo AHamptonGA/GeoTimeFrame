@@ -3,9 +3,10 @@ var connName 		= "ESRI Rest Data Schemas";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 //default values for null data schema properties
-var def_schema_props = {'alias':'N/A', 'defaultValue':'N/A', 'domain':{}, 
-						'editable':'N/A', 'length':'N/A', 'name':'N/A',
-						'nullable':'N/A', 'type':'N/A', 'domain_type':'N/A', 
+var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A', 
+						'column_editable':'N/A', 'column_length':'N/A', 
+						'column_name':'N/A','column_nullable':'N/A', 
+						'column_type':'N/A', 'domain_type':'N/A', 
 						'domain_name':'N/A', 'domain_description':'N/A',
 						'domain_codedValues':'N/A', 'domain_range':'N/A'}
 /* -------------------------------------------------------------------*/
