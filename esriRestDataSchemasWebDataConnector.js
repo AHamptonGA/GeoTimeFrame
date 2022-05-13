@@ -14,6 +14,7 @@ var def_schema_props = {'alias':'N/A', 'defaultValue':'N/A', 'domain':{},
 var myConnector = tableau.makeConnector();
 
 async function rest_request(prepedUrl) {
+	console.log(prepedUrl);
 	try {
 		response = await fetch(prepedUrl);
 
@@ -108,7 +109,7 @@ async function profile_rest() {
 		ds = tableArray[t];
 				
 		// get server defs
-		let tableMetaUrl = `${ds['dataseturl']}?f=json`;
+		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
 		if (!((Object.keys(ds)).includes('fields'))) continue;
 	
