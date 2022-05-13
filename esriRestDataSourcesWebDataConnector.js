@@ -6,7 +6,6 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 
 //Create the connector object
 var myConnector	 = tableau.makeConnector();
-var restData 	 =  profile_rest(restApiUrl);
 
 /* -------------------------------------------------------------------*/
 async function rest_request(prepedUrl) {
@@ -141,13 +140,14 @@ async function profile_rest() {
 
 (async function() {
 
-
+	var restData 	 =  await profile_rest(restApiUrl);
+	
 	// Define the tableau schema
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [] ; 
 		var col_ids = [];
 		for (let r = 0; r < (restData).length; r++) {
-			for (let [key, value] of Object.entries(row)) {
+			for (let [key, value] of Object.entries(restData[r])) {
 				if (!(col_ids.includes(key))){
 					col_ids.push(key);
 				}
