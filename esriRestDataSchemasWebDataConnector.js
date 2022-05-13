@@ -7,7 +7,7 @@ var def_schema_props = {'alias':'N/A', 'defaultValue':'N/A', 'domain':{},
 						'editable':'N/A', 'length':'N/A', 'name':'N/A',
 						'nullable':'N/A', 'type':'N/A', 'domain_type':'N/A', 
 						'domain_name':'N/A', 'domain_description':'N/A',
-						'domain_codedValues':'N/A', 'domain_codedValues':'N/A'}
+						'domain_codedValues':'N/A', 'domain_range':'N/A'}
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
