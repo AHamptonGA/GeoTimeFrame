@@ -1,5 +1,5 @@
 var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
-var connName 		= "ESRI Rest Metadata";
+var connName 		= "ESRI Rest Data Sources";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 /* -------------------------------------------------------------------*/
@@ -8,7 +8,6 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 var myConnector = tableau.makeConnector();
 
 async function rest_request(prepedUrl) {
-
 	try {
 		response = await fetch(prepedUrl);
 
@@ -63,12 +62,12 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							tableArray.push({
-								'api_rest_url': restApiUrl,
-								'api_directory': folder,
-								'api_service': services_name,
-								'api_service_type': service_type,
+								'rest_api': restApiUrl,
+								'directory': folder,
+								'service': services_name,
+								'service_type': service_type,
 								'dataset_type': dsType.substring(0, dsType.length - 1),
-								'dataset_name': dsName,
+								'dataset': dsName,
 								'dataset_id': dsId,
 								'dataset_url': ds_url
 							});
@@ -96,104 +95,62 @@ async function profile_rest() {
 			await parse_responses(restApiUrl, fldr);
 		}
 	}
-	
-	let outputArray = [];
-	// get dataset schemas
-	
-	for (let t = 0; t < (tableArray).length; t++) {
-		let ds = tableArray[t];
-		let newRow = [];		
-		// get server defs
-		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
-		let jsonResp = await rest_request(tableMetaUrl);
-		
 
-		// insert the dataset properties
-		Object.keys(ds)
-			.forEach(key => newRow[key] = ds[key]);
-
-		// insert the dataset properties
-		Object.keys(ds)
-			.forEach(key => newRow[`dataset_${key}`] = jsonResp[key]);				
-
-					
-		// stringify any nested json objects or arrays
-		for (let [key, value] of Object.entries(newRow)) {
-			if (value != null && typeof(value) == 'object'){
-				newRow[key] = JSON.stringify(value);
-			}else{
-				if (Array.isArray(value)){
-					newRow[key] = value.toString();
-				}
-			}
-		}
-
-		// fill in null values
-		for (let [key, value] of Object.entries(newRow)) {
-			if (!(value)){
-				newRow[key] = 'N/A';
-				}
-		}
-		outputArray.push(newRow);	
-	}	
-
-	return (outputArray)
+	return (tableArray)
 }
 
 
 (async function() {
 
 
-	// Define the tableau schema
+	// Define the schema
 	myConnector.getSchema = function(schemaCallback) {
-		var cols = [
-			{
-				id: 'api_rest_url',
-				alias: 'API_REST_URL',
-				description: 'ESRI REST API URL',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_directory',
-				alias: 'API_Directory',
-				description: 'Directory or folder within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_service',
-				alias: "API_Service",
-				description: 'Service within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_service_type',
-				alias: "API_Service_Type",
-				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_type',
-				alias: "Dataset_Type",
-				description: 'Dataset type (Ex. table or geospatial layer)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_name',
-				alias: "Dataset_Name",
-				description: 'Dataset name',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_id',
-				alias: "Dataset_ID",
-				description: 'ESRI REST Dataset ID which is unique within a service',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_url',
-				alias: "Dataset_URL",
-				description: 'Full URL to a dataset endpoint on the REST server',
-				dataType: tableau.dataTypeEnum.string
-			}
-		];
+		var cols = [{
+			id: 'rest_api',
+			alias: 'REST API',
+			description: 'ESRI REST API URL',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'directory',
+			alias: 'Directory',
+			description: 'Directory or folder within an ESRI REST API',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'service',
+			alias: "Service",
+			description: 'Service within an ESRI REST API',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'service_type',
+			alias: "Service_Type",
+			description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'dataset_type',
+			alias: "Dataset_Type",
+			description: 'Dataset type (Ex. table or geospatial layer)',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'dataset',
+			alias: "Dataset_Name",
+			description: 'Dataset name',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'dataset_id',
+			alias: "Dataset_ID",
+			description: 'ESRI REST Dataset ID which is unique within a service',
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: 'dataset_url',
+			alias: "Dataset_URL",
+			description: 'Full URL to a dataset endpoint on the REST server',
+			dataType: tableau.dataTypeEnum.string
+		}];
 
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
-			description: 'ESRI Rest Web Data Connector (WDC) to gather REST data sources and service metadata',
+			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources',
 			columns: cols
 		};
 
@@ -202,9 +159,8 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		let tableData =  await profile_rest(restApiUrl);
+		tableData =  await profile_rest(restApiUrl);
 		table.appendRows(tableData);
-		delete tableData;
 		doneCallback();
 	};
 	
