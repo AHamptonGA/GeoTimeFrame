@@ -104,7 +104,7 @@ async function profile_rest() {
 		}
 	}
 	
-	schema_array = [];
+	outputArray = [];
 	// get dataset schemas
 	for (let t = 0; t < (tableArray).length; t++) {
 		ds = tableArray[t];
@@ -117,39 +117,39 @@ async function profile_rest() {
 		var fields = await jsonResp['fields'];
 		if (Array.isArray(fields)){
 			for (let f = 0; f < (fields).length; f++) {
-				let schemaRow = {};
+				let newRow = {};
 				field = fields[f];
 				Object.keys(ds)
-					.forEach(key => schemaRow[key] = ds[key]);
+					.forEach(key => newRow[key] = ds[key]);
 
 				Object.keys(field)
-					.forEach(key => schemaRow[`column_${key}`] = field[key]);	
+					.forEach(key => newRow[`column_${key}`] = field[key]);	
 				
-				if(schemaRow.hasOwnProperty('domain')){
-					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
+				if(field.hasOwnProperty('domain')){
+					if (field['domain'] != null && typeof(field['domain']) == 'object'){
 						
-						for (let [key, value] of Object.entries(schemaRow['domain'])) {
+						for (let [key, value] of Object.entries(field['domain'])) {
 							if (value != null && typeof(value) == 'object'){
-								schemaRow[`domain_${key}`] = JSON.stringify(value);
+								newRow[`domain_${key}`] = JSON.stringify(value);
 							
 							}else{
-								schemaRow[`domain_${key}`] = value;
+								newRow[`domain_${key}`] = value;
 							}
 						}	
 					}
 				}	
 				
 				for (let [key, value] of Object.entries(def_schema_props)) {
-					if(!(schemaRow.hasOwnProperty(key))){
-						schemaRow[key] = value; 
+					if(!(newRow.hasOwnProperty(key))){
+						newRow[key] = value; 
 					}
 				}
 
-				schema_array.push(schemaRow);	
+				outputArray.push(newRow);	
 			}
 		}
 	}	
-	return (schema_array)
+	return (outputArray)
 }
 
 
