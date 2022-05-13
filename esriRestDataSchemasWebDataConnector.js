@@ -125,16 +125,14 @@ async function profile_rest() {
 				if(schemaRow.hasOwnProperty('domain')){
 					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
 						
-						Object.keys(schemaRow['domain'])
-						.forEach(key => 
-							if (typeof(schemaRow['domain'][key]) == 'object'){
-								schemaRow[`domain_${key}`] = JSON.stringify(schemaRow['domain'][key]);
+						for (let [key, value] of Object.entries(schemaRow['domain'])) {
+							if (typeof(value) == 'object'){
+								schemaRow[`domain_${key}`] = JSON.stringify(value);
 							
 							}else{
-								schemaRow[`domain_${key}`] = schemaRow['domain'][key]
+								schemaRow[`domain_${key}`] = value;
 							}
-						
-						);	
+						}	
 					}
 				}	
 				
