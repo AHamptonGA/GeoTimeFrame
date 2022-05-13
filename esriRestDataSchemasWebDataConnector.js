@@ -153,7 +153,7 @@ async function profile_rest() {
 	}	
 	let columns  = [];
 	for (let i = 0; i < (outputArray).length; i++) {
-		let row = tableArray[i];
+		let row = outputArray[i];
 		console.log(row);
 		for (let key of Object.keys(row)) {
 			if (!(columns.includes(key))){
