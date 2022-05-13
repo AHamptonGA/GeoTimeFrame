@@ -156,8 +156,8 @@ async function profile_rest() {
 	for (let i = 0; i < (outputArray).length; i++) {
 		let row = tableArray[i];
 		
-		for (let [key, value] of Object.entries(row) {
-			if (!(columns.includes(key)){
+		for (let [key, value] of Object.entries(row)) {
+			if (!(columns.includes(key))){
 				columns.push(key);
 			}
 		}
