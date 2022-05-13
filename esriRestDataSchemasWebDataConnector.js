@@ -15,7 +15,7 @@ var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A',
 var myConnector = tableau.makeConnector();
 
 async function rest_request(prepedUrl) {
-	console.log(prepedUrl);
+
 	try {
 		response = await fetch(prepedUrl);
 
@@ -104,10 +104,11 @@ async function profile_rest() {
 		}
 	}
 	
-	outputArray = [];
+	let outputArray = [];
 	// get dataset schemas
+	
 	for (let t = 0; t < (tableArray).length; t++) {
-		ds = tableArray[t];
+		let ds = tableArray[t];
 				
 		// get server defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
@@ -119,8 +120,10 @@ async function profile_rest() {
 			for (let f = 0; f < (fields).length; f++) {
 				let newRow = {};
 				field = fields[f];
+				
 				Object.keys(ds)
 					.forEach(key => newRow[key] = ds[key]);
+					
 
 				Object.keys(field)
 					.forEach(key => newRow[`column_${key}`] = field[key]);	
@@ -149,6 +152,17 @@ async function profile_rest() {
 			}
 		}
 	}	
+	let columns  = [];
+	for (let i = 0; i < (outputArray).length; i++) {
+		let row = tableArray[i];
+		
+		for (let [key, value] of Object.entries(row) {
+			if (!(columns.includes(key)){
+				columns.push(key);
+			}
+		}
+	}
+	console.log(columns);
 	return (outputArray)
 }
 
