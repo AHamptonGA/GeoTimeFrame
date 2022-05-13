@@ -160,42 +160,42 @@ async function profile_rest() {
 		var cols = [
 			{
 				id: 'api_rest_url',
-				alias: 'REST API',
+				alias: 'API_REST_URL',
 				description: 'ESRI REST API URL',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_directory',
-				alias: 'Directory',
+				alias: 'API_Directory',
 				description: 'Directory or folder within an ESRI REST API',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_service',
-				alias: "Service",
+				alias: "API_Service",
 				description: 'Service within an ESRI REST API',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_service_type',
-				alias: "Service_Type",
+				alias: "API_Service_Type",
 				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'dataset_type',
-				alias: "dataset_Type",
+				alias: "Dataset_Type",
 				description: 'Dataset type (Ex. table or geospatial layer)',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'dataset_name',
-				alias: "dataset_Name",
+				alias: "Dataset_Name",
 				description: 'Dataset name',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'dataset_id',
-				alias: "dataset_ID",
+				alias: "Dataset_ID",
 				description: 'ESRI REST Dataset ID which is unique within a service',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'dataset_url',
-				alias: "dataset_URL",
+				alias: "Dataset_URL",
 				description: 'Full URL to a dataset endpoint on the REST server',
 				dataType: tableau.dataTypeEnum.string
 
@@ -222,42 +222,42 @@ async function profile_rest() {
 				dataType: tableau.dataTypeEnum.string			
 			}, {
 				id: 'column_nullable',
-				alias: "Nullable",
+				alias: "Column_Nullable",
 				description: 'Indicates whether a field/column can be null',
 				dataType: tableau.dataTypeEnum.string			
 			}, {
 				id: 'column_defaultValue',
-				alias: "Default_Value",
+				alias: "Column_Default_Value",
 				description: 'Field/column default value set for the field.',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'column_editable',
-				alias: "Editable",
+				alias: "Column_Editable",
 				description: 'Indicates whether the field/column is editable',
 				dataType: tableau.dataTypeEnum.string			
 			/* domains ------------------------------------------------------------- */
 			}, { 
 				id: 'domain_type',
-				alias: "Domain Type",
+				alias: "Domain_Type",
 				description: 'Type of ESRI domain (coded or range)',
 				dataType: tableau.dataTypeEnum.string	
 			}, {
 				id: 'domain_name',
-				alias: "Domain Name",
+				alias: "Domain_Name",
 				description: 'Name of ESRI domain inside of SDE database',
 				dataType: tableau.dataTypeEnum.string	
 			}, {
 				id: 'domain_description',
-				alias: "Domain Description",
+				alias: "Domain_Description",
 				description: 'Description text for an ESRI domain',
 				dataType: tableau.dataTypeEnum.string	
 			}, {
 				id: 'domain_codedValues',
-				alias: "Domain Coded Values",
+				alias: "Domain_Coded_Values",
 				description: 'Dropdown/Lookup values for coded field values (coded value domains only)',
 				dataType: tableau.dataTypeEnum.string					
 			}, {
-				id: 'domain_codedValues',
+				id: 'domain_range',
 				alias: "Domain Range Values",
 				description: 'Allowed range values (min/max) for a numeric field (range domains only)',
 				dataType: tableau.dataTypeEnum.string					
