@@ -149,41 +149,41 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
-				id: 'restapi',
-				alias: 'REST API',
-				description: 'ESRI REST API URL',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'directory',
-				alias: 'Directory',
-				description: 'Directory or folder within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'service',
-				alias: "Service",
-				description: 'Service within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'servicetype',
-				alias: "Service_Type",
-				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'datasettype',
-				alias: "Dataset_Type",
-				description: 'Dataset type (Ex. table or geospatial layer)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset',
-				alias: "Dataset_Name",
-				description: 'Dataset name',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'datasetid',
-				alias: "Dataset_ID",
-				description: 'ESRI REST Dataset ID which is unique within a service',
-				dataType: tableau.dataTypeEnum.string
-			}, {
+				// id: 'restapi',
+				// alias: 'REST API',
+				// description: 'ESRI REST API URL',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'directory',
+				// alias: 'Directory',
+				// description: 'Directory or folder within an ESRI REST API',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'service',
+				// alias: "Service",
+				// description: 'Service within an ESRI REST API',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'servicetype',
+				// alias: "Service_Type",
+				// description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'datasettype',
+				// alias: "Dataset_Type",
+				// description: 'Dataset type (Ex. table or geospatial layer)',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'dataset',
+				// alias: "Dataset_Name",
+				// description: 'Dataset name',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
+				// id: 'datasetid',
+				// alias: "Dataset_ID",
+				// description: 'ESRI REST Dataset ID which is unique within a service',
+				// dataType: tableau.dataTypeEnum.string
+			// }, {
 				id: 'dataseturl',
 				alias: "Dataset_URL",
 				description: 'Full URL to a dataset endpoint on the REST server',
