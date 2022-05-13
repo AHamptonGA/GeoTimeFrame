@@ -5,9 +5,10 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
-var myConnector = tableau.makeConnector();
-var restData =  await profile_rest(restApiUrl);
+var myConnector	 = tableau.makeConnector();
+var restData 	 =  profile_rest(restApiUrl);
 
+/* -------------------------------------------------------------------*/
 async function rest_request(prepedUrl) {
 
 	try {
