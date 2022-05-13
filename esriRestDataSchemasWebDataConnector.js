@@ -1,5 +1,5 @@
 var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
-var connName 		= "ESRI Rest Data Schemas";
+var connName 		= "ESRI Rest Metadata";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 //default values for null data schema properties
@@ -129,7 +129,7 @@ async function profile_rest() {
 					if (schemaRow['domain'] != null && typeof(schemaRow['domain']) == 'object'){
 						
 						for (let [key, value] of Object.entries(schemaRow['domain'])) {
-							if (typeof(value) == 'object'){
+							if (value != null && typeof(value) == 'object'){
 								schemaRow[`domain_${key}`] = JSON.stringify(value);
 							
 							}else{
@@ -268,7 +268,7 @@ async function profile_rest() {
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
-			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources',
+			description: 'ESRI Rest Web Data Connector (WDC) to gather REST data sources and service metadata',
 			columns: cols
 		};
 
