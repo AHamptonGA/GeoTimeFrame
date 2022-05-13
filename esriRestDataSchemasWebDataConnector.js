@@ -143,7 +143,7 @@ async function profile_rest() {
 						}	
 					}
 				}	
-				// ensure the column and domaisn keys exist with default values
+				// ensure the column and domain keys exist with default values
 				for (let [key, value] of Object.entries(def_schema_props)) {
 					if(!(newRow.hasOwnProperty(key))){
 						newRow[key] = value; 
@@ -171,41 +171,6 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
-				id: 'api_rest_url',
-				alias: 'API_REST_URL',
-				description: 'ESRI REST API URL',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_directory',
-				alias: 'API_Directory',
-				description: 'Directory or folder within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_service',
-				alias: "API_Service",
-				description: 'Service within an ESRI REST API',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'api_service_type',
-				alias: "API_Service_Type",
-				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_type',
-				alias: "Dataset_Type",
-				description: 'Dataset type (Ex. table or geospatial layer)',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_name',
-				alias: "Dataset_Name",
-				description: 'Dataset name',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'dataset_id',
-				alias: "Dataset_ID",
-				description: 'ESRI REST Dataset ID which is unique within a service',
-				dataType: tableau.dataTypeEnum.string
-			}, {
 				id: 'dataset_url',
 				alias: "Dataset_URL",
 				description: 'Full URL to a dataset endpoint on the REST server',
