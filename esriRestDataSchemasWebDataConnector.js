@@ -147,92 +147,91 @@ async function profile_rest() {
 
 	// Define the schema
 	myConnector.getSchema = function(schemaCallback) {
-		var cols = [{
-			id: 'restapi',
-			alias: 'REST API',
-			description: 'ESRI REST API URL',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'directory',
-			alias: 'Directory',
-			description: 'Directory or folder within an ESRI REST API',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'service',
-			alias: "Service",
-			description: 'Service within an ESRI REST API',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'servicetype',
-			alias: "Service_Type",
-			description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'datasettype',
-			alias: "Dataset_Type",
-			description: 'Dataset type (Ex. table or geospatial layer)',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'dataset',
-			alias: "Dataset_Name",
-			description: 'Dataset name',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'datasetid',
-			alias: "Dataset_ID",
-			description: 'ESRI REST Dataset ID which is unique within a service',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'dataseturl',
-			alias: "Dataset_URL",
-			description: 'Full URL to a dataset endpoint on the REST server',
-			dataType: tableau.dataTypeEnum.string
+		var cols = [
+			{
+				id: 'restapi',
+				alias: 'REST API',
+				description: 'ESRI REST API URL',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'directory',
+				alias: 'Directory',
+				description: 'Directory or folder within an ESRI REST API',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'service',
+				alias: "Service",
+				description: 'Service within an ESRI REST API',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'servicetype',
+				alias: "Service_Type",
+				description: 'Type of a ESRI REST service (Ex. Map, Feature, Geocode... etc)',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'datasettype',
+				alias: "Dataset_Type",
+				description: 'Dataset type (Ex. table or geospatial layer)',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'dataset',
+				alias: "Dataset_Name",
+				description: 'Dataset name',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'datasetid',
+				alias: "Dataset_ID",
+				description: 'ESRI REST Dataset ID which is unique within a service',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'dataseturl',
+				alias: "Dataset_URL",
+				description: 'Full URL to a dataset endpoint on the REST server',
+				dataType: tableau.dataTypeEnum.string
 
-		/* schema -------------------------------------------------------------- */
-		}, {
-			id: 'name',
-			alias: "Column_Name",
-			description: 'ESRI field/column name',
-			dataType: tableau.dataTypeEnum.string	
-		}, {
-			id: 'alias',
-			alias: "Column_Alias",
-			description: 'ESRI field/column alias',
-			dataType: tableau.dataTypeEnum.string			
-		}, {
-			id: 'type',
-			alias: "Column_Type",
-			description: 'ESRI field/column type',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'length',
-			alias: "Column_Length",
-			description: 'Field/column length (string types only)',
-			dataType: tableau.dataTypeEnum.string			
-		}, {
-			id: 'nullable',
-			alias: "Nullable",
-			description: 'Indicates whether a field/column can be null',
-			dataType: tableau.dataTypeEnum.string			
-		}, {
-			id: 'defaultValue',
-			alias: "Default_Value",
-			description: 'Field/column default value set for the field.',
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: 'editable',
-			alias: "Editable",
-			description: 'Indicates whether the field/column is editable',
-			dataType: tableau.dataTypeEnum.string			
-		}, {
-			id: 'domain',
-			alias: "Domain",
-			description: 'ESRI domain (dropdown values) allowed values for a field/column',
-			dataType: tableau.dataTypeEnum.string		
-
-
-					
-		}];
+			/* schema -------------------------------------------------------------- */
+			}, {
+				id: 'name',
+				alias: "Column_Name",
+				description: 'ESRI field/column name',
+				dataType: tableau.dataTypeEnum.string	
+			}, {
+				id: 'alias',
+				alias: "Column_Alias",
+				description: 'ESRI field/column alias',
+				dataType: tableau.dataTypeEnum.string			
+			}, {
+				id: 'type',
+				alias: "Column_Type",
+				description: 'ESRI field/column type',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'length',
+				alias: "Column_Length",
+				description: 'Field/column length (string types only)',
+				dataType: tableau.dataTypeEnum.string			
+			}, {
+				id: 'nullable',
+				alias: "Nullable",
+				description: 'Indicates whether a field/column can be null',
+				dataType: tableau.dataTypeEnum.string			
+			}, {
+				id: 'defaultValue',
+				alias: "Default_Value",
+				description: 'Field/column default value set for the field.',
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: 'editable',
+				alias: "Editable",
+				description: 'Indicates whether the field/column is editable',
+				dataType: tableau.dataTypeEnum.string			
+			}, {
+				id: 'domain',
+				alias: "Domain",
+				description: 'ESRI domain (dropdown values) allowed values for a field/column',
+				dataType: tableau.dataTypeEnum.string					
+			}
+		];
 
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
