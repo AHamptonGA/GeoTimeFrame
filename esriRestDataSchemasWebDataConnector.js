@@ -110,6 +110,8 @@ async function profile_rest() {
 		// get server defs
 		let tableMetaUrl = `${ds['dataseturl']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
+		if (!((Object.keys(ds)).includes('fields'))) continue;
+	
 		var fields = await jsonResp['fields'];
 		if (Array.isArray(fields)){
 			for (let f = 0; f < (fields).length; f++) {
