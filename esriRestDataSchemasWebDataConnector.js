@@ -119,11 +119,10 @@ async function profile_rest() {
 		if (Array.isArray(fields)){
 			for (let f = 0; f < (fields).length; f++) {
 				let newRow = {};
-				field = fields[f];
+				let field = fields[f];
 				
 				Object.keys(ds)
 					.forEach(key => newRow[key] = ds[key]);
-					
 
 				Object.keys(field)
 					.forEach(key => newRow[`column_${key}`] = field[key]);	
@@ -291,8 +290,9 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		tableData =  await profile_rest(restApiUrl);
+		let tableData =  await profile_rest(restApiUrl);
 		table.appendRows(tableData);
+		delete tableData;
 		doneCallback();
 	};
 	
