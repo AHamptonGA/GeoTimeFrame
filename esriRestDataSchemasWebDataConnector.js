@@ -113,20 +113,23 @@ async function profile_rest() {
 		// get server defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
-		//if (!((Object.keys(ds)).includes('fields'))) continue;
-	
+		
+		// iterate the fields to create a new row of properties for each	
 		var fields = await jsonResp['fields'];
 		if (Array.isArray(fields)){
 			for (let f = 0; f < (fields).length; f++) {
 				let newRow = {};
 				let field = fields[f];
 				
+				// insert the dataset properties
 				Object.keys(ds)
 					.forEach(key => newRow[key] = ds[key]);
-
+				
+				// insert all field properties
 				Object.keys(field)
 					.forEach(key => newRow[`column_${key}`] = field[key]);	
-				
+					
+				// break out the field domain properties
 				if(field.hasOwnProperty('domain')){
 					if (field['domain'] != null && typeof(field['domain']) == 'object'){
 						
@@ -140,28 +143,23 @@ async function profile_rest() {
 						}	
 					}
 				}	
-				
+				// ensure the column and domaisn keys exist with default values
 				for (let [key, value] of Object.entries(def_schema_props)) {
 					if(!(newRow.hasOwnProperty(key))){
 						newRow[key] = value; 
 					}
 				}
-
+				// fill in null values
+				for (let [key, value] of Object.entries(newRow)) {
+					if (!(value)){
+						newRow[key] = 'N/A';
+						}
+				}
 				outputArray.push(newRow);	
 			}
 		}
 	}	
-	let columns  = [];
-	for (let i = 0; i < (outputArray).length; i++) {
-		let row = outputArray[i];
-		console.log(row);
-		for (let key of Object.keys(row)) {
-			if (!(columns.includes(key))){
-				columns.push(key);
-			}
-		}
-	}
-	console.log(columns);
+
 	return (outputArray)
 }
 
@@ -169,7 +167,7 @@ async function profile_rest() {
 (async function() {
 
 
-	// Define the schema
+	// Define the tableau schema
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
