@@ -4,6 +4,7 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 
 var common_name 	= '';
 var restApiUrl 		= '';
+var tableData 		= [];
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -173,9 +174,11 @@ async function profile_rest() {
 		for (let i = 0; i < (restApiUrls).length; i++) {
 			common_name = restApiUrls[i]['common_name'];
 			restApiUrl = restApiUrls[i]['url'];
-			tableData =  await profile_rest(restApiUrl);
-			table.appendRows(tableData);
+			newRows = await profile_rest(); 
+			tableData.appendRows(newRows);
 		}
+		table.appendRows(tableData);
+		delete tableData; 
 		doneCallback();
 	};
 	
