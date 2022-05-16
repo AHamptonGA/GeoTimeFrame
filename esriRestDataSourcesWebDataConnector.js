@@ -1,13 +1,17 @@
-//var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
-var connName 		= "ESRI Rest Data Sources";
-var service_types 	= ['MapServer', 'FeatureServer'];
-
+//Globals
+/* -------------------------------------------------------------------*/
 // use the query params to pass the api name and url
 var urlSearchParams = new URLSearchParams(window.location.search);
 var queryParams = Object.fromEntries(urlSearchParams.entries());
-
-var esriRestName 	= queryParams['esriRestName'];
+// get the parmas for the function profile_rest()
 var esriRestUrl 	= queryParams['esriRestUrl'];
+var esriRestName 	= queryParams['esriRestName'];
+
+//set the connection name
+var connName 		= `ESRI Rest Data Sources: ${esriRestName}`;
+
+// selec tthe servie types of interest
+var service_types 	= ['MapServer', 'FeatureServer'];
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -164,7 +168,7 @@ async function profile_rest() {
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
-			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources',
+			description: 'ESRI Rest Web Data Connector (WDC) to gather data sources and metadata',
 			columns: cols
 		};
 
