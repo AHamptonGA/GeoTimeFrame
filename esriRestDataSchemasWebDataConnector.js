@@ -3,13 +3,16 @@ var connName 		= "ESRI Rest Metadata";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 //default values for null data schema properties
-var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A', 
-						'column_editable':'undefined', 'column_length':'N/A', 
-						'column_name':'N/A','column_nullable':'undefined', 
-						'column_type':'N/A', 'domain_type':'N/A', 
+var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A: undefined', 
+						'column_editable':'N/A: undefined', 'column_length':'N/A', 
+						'column_name':'N/A: undefined','column_nullable':'N/A: undefined', 
+						'column_type':'N/A: undefined', 'domain_type':'N/A', 
 						'domain_name':'N/A', 'domain_description':'N/A',
 						'domain_codedValues':'N/A', 'domain_range':'N/A',
-						'modelName':'N/A'}
+						'modelName':'N/A: undefined'}
+						
+var restApiUrl 		= '';
+var tableData 		= [];
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -71,6 +74,7 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							tableArray.push({
+								'api_rest_name': common_name,
 								'api_rest_url': restApiUrl,
 								'api_directory': folder,
 								'api_service': services_name,
@@ -184,9 +188,14 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
-				id: 'dataset_url',
-				alias: "Dataset_URL",
-				description: 'Full URL to a dataset endpoint on the REST server',
+				id: 'api_rest_name',
+				alias: 'API_Common_Name',
+				description: 'Common Name of an ESRI REST API/Server',
+				dataType: tableau.dataTypeEnum.string
+			}, {				
+				id: 'api_rest_url',
+				alias: 'API_REST_URL',
+				description: 'ESRI REST API/Server URL',
 				dataType: tableau.dataTypeEnum.string
 
 			/* schema -------------------------------------------------------------- */
@@ -266,9 +275,13 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		let tableData =  await profile_rest(restApiUrl);
-		table.appendRows(tableData);
-		delete tableData;
+		for (let i = 0; i < (restApiUrls).length; i++) {
+			common_name = restApiUrls[i]['common_name'];
+			restApiUrl = restApiUrls[i]['url'];
+			let tableData =  await profile_rest();
+			table.appendRows(tableData);
+		}
+		
 		doneCallback();
 	};
 	
