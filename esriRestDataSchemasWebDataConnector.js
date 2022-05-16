@@ -189,16 +189,12 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
-				id: 'api_rest_name',
-				alias: 'API_Common_Name',
-				description: 'Common Name of an ESRI REST API/Server',
+				id: 'dataset_url',
+				alias: "Dataset_URL",
+				description: 'Full URL to a dataset endpoint on the REST server',
 				dataType: tableau.dataTypeEnum.string
-			}, {				
-				id: 'api_rest_url',
-				alias: 'API_REST_URL',
-				description: 'ESRI REST API/Server URL',
-				dataType: tableau.dataTypeEnum.string
-
+			}, {
+				
 			/* schema -------------------------------------------------------------- */
 			}, {
 				id: 'column_name',
