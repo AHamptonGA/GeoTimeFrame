@@ -4,11 +4,12 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 
 //default values for null data schema properties
 var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A', 
-						'column_editable':'N/A', 'column_length':'N/A', 
-						'column_name':'N/A','column_nullable':'N/A', 
+						'column_editable':'undefined', 'column_length':'N/A', 
+						'column_name':'N/A','column_nullable':'undefined', 
 						'column_type':'N/A', 'domain_type':'N/A', 
 						'domain_name':'N/A', 'domain_description':'N/A',
-						'domain_codedValues':'N/A', 'domain_range':'N/A'}
+						'domain_codedValues':'N/A', 'domain_range':'N/A',
+						'modelName':'N/A'}
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -143,13 +144,25 @@ async function profile_rest() {
 						}	
 					}
 				}	
+
+				// ensure the boolean vlaues get translated
+				for (let [key, value] of Object.entries(def_schema_props)) {
+					if (typeof newRow[key] == "boolean") {
+						var bool_value = newRow[key] == 'true';
+						if(bool_value){
+							newRow[key] = 'true'; 
+						}else{
+							newRow[key] = 'false'; 
+						}
+					}
+				}				
 				// ensure the column and domain keys exist with default values
 				for (let [key, value] of Object.entries(def_schema_props)) {
 					if(!(newRow.hasOwnProperty(key))){
 						newRow[key] = value; 
 					}
 				}
-				// fill in null values
+				// fill in all other null values
 				for (let [key, value] of Object.entries(newRow)) {
 					if (!(value)){
 						newRow[key] = 'N/A';
