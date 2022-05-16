@@ -11,6 +11,7 @@ var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A: undefi
 						'domain_codedValues':'N/A', 'domain_range':'N/A',
 						'modelName':'N/A: undefined'}
 						
+var common_name 	= '';
 var restApiUrl 		= '';
 var tableData 		= [];
 /* -------------------------------------------------------------------*/
