@@ -72,7 +72,7 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							tableArray.push({
-								'api_rest_name': common_name,
+								'api_rest_name': esriRestName,
 								'api_rest_url': restApiUrl,
 								'api_directory': folder,
 								'api_service': services_name,
@@ -119,7 +119,7 @@ async function profile_rest() {
 		var cols = [
 			{
 				id: 'api_rest_name',
-				alias: 'API_Common_Name',
+				alias: 'API_REST_Name',
 				description: 'Common Name of an ESRI REST API/Server',
 				dataType: tableau.dataTypeEnum.string
 			}, {				
