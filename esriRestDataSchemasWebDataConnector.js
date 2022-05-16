@@ -1,4 +1,14 @@
-var connName 		= "ESRI Rest Data Schemas";
+// use the query params to pass the api name and url
+var urlSearchParams = new URLSearchParams(window.location.search);
+var queryParams = Object.fromEntries(urlSearchParams.entries());
+// get the parmas for the function profile_rest()
+var esriRestUrl 	= queryParams['esriRestUrl'];
+var esriRestName 	= queryParams['esriRestName'];
+
+//set the connection name
+var connName 		= `ESRI Rest Data Schemas: ${esriRestName}`;
+
+// selec tthe servie types of interest
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 //default values for null data schema properties
@@ -9,14 +19,6 @@ var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A: undefi
 						'domain_name':'N/A', 'domain_description':'N/A',
 						'domain_codedValues':'N/A', 'domain_range':'N/A',
 						'modelName':'N/A: undefined'}
-						
-
-// use the query params to pass the api name and url
-var urlSearchParams = new URLSearchParams(window.location.search);
-var queryParams = Object.fromEntries(urlSearchParams.entries());
-
-var esriRestName 	= queryParams['esriRestName'];
-var esriRestUrl 	= queryParams['esriRestUrl'];
 
 /* -------------------------------------------------------------------*/
 
@@ -266,7 +268,7 @@ async function profile_rest() {
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
-			description: 'ESRI Rest Web Data Connector (WDC) to gather REST data sources and service metadata',
+			description: 'ESRI Rest Web Data Connector (WDC) to gather REST data schemas and data source metadata',
 			columns: cols
 		};
 
