@@ -174,11 +174,9 @@ async function profile_rest() {
 		for (let i = 0; i < (restApiUrls).length; i++) {
 			common_name = restApiUrls[i]['common_name'];
 			restApiUrl = restApiUrls[i]['url'];
-			newRows = await profile_rest(); 
-			tableData.appendRows(newRows);
+			let tableData =  await profile_rest();
+			table.appendRows(tableData);
 		}
-		table.appendRows(tableData);
-		delete tableData; 
 		doneCallback();
 	};
 	
