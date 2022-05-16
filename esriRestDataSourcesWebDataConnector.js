@@ -39,7 +39,7 @@ async function profile_rest() {
 	// set types of services to query	
 	var tableArray = [];
 
-	async function parse_responses(restApiUrl, folder) {
+	async function parse_responses(esriRestUrl, folder) {
 		var dir = '';
 		if (folder == 'services') {
 			dir = 'services';
@@ -47,7 +47,7 @@ async function profile_rest() {
 			dir = `services/${folder}`;
 		}
 		// get server defs
-		let dirMetaUrl = `${restApiUrl}/${dir}?f=json`;
+		let dirMetaUrl = `${esriRestUrl}/${dir}?f=json`;
 		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
@@ -58,7 +58,7 @@ async function profile_rest() {
 				let services_name = `${(svr_def[i]['name'])} (${(svr_def[i]['type'])})`;
 				let service_type = svr_def[i]['type']; 
 
-				let srv_url = `${restApiUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
+				let srv_url = `${esriRestUrl}/${folder}/${(svr_def[i]['name'])}/${(svr_def[i]['type'])}`;
 				let serviceUrl = `${srv_url}?f=json`;
 				let svc_def = await rest_request(serviceUrl);
 
@@ -73,7 +73,7 @@ async function profile_rest() {
 
 							tableArray.push({
 								'api_rest_name': esriRestName,
-								'api_rest_url': restApiUrl,
+								'api_rest_url': esriRestUrl,
 								'api_directory': folder,
 								'api_service': services_name,
 								'api_service_type': service_type,
@@ -90,20 +90,20 @@ async function profile_rest() {
 	}
 
 	// get rest properties
-	let restMetaUrl = `${restApiUrl}/services?f=json`;
+	let restMetaUrl = `${esriRestUrl}/services?f=json`;
 
 	let svcs_root = await rest_request(restMetaUrl);
 
 
 	if (('services' in svcs_root) && ((svcs_root['services']).length > 0)) {
-		await parse_responses(restApiUrl, 'services');
+		await parse_responses(esriRestUrl, 'services');
 	}
 
 	if (('folders' in svcs_root) && ((svcs_root['folders']).length > 0)) {
 		for (let i = 0; i < (svcs_root['folders']).length; i++) {
 			// set folder name
 			var fldr = svcs_root['folders'][i];
-			await parse_responses(restApiUrl, fldr);
+			await parse_responses(esriRestUrl, fldr);
 		}
 	}
 
