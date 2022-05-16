@@ -1,3 +1,5 @@
+//Globals
+/* -------------------------------------------------------------------*/
 // use the query params to pass the api name and url
 var urlSearchParams = new URLSearchParams(window.location.search);
 var queryParams = Object.fromEntries(urlSearchParams.entries());
