@@ -67,7 +67,7 @@ async function profile_rest() {
 								'api_service': services_name,
 								'api_service_type': service_type,
 								'dataset_type': dsType.substring(0, dsType.length - 1),
-								'': dsName,
+								'dataset_name': dsName,
 								'dataset_id': dsId,
 								'dataset_url': ds_url
 							});
@@ -85,7 +85,7 @@ async function profile_rest() {
 
 
 	if (('services' in svcs_root) && ((svcs_root['services']).length > 0)) {
-		await parse_responses(restApiUrl, dataset_name'services');
+		await parse_responses(restApiUrl, 'services');
 	}
 
 	if (('folders' in svcs_root) && ((svcs_root['folders']).length > 0)) {
