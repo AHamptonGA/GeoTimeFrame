@@ -1,8 +1,9 @@
-var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
+//var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
 var connName 		= "ESRI Rest Data Sources";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
-console.log(restApiUrls);
+var common_name 	= '';
+var restApiUrl 		= '';
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -63,6 +64,7 @@ async function profile_rest() {
 							let ds_url = `${srv_url}/${dsId}`;
 
 							tableArray.push({
+								'api_rest_name': common_name,
 								'api_rest_url': restApiUrl,
 								'api_directory': folder,
 								'api_service': services_name,
@@ -108,19 +110,24 @@ async function profile_rest() {
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = [
 			{
+				id: 'api_rest_name',
+				alias: 'API_Common_Name',
+				description: 'Common Name of an ESRI REST API/Server',
+				dataType: tableau.dataTypeEnum.string
+			}, {				
 				id: 'api_rest_url',
 				alias: 'API_REST_URL',
-				description: 'ESRI REST API URL',
+				description: 'ESRI REST API/Server URL',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_directory',
 				alias: 'API_Directory',
-				description: 'Directory or folder within an ESRI REST API',
+				description: 'Directory or folder within an ESRI REST API/Server',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_service',
 				alias: "API_Service",
-				description: 'Service within an ESRI REST API',
+				description: 'Service within an ESRI REST API/Server',
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: 'api_service_type',
@@ -162,8 +169,13 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		tableData =  await profile_rest(restApiUrl);
-		table.appendRows(tableData);
+		 
+		for (let i = 0; i < (restApiUrls).length; i++) {
+			common_name = restApiUrls[i]['common_name'];
+			restApiUrl = restApiUrls[i]['url'];
+			tableData =  await profile_rest(restApiUrl);
+			table.appendRows(tableData);
+		}
 		doneCallback();
 	};
 	
