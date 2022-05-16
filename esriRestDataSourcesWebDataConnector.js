@@ -2,6 +2,7 @@ var restApiUrl 		= "https://cartowfs.nationalmap.gov/arcgis/rest";
 var connName 		= "ESRI Rest Data Sources";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
+console.log(restApiUrls);
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
