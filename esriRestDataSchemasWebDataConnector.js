@@ -193,7 +193,6 @@ async function profile_rest() {
 				alias: "Dataset_URL",
 				description: 'Full URL to a dataset endpoint on the REST server',
 				dataType: tableau.dataTypeEnum.string
-			}, {
 				
 			/* schema -------------------------------------------------------------- */
 			}, {
