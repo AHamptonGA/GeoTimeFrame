@@ -2,9 +2,12 @@
 var connName 		= "ESRI Rest Data Sources";
 var service_types 	= ['MapServer', 'FeatureServer'];
 
-var common_name 	= '';
-var restApiUrl 		= '';
-var tableData 		= [];
+// use the query params to pass the api name and url
+var urlSearchParams = new URLSearchParams(window.location.search);
+var queryParams = Object.fromEntries(urlSearchParams.entries());
+
+var esriRestName 	= queryParams['esriRestName'];
+var esriRestUrl 	= queryParams['esriRestUrl'];
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -170,13 +173,8 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		 
-		for (let i = 0; i < (restApiUrls).length; i++) {
-			common_name = restApiUrls[i]['common_name'];
-			restApiUrl = restApiUrls[i]['url'];
-			let tableData =  await profile_rest();
-			table.appendRows(tableData);
-		}
+		let tableData =  await profile_rest();
+		table.appendRows(tableData);  
 		doneCallback();
 	};
 	
