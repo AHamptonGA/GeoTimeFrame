@@ -16,6 +16,8 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 // array to hold column names
 var columns = [];
 
+var data_ready = false; 
+
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -200,7 +202,8 @@ async function profile_rest() {
 (async function() {
 
 	// return data array
-	var data = await profile_rest(); 
+	var data = await profile_rest();
+	data_ready = true;
 	
 	// Define the tableau schema
 	myConnector.getSchema = function(schemaCallback) {
@@ -316,7 +319,7 @@ $(document).ready(function() {
 	$("#submitButton").click(
 		function() {
 			
-			while (typeof(data) == "undefined") {
+			while (!data_ready) {
 				setTimeout(function () {
 							console.log('Waiting 10');
 							}, 10);
