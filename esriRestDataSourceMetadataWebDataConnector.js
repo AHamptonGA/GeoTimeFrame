@@ -198,7 +198,7 @@ async function profile_rest() {
 	return (outputArray);
 }
 
-
+$(document).ready(function() {
 (async function() {
 
 
@@ -311,7 +311,6 @@ async function profile_rest() {
  	
 })();
 
-$(document).ready(function() {
 
 	// Create event listeners for when the user submits the form
 	$("#submitButton").click(
