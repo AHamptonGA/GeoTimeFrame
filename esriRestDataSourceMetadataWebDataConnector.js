@@ -316,9 +316,10 @@ $(document).ready(function() {
 	$("#submitButton").click(
 		function() {
 			
-			while (typeof(data) == "undefined") {
-				console.log('Waiting 10');
-				setTimeout(waitForElement, 10);
+			while (typeof(data) !== "undefined") {
+				setTimeout(function () {
+							console.log('Waiting 10');
+							}, 10);
 			}		
 			// name the data source name in Tableau	
 			tableau.connectionName = connName; 	
