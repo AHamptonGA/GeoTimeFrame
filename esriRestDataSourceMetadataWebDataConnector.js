@@ -316,7 +316,7 @@ $(document).ready(function() {
 	$("#submitButton").click(
 		function() {
 			
-			while (typeof(data) !== "undefined") {
+			while (typeof(data) == "undefined") {
 				setTimeout(function () {
 							console.log('Waiting 10');
 							}, 10);
