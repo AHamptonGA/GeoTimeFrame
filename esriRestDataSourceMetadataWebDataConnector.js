@@ -194,16 +194,17 @@ async function profile_rest() {
 				}
 			}
 		})
-			
+		
+		for (let c = 0; c < (columns).length; c++) {
+			let col = columns[c];
+			if ((!(newRow[col])) || (newRow[col].replace(/\s+/g, '')) == '' ){
+				newRow[col] = 'N/A: Undefined';
+			}
+		}
+	
 		outputArray.push(newRow);	
 	}
 
-	for (let c = 0; c < (columns).length; c++) {
-		let col = columns[c];
-		if ((!(newRow[col])) || (newRow[col].replace(/\s+/g, '')) == '' ){
-			newRow[col] = 'N/A: Undefined';
-		}
-	}
 	
 	return (outputArray);
 }
