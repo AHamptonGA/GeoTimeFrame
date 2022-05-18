@@ -200,7 +200,7 @@ async function profile_rest() {
 
 	for (let c = 0; c < (columns).length; c++) {
 		let col = columns[c];
-		if ((!(newRow[col])) || (newRow[col].length === 0) || (newRow[col] == '-')){
+		if ((!(newRow[col])) || (newRow[col].replace(/\s+/g, '')) == '' ){
 			newRow[col] = 'N/A: undefined';
 		}
 	}
