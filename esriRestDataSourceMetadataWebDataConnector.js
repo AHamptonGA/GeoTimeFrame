@@ -198,16 +198,12 @@ async function profile_rest() {
 		outputArray.push(newRow);	
 	}
 
-	// ensure missing key/values are uniform
-	for (let r = 0; r < (outputArray).length; r++) {
-		let row = outputArray[r];
-		for (let c = 0; c < (columns).length; c++) {
-			let col = columns[c];
-			if (!(Object.keys(row)).includes()){
-				row[col] = 'N/A';
-			}
-		}
-	}	
+	// fill in all other null values
+				for (let [key, value] of Object.entries(newRow)) {
+					if (!(value)){
+						newRow[key] = 'N/A';
+						}
+				}
 	
 	return (outputArray);
 }
