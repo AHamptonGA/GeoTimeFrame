@@ -14,9 +14,31 @@ var connName 		= `ESRI Rest Data Schemas: ${esriRestName}`;
 var service_types 	= ['MapServer', 'FeatureServer'];
 
 // array to hold column names
-var columns = [];
+var columns = [
+				'api_rest_name','api_rest_url','api_directory', 'api_service',
+				'api_service_type','dataset_name', 'dataset_id',
+				'dataset_url',
 
-var data_ready = false; 
+				'dataset_type', 'dataset_description', 'dataset_geometryType', 
+				'dataset_geometryField', 'dataset_extent', 'dataset_sourceSpatialReference', 
+				'dataset_supportsDatumTransformation','dataset_capabilities', 
+
+				'dataset_currentVersion', 'dataset_supportedQueryFormats', 
+				'dataset_maxRecordCount', 'dataset_supportsPagination', 
+				'dataset_supportsAdvancedQueries', 'dataset_useStandardizedQueries', 
+				'dataset_supportsHavingClause','dataset_supportsCountDistinct', 
+				'dataset_supportsOrderBy', 'dataset_supportsDistinct', 
+				'dataset_supportsTrueCurve','dataset_supportsReturningQueryExtent',
+				'dataset_supportsQueryWithDistance','dataset_supportsSqlExpression',
+
+				 
+				'dataset_dateFieldsTimeReference', 
+				'dataset_copyrightText', 
+				'dataset_isDataVersioned',
+				'dataset_hasAttachments',
+				'dataset_supportsStatistics',
+				'dataset_supportsCoordinatesQuantization'
+				];
 
 /* -------------------------------------------------------------------*/
 
@@ -172,15 +194,7 @@ async function profile_rest() {
 				}
 			}
 		})
-		
-		// add all keys to the column list
-		for (let [key, value] of Object.entries(newRow)) {
-			// push the field/column name to the columns list
-			if (!(columns.includes(key))){
-				columns.push(key);
-			}
-		}
-		
+			
 		outputArray.push(newRow);	
 	}
 
@@ -201,10 +215,6 @@ async function profile_rest() {
 
 (async function() {
 
-	// return data array
-	var data = await profile_rest();
-	data_ready = true;
-	
 	// Define the tableau schema
 	myConnector.getSchema = function(schemaCallback) {
 		var cols = []; 
@@ -223,76 +233,6 @@ async function profile_rest() {
 			}
 		
 		
-		/* var cols = [
-			{
-				id: 'dataset_url',
-				alias: "Dataset_URL",
-				description: 'Full URL to a dataset endpoint on the REST server',
-				dataType: tableau.dataTypeEnum.string
-				
-			}, {
-				id: 'column_name',
-				alias: "Column_Name",
-				description: 'ESRI field/column name',
-				dataType: tableau.dataTypeEnum.string	
-			}, {
-				id: 'column_alias',
-				alias: "Column_Alias",
-				description: 'ESRI field/column alias',
-				dataType: tableau.dataTypeEnum.string			
-			}, {
-				id: 'column_type',
-				alias: "Column_Type",
-				description: 'ESRI field/column type',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'column_length',
-				alias: "Column_Length",
-				description: 'Field/column length (string types only)',
-				dataType: tableau.dataTypeEnum.string			
-			}, {
-				id: 'column_nullable',
-				alias: "Column_Nullable",
-				description: 'Indicates whether a field/column can be null',
-				dataType: tableau.dataTypeEnum.string			
-			}, {
-				id: 'column_defaultValue',
-				alias: "Column_Default_Value",
-				description: 'Field/column default value set for the field.',
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: 'column_editable',
-				alias: "Column_Editable",
-				description: 'Indicates whether the field/column is editable',
-				dataType: tableau.dataTypeEnum.string			
-			}, { 
-				id: 'domain_type',
-				alias: "Domain_Type",
-				description: 'Type of ESRI domain (coded or range)',
-				dataType: tableau.dataTypeEnum.string	
-			}, {
-				id: 'domain_name',
-				alias: "Domain_Name",
-				description: 'Name of ESRI domain inside of SDE database',
-				dataType: tableau.dataTypeEnum.string	
-			}, {
-				id: 'domain_description',
-				alias: "Domain_Description",
-				description: 'Description text for an ESRI domain',
-				dataType: tableau.dataTypeEnum.string	
-			}, {
-				id: 'domain_codedValues',
-				alias: "Domain_Coded_Values",
-				description: 'Dropdown/Lookup values for coded field values (coded value domains only)',
-				dataType: tableau.dataTypeEnum.string					
-			}, {
-				id: 'domain_range',
-				alias: "Domain Range Values",
-				description: 'Allowed range values (min/max) for a numeric field (range domains only)',
-				dataType: tableau.dataTypeEnum.string					
-			}		
-		]; */
-
 		var tableSchema = {
 			id: connName.replace(/[^a-zA-Z]/g, ""),
 			alias: connName,
@@ -305,7 +245,8 @@ async function profile_rest() {
 
 	// Download the data
 	myConnector.getData = async function(table, doneCallback) {
-		let tableData =  data;
+		// return data array
+		var tableData = await profile_rest();
 		table.appendRows(tableData);  
 		doneCallback();
 	};
@@ -319,11 +260,6 @@ $(document).ready(function() {
 	$("#submitButton").click(
 		function() {
 			
-			while (!data_ready) {
-				setTimeout(function () {
-							console.log('Waiting 10');
-							}, 10);
-			}		
 			// name the data source name in Tableau	
 			tableau.connectionName = connName; 	
 			// send the connector object to Tableau
