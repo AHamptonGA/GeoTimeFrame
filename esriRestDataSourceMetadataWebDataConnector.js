@@ -203,6 +203,7 @@ async function profile_rest() {
 		if (!(newRow[col])){
 			newRow['N/A']
 		}
+	}
 	
 	return (outputArray);
 }
