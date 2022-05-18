@@ -197,7 +197,7 @@ async function profile_rest() {
 		
 		for (let c = 0; c < (columns).length; c++) {
 			let col = columns[c];
-			if ((!(newRow[col])) || (newRow[col].replace(/\s+/g, '')) == '' ){
+			if ((!(newRow[col])) || ((newRow[col]).replace(/\s+/g, '')) == '' ){
 				newRow[col] = 'N/A: Undefined';
 			}
 		}
@@ -222,7 +222,7 @@ async function profile_rest() {
 				let orig_name = col.replace('dataset_','') ;
 				var desc = `ESRI REST dataset property: ${orig_name}. See ESRI documentation for more info: https://developers.arcgis.com/rest/services-reference/enterprise`;
 			}else{
-				var desc = `ESRI REST server property: ${col}. See ESRI documentation for more info`;
+				var desc = `ESRI REST server info: ${col}`;
 			}
 			cols.push(
 						{
