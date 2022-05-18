@@ -217,8 +217,8 @@ async function profile_rest() {
 		
 		for (let c = 0; c < (columns).length; c++) {
 			let col = columns[c];
-			if col.startsWith("dataset_"){
-				let orig_name = col.replace('dataset_', ;
+			if (col.startsWith("dataset_")){
+				let orig_name = col.replace('dataset_','') ;
 				var desc = `ESRI REST dataset property: ${orig_name}. See ESRI documentation for more info: https://developers.arcgis.com/rest/services-reference/enterprise`;
 			}else{
 				var desc = `ESRI REST server property: ${col}. See ESRI documentation for more info`;
