@@ -166,7 +166,7 @@ async function profile_rest() {
 		// insert all dataset metadata properties
 		// iterate the json keys to create a new row of properties for each	
 		Object.keys(jsonResp).forEach(function(key) {
-			value = jsonResp['key'] ;
+			value = jsonResp[key] ;
 			
 			var col_name = key.replace(/[^a-zA-Z]/g, "_");		
 			if (isPrimitive(value)){
@@ -198,12 +198,11 @@ async function profile_rest() {
 		outputArray.push(newRow);	
 	}
 
-	// fill in all other null values
-				for (let [key, value] of Object.entries(newRow)) {
-					if (!(value)){
-						newRow[key] = 'N/A';
-						}
-				}
+	for (let c = 0; c < (columns).length; c++) {
+		let col = columns[c];
+		if (!(newRow[col])){
+			newRow['N/A']
+		}
 	
 	return (outputArray);
 }
