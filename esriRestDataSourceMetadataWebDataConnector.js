@@ -216,8 +216,13 @@ async function profile_rest() {
 		var cols = []; 
 		
 		for (let c = 0; c < (columns).length; c++) {
-			let desc = ''; //dataset_name `ESRI REST dataset property: ${col}. See ESRI docs for more info.`,
 			let col = columns[c];
+			if col.startsWith("dataset_"){
+				let orig_name = col.replace('dataset_', ;
+				var desc = `ESRI REST dataset property: ${orig_name}. See ESRI documentation for more info: https://developers.arcgis.com/rest/services-reference/enterprise`;
+			}else{
+				var desc = `ESRI REST server property: ${col}. See ESRI documentation for more info`;
+			}
 			cols.push(
 						{
 							id: col,
