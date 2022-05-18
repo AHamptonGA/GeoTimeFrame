@@ -197,8 +197,8 @@ async function profile_rest() {
 		
 		for (let c = 0; c < (columns).length; c++) {
 			let col = columns[c];
-			let value = newRow[col];
-			if ((!(value)) || ((value).replace(/\s+/g, '')) == '' ){
+			
+			if ((!(newRow[col])) || ((newRow[col]) = 0)) {
 				newRow[col] = 'N/A: Undefined';
 			}
 		}
