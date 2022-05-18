@@ -81,9 +81,9 @@ async function profile_rest() {
 		var svr_def = await jsonResp['services'];
 
 		// check for services, if none, 
-		// exit early and return an empty list
+		// exit early 
 		if (svr_def.length == 0) {
-			return tableArray; 
+			return; 
 		}
 
 		// get services
