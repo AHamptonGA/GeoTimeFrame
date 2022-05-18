@@ -80,6 +80,11 @@ async function profile_rest() {
 		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
+		// check for services, if none, 
+		// exit early and return an empty list
+		if (svr_def.length == 0) {
+			return tableArray; 
+		}
 
 		// get services
 		for (let i = 0; i < (svr_def).length; i++) {
