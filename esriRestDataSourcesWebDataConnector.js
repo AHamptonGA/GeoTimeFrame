@@ -17,7 +17,7 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 var columns = [
 				'api_rest_name','api_rest_url','api_directory', 'api_service',
 				'api_service_type','dataset_name', 'dataset_id',
-				'dataset_url',
+				'dataset_url', 'dataset_count',
 
 				'dataset_type', 'dataset_description', 'dataset_geometryType', 
 				'dataset_geometryField', 'dataset_extent', 'dataset_sourceSpatialReference', 
@@ -49,14 +49,7 @@ var myConnector = tableau.makeConnector();
 async function rest_request(prepedUrl) {
 
 	try {
-		response = await fetch(prepedUrl{
-										mode: 'no-cors',
-										credentials: 'include',
-										method: 'GET',
-										headers: headers
-									}
-								);
-
+		response = await fetch(prepedUrl);
 
 		if (!response.ok) {
 			throw new Error(`Error! status: ${response.status}`);
@@ -154,11 +147,25 @@ async function profile_rest() {
 	
 	for (let t = 0; t < (tableArray).length; t++) {
 		let ds = tableArray[t];
+		var newRow = {};
+		
 				
-		// get server defs
+		// attempt to get a feature count
+		try {
+			let tableRecCntQryUrl = `${ds['dataset_url']}?query?where=1=1&returnCountOnly=true&f=json`;  
+			let jsonRespCnt = await rest_request(tableRecCntQryUrl);
+			console.log(tableRecCntQryUrl);			
+			
+			newRow[`dataset_count`] = jsonRespCnt['count'];
+		}
+		catch(err) {
+			newRow[`dataset_count`] = null_default;
+		}
+		
+		// get dataset/service defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
-		var newRow = {};
+			
 		
 		// insert the server/dataset ID properties
 		Object.keys(ds)
