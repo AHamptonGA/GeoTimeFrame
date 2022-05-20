@@ -17,7 +17,9 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 var columns = [
 				'api_rest_name','api_rest_url','api_directory', 'api_service',
 				'api_service_type','dataset_name', 'dataset_id',
-				'dataset_url', 'dataset_count',
+				'dataset_url', 
+				
+				'dataset_total_records',
 
 				'dataset_type', 'dataset_description', 'dataset_geometryType', 
 				'dataset_geometryField', 'dataset_extent', 'dataset_sourceSpatialReference', 
@@ -149,14 +151,13 @@ async function profile_rest() {
 		let ds = tableArray[t];
 		var newRow = {};
 		
-				
+		
 		// attempt to get a feature count
 		try {
-			let tableRecCntQryUrl = `${ds['dataset_url']}?query?where=1=1&returnCountOnly=true&f=json`;  
+			let tableRecCntQryUrl = `${ds['dataset_url']}/query?where=1=1&returnCountOnly=true&f=json`;  
 			let jsonRespCnt = await rest_request(tableRecCntQryUrl);
-			console.log(tableRecCntQryUrl);			
 			
-			newRow[`dataset_count`] = jsonRespCnt['count'];
+			newRow[`dataset_total_records`] = jsonRespCnt['count'];
 			delete jsonRespCnt;
 		}
 		catch(err) {
