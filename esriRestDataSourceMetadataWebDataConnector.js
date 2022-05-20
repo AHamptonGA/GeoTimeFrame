@@ -8,7 +8,7 @@ var esriRestUrl 	= queryParams['esriRestUrl'];
 var esriRestName 	= queryParams['esriRestName'];
 
 //set the connection name
-var connName 		= `ESRI Rest Data Schemas: ${esriRestName}`;
+var connName 		= `ESRI Rest Data Sources: ${esriRestName}`;
 
 // selec tthe servie types of interest
 var service_types 	= ['MapServer', 'FeatureServer'];
@@ -17,7 +17,7 @@ var service_types 	= ['MapServer', 'FeatureServer'];
 var columns = [
 				'api_rest_name','api_rest_url','api_directory', 'api_service',
 				'api_service_type','dataset_name', 'dataset_id',
-				'dataset_url',
+				'dataset_url', 'dataset_count',
 
 				'dataset_type', 'dataset_description', 'dataset_geometryType', 
 				'dataset_geometryField', 'dataset_extent', 'dataset_sourceSpatialReference', 
@@ -40,6 +40,7 @@ var columns = [
 				'dataset_supportsCoordinatesQuantization'
 				];
 
+const null_default = 'N/A: Undefined';
 /* -------------------------------------------------------------------*/
 
 //Create the connector object
@@ -146,11 +147,26 @@ async function profile_rest() {
 	
 	for (let t = 0; t < (tableArray).length; t++) {
 		let ds = tableArray[t];
+		var newRow = {};
+		
 				
-		// get server defs
+		// attempt to get a feature count
+		try {
+			let tableRecCntQryUrl = `${ds['dataset_url']}?query?where=1=1&returnCountOnly=true&f=json`;  
+			let jsonRespCnt = await rest_request(tableRecCntQryUrl);
+			console.log(tableRecCntQryUrl);			
+			
+			newRow[`dataset_count`] = jsonRespCnt['count'];
+			delete jsonRespCnt;
+		}
+		catch(err) {
+			newRow[`dataset_count`] = null_default;
+		}
+		
+		// get dataset/service defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
-		var newRow = {};
+			
 		
 		// insert the server/dataset ID properties
 		Object.keys(ds)
@@ -176,7 +192,7 @@ async function profile_rest() {
 			var col_name = key.replace(/[^a-zA-Z]/g, "_");		
 			if (isPrimitive(value)){
 				if (value == null){
-					newRow[`dataset_${col_name}`] = 'N/A';
+					newRow[`dataset_${col_name}`] = null_default;
 				}else if (typeof(value) == "boolean"){
 					var bool_value = value == 'true';
 					if(bool_value){
@@ -200,11 +216,12 @@ async function profile_rest() {
 			}
 		})
 		
+		// attribute remaining nulls
 		for (let c = 0; c < (columns).length; c++) {
 			let col = columns[c];
 			
 			if ((!(newRow[col])) && (!(newRow[col] == 0))) {
-				newRow[col] = 'N/A: Undefined';
+				newRow[col] = null_default;
 			}
 		}
 	
