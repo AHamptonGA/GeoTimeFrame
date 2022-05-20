@@ -10,17 +10,24 @@ var esriRestName 	= queryParams['esriRestName'];
 //set the connection name
 var connName 		= `ESRI Rest Data Schemas: ${esriRestName}`;
 
-// selec tthe servie types of interest
+// select the servie types of interest
 var service_types 	= ['MapServer', 'FeatureServer'];
 
+
 //default values for null data schema properties
-var def_schema_props = {'column_alias':'N/A', 'column_defaultValue':'N/A: undefined', 
-						'column_editable':'N/A: undefined', 'column_length':'N/A', 
-						'column_name':'N/A: undefined','column_nullable':'N/A: undefined', 
-						'column_type':'N/A: undefined', 'domain_type':'N/A', 
-						'domain_name':'N/A', 'domain_description':'N/A',
-						'domain_codedValues':'N/A', 'domain_range':'N/A',
-						'modelName':'N/A: undefined'}
+var columns = ['api_rest_name','api_rest_url','api_directory', 'api_service',
+			   'api_service_type','dataset_name', 'dataset_id',
+			   'dataset_url',
+				
+			   'column_alias','column_defaultValue','column_editable',
+			   'column_length','column_name','column_nullable', 
+			   'column_type','domain_type','domain_name',
+			   'domain_description','domain_codedValues','domain_range',
+			   'modelName'
+			  ]
+
+// null default
+const null_default = 'N/A: Undefined';
 
 /* -------------------------------------------------------------------*/
 
@@ -36,7 +43,7 @@ async function rest_request(prepedUrl) {
 			throw new Error(`Error! status: ${response.status}`);
 		} else {
 			jsonResp = await response.json();
-			return jsonResp
+			return jsonResp;
 		}
 
 	} catch (err) {
@@ -62,6 +69,11 @@ async function profile_rest() {
 		let jsonResp = await rest_request(dirMetaUrl);
 		var svr_def = await jsonResp['services'];
 
+		// check for services, if none, 
+		// exit early 
+		if (svr_def.length == 0) {
+			return; 
+		}
 
 		// get services
 		for (let i = 0; i < (svr_def).length; i++) {
@@ -127,6 +139,18 @@ async function profile_rest() {
 		// get server defs
 		let tableMetaUrl = `${ds['dataset_url']}?f=json`;
 		let jsonResp = await rest_request(tableMetaUrl);
+
+		// pass the val inside Object() to check if the value is
+		// equal to Object(value). If the value is equal then the
+		// value is primitive else not primitive 
+		// (string, boolean, number, null). 
+		function isPrimitive(val) {
+			if(val === Object(val)){
+				return false;
+			}else{
+				return true;
+			}
+		}
 		
 		// iterate the fields to create a new row of properties for each	
 		var fields = await jsonResp['fields'];
@@ -157,36 +181,47 @@ async function profile_rest() {
 						}	
 					}
 				}	
-
-				// ensure the boolean vlaues get translated
 				for (let [key, value] of Object.entries(def_schema_props)) {
-					if (typeof newRow[key] == "boolean") {
-						var bool_value = newRow[key] == 'true';
-						if(bool_value){
-							newRow[key] = 'true'; 
+					if (isPrimitive(value)){
+						if (value == null){
+							newRow[key] = null_default;
+						}else if (typeof(value) == "boolean"){
+							var bool_value = value == 'true';
+							if(bool_value){
+								newRow[key] = 'true';
+							}else{
+								newRow[key] = 'false';
+							}					
 						}else{
-							newRow[key] = 'false'; 
+							newRow[key] = value;
 						}
-					}
-				}				
-				// ensure the column and domain keys exist with default values
-				for (let [key, value] of Object.entries(def_schema_props)) {
-					if(!(newRow.hasOwnProperty(key))){
-						newRow[key] = value; 
-					}
+					}else if (Array.isArray(value)){
+						// do nothing
+						//newRow[key] = value.toString();
+					}else if (typeof(value) == "object"){
+						try {
+							newRow[key] = JSON.stringify(value);
+						}
+						catch(err) {
+							//do nothing
+						}
+					}					
 				}
-				// fill in all other null values
-				for (let [key, value] of Object.entries(newRow)) {
-					if (!(value)){
-						newRow[key] = 'N/A';
-						}
+				
+				// attribute remaining nulls
+				for (let c = 0; c < (columns).length; c++) {
+					let col = columns[c];
+					
+					if ((!(newRow[col])) && (!(newRow[col] == 0))) {
+						newRow[col] = null_default;
+					}
 				}
 				outputArray.push(newRow);	
 			}
 		}
 	}	
 
-	return (outputArray)
+	return (outputArray);
 }
 
 
