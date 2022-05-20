@@ -181,7 +181,7 @@ async function profile_rest() {
 						}	
 					}
 				}	
-				for (let [key, value] of Object.entries(def_schema_props)) {
+				for (let [key, value] of Object.entries(newRow)) {
 					if (isPrimitive(value)){
 						if (value == null){
 							newRow[key] = null_default;
@@ -192,9 +192,9 @@ async function profile_rest() {
 							}else{
 								newRow[key] = 'false';
 							}					
-						}else{
-							newRow[key] = value;
-						}
+						}//else{
+							// newRow[key] = value;
+						// }
 					}else if (Array.isArray(value)){
 						// do nothing
 						//newRow[key] = value.toString();
